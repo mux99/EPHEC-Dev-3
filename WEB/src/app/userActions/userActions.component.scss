@@ -1,0 +1,46 @@
+#UserIcon {
+    //functionnal
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+#UserIcon > button {
+    //functionnal
+    height: 5vh;
+    width: 5vh;
+
+    //visuals
+    background-image: url('https://cdn.discordapp.com/attachments/1031999772694954084/1075772693686779994/icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 50%;
+    margin: 2vh;
+}
+
+#UserActions {
+    //functionnal
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+    display: flex;
+    flex-direction: column;
+
+    //visuals
+    height: 30vw;
+    width: 20vw;
+    background-color: aqua;
+}
+
+.visible {animation-name: 'actions-visible';}
+@keyframes actions-visible {
+    from {left: 100vw;}
+    to {left: 80vw;}
+}
+.hidden {animation-name: 'actions-hidden';}
+@keyframes actions-hidden {
+    from {left: 80vw;}
+    to {left: 100vw;}
+}
