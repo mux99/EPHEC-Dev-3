@@ -31,7 +31,8 @@
     //visuals
     height: 30vw;
     width: 20vw;
-    background-color: aqua;
+    background-color: var(--background-2);
+    border-radius: 25px 0 0 25px;
 }
 
 .visible {animation-name: 'actions-visible';}

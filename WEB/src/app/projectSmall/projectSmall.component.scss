@@ -1,0 +1,22 @@
+:host {
+    //visual
+    background-color: var(--background-2);
+    margin: 10px;
+    border-radius: 15px;
+    height: 25vh;
+    display: grid;
+    grid-template-rows: 35% 65%;
+    overflow: hidden;
+}
+
+#upper {
+    overflow: hidden;
+    background-size: contain;
+    background-image: url('https://mario.wiki.gallery/images/thumb/c/ca/Attacky_Sack.png/200px-Attacky_Sack.png');
+    background-color: var(--background-3);
+    padding: 15px;
+}
+#lower {
+    margin: 15px;
+    overflow: hidden;
+}

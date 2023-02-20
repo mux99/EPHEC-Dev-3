@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+//background color by order of importance (page is 1)
+--background-1: #4B4453;
+--background-2: #7B7485;
+--background-3: #ffffff;
+
+//the accent color of the site (from light to dark) [flip for light theme?]
+--accent-1: #391B77;
+--accent-2: #000000;
+--accent-3: #000000;
+
+//general purpose color
+--red: #000000;
+--green: #000000; 
+--purple: #000000; 
+--orange: #000000;
+--cyan: #000000;
+}
+
+html {
+    //general text
+    color: #ffffff;
+    font-family: 'DejaVu Sans Mono', sans-serif;
+    font-size: 15pt;
+}
+
+body {
+    background-color: var(--background-1);
+    margin: 0;
+    padding: 0;
+}
