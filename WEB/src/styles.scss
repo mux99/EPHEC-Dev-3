@@ -2,30 +2,53 @@
 //background color by order of importance (page is 1)
 --background-1: #4B4453;
 --background-2: #7B7485;
---background-3: #ffffff;
+--background-3: ;
 
-//the accent color of the site (from light to dark) [flip for light theme?]
+--background-shadow-1: ;
+--background-shadow-2: ;
+--background-shadow-3: ;
+
+//the accent color of the site (from dak to light)
 --accent-1: #391B77;
---accent-2: #000000;
---accent-3: #000000;
+--accent-2: ;
+--accent-3: ;
+
+--accent-shadow-1: ;
+--accent-shadow-2: ;
+--accent-shadow-3: ;
 
 //general purpose color
---red: #000000;
---green: #000000; 
---purple: #000000; 
---orange: #000000;
---cyan: #000000;
+--red: red;
+--green: ; 
+--purple: ; 
+--orange: ;
+--cyan: ;
+
+//text
+--text-color: #ffffff;
+--text-shadow: ;
 }
 
 html {
     //general text
-    color: #ffffff;
+    color: var(--text-color);
     font-family: 'DejaVu Sans Mono', sans-serif;
-    font-size: 15pt;
+    font-size: 12pt;
 }
 
 body {
     background-color: var(--background-1);
+    height: fit-content;
+    width: inherit;
     margin: 0;
     padding: 0;
+}
+
+.text {
+    font-size: 12pt;
+}
+
+.title {
+    font-size: 15pt;
+    font-weight: bold;
 }
