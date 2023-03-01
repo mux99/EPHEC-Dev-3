@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import { AppComponent } from './app.component';
 import { UserActions } from './userActions/userActions.component';
@@ -11,6 +13,7 @@ import { ProjectSmall } from './projectSmall/projectSmall.component';
   declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage],
   imports: [
     BrowserModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
