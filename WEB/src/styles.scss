@@ -1,17 +1,17 @@
 :root {
 //background color by order of importance (page is 1)
---background-1: #4B4453;
---background-2: #7B7485;
---background-3: ;
+--background-1: #040405;
+--background-2: #202634;
+--background-3: #106693;
 
---background-shadow-1: ;
---background-shadow-2: ;
---background-shadow-3: ;
+--background-shadow-1: #0404056f;
+--background-shadow-2: #20263470;
+--background-shadow-3: #1065936b;
 
 //the accent color of the site (from dak to light)
---accent-1: #391B77;
---accent-2: ;
---accent-3: ;
+--accent-1: #5e8f80;
+--accent-2: #69bca3;
+--accent-3: #71EAC6;
 
 --accent-shadow-1: ;
 --accent-shadow-2: ;
@@ -19,10 +19,11 @@
 
 //general purpose color
 --red: red;
---green: ; 
---purple: ; 
---orange: ;
---cyan: ;
+--green: lime; 
+--purple: magenta;
+--orange: orange;
+--cyan: cyan;
+--white: white;
 
 //text
 --text-color: #ffffff;
@@ -43,6 +44,8 @@ body {
     margin: 0;
     padding: 0;
 }
+
+
 
 .text {
     font-size: 12pt;
