@@ -8,9 +8,10 @@ import { UserActions } from './userActions/userActions.component';
 import { LandingPage } from './landingPage/landingPage.component';
 import { TimelinePage } from './timelinePage/timelinePage.component';
 import { ProjectSmall } from './projectSmall/projectSmall.component';
+import { TimelineEvent } from './timelineEvent/timelineEvent.component';
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent],
   imports: [
     BrowserModule,
     HttpClientModule

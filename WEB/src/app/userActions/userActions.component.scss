@@ -1,3 +1,6 @@
+$iconSize: 55px;
+$menuWidth: 150px;
+
 #UserIcon {
     //functionnal
     position: fixed;
@@ -7,41 +10,52 @@
 
 #UserIcon > button {
     //functionnal
-    height: 5vh;
-    width: 5vh;
+    height: $iconSize;
+    width: $iconSize;
 
     //visuals
     background-image: url('https://cdn.discordapp.com/attachments/1031999772694954084/1075772693686779994/icon.png');
     background-repeat: no-repeat;
     background-size: contain;
     border-radius: 50%;
-    margin: 2vh;
+    margin: 20px;
 }
 
 #UserActions {
     //functionnal
     position: fixed;
     top: 0;
-    left: 100vw;
+    right: -$menuWidth;
+    width: $menuWidth;
     animation-duration: 500ms;
     animation-fill-mode: forwards;
     display: flex;
     flex-direction: column;
 
     //visuals
-    height: 30vw;
-    width: 20vw;
+    height: fit-content;
     background-color: var(--background-2);
     border-radius: 25px 0 0 25px;
+    padding: 25px;
+}
+
+#UserNametag {
+    height: 6vh;
+    margin-right: 12vh;
+    margin-bottom: 1vh;
+    text-align: right;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .visible {animation-name: 'actions-visible';}
 @keyframes actions-visible {
-    from {left: 100vw;}
-    to {left: 80vw;}
+    from {right: -$menuWidth;}
+    to {right: 0;}
 }
 .hidden {animation-name: 'actions-hidden';}
 @keyframes actions-hidden {
-    from {left: 80vw;}
-    to {left: 100vw;}
+    from {right: 0;}
+    to {right: -$menuWidth;}
 }
