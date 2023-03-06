@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import { Observable } from 'rxjs';
 
+export interface StatusMsg {
+  msg: string;
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,9 +17,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.status = this._http.get("/api/status").subscribe(msg => {
-      this.status = msg;
-      console.log(msg);
+    this.status = this._http.get<StatusMsg>("/api/status").subscribe(msg => {
+      console.log(msg.msg);
     })
   }
 }

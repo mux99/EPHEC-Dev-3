@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
     def status
-        render json: { data: 'connection established' }
+        render json: { msg: 'connection established' }
     end
 end
