@@ -1,7 +1,7 @@
 $iconSize: 55px;
 $menuWidth: 150px;
 
-#UserIcon {
+.userButton {
     //functionnal
     position: fixed;
     right: 0;
@@ -12,20 +12,37 @@ $menuWidth: 150px;
     //functionnal
     height: $iconSize;
     width: $iconSize;
+    display: none;
 
     //visuals
-    background-image: url('https://cdn.discordapp.com/attachments/1031999772694954084/1075772693686779994/icon.png');
+    background-image: url('https://placehold.co/400x400');
     background-repeat: no-repeat;
     background-size: contain;
     border-radius: 50%;
+    border-width: 2px;
     margin: 20px;
+}
+
+#UserConnect > button {
+    //functionnal
+    height: $iconSize;
+    width: $iconSize;
+    background-color: transparent;
+
+    //visuals
+    margin: 20px;
+    border-width: 0px;
+}
+
+#UserConnect > button > img {
+    height: 100%;
 }
 
 #UserActions {
     //functionnal
     position: fixed;
     top: 0;
-    right: -$menuWidth;
+    right: -$menuWidth - 50;
     width: $menuWidth;
     animation-duration: 500ms;
     animation-fill-mode: forwards;
@@ -51,11 +68,11 @@ $menuWidth: 150px;
 
 .visible {animation-name: 'actions-visible';}
 @keyframes actions-visible {
-    from {right: -$menuWidth;}
+    from {right: -$menuWidth -50;}
     to {right: 0;}
 }
 .hidden {animation-name: 'actions-hidden';}
 @keyframes actions-hidden {
     from {right: 0;}
-    to {right: -$menuWidth;}
+    to {right: -$menuWidth - 50;}
 }
