@@ -20,7 +20,7 @@
 
 #topBar > img {
     height: 85%;
-    margin: auto 20px;
+    margin: auto 40px;
     width: 300px;
 }
 
@@ -57,8 +57,19 @@
 }
 
 #projectsSelectors > * {
-    margin: 5px 15px;
+    margin: 5px 25px;
+    
 }
+
+#projectsSelectors select {
+  background-color: #E6E6E6;
+  border-radius: 4px;
+  padding: 8px 24px 8px 10px;
+  font-weight: normal;
+  max-width: 100%;
+}
+
+
 
 #projectGrid {
     //functionnal
