@@ -94,6 +94,13 @@ input{
     transition: background 1;
 }
 
+.btn-field button:hover{
+    background: #fff;
+    color: var(--accent-1);
+    border: 2px solid;
+    border-color: var(--accent-1);
+}
+
 .input-group{
     height: 190px;
 }
