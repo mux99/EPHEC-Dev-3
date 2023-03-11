@@ -6,8 +6,7 @@ export interface StatusMsg {
 }
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: '<router-outlet></router-outlet><user-actions></user-actions>'
 })
 export class AppComponent implements OnInit {
   title = 'tmp';

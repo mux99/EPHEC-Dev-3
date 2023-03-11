@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'user-actions',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 
 export class UserActions {
+
   setCookie(cname: string, cvalue: string, exdays: number) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -44,8 +46,11 @@ export class UserActions {
     }
   }
 
+  constructor(private router: Router) {}
   userConnectClick() {
-
+    this.router.navigate(['/sign-in']);
+    const element = document.querySelector('landing-page');
+    element?.parentNode?.removeChild(element);
   }
 
   conncetionCheck() {

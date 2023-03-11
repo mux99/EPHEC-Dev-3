@@ -1,6 +1,10 @@
 $iconSize: 55px;
 $menuWidth: 150px;
 
+:host {
+    z-index: 100;
+}
+
 .userButton {
     //functionnal
     position: fixed;
