@@ -1,19 +1,7 @@
-<div class="sign-in-container">
-    <div class="form-box">
-        <h1 id="title">Sign In to TimeWeaver</h1>
-        <form>
-            <div class="input-group">
-                <div class="input-field">
-                    <input class="input-border" type="email" placeholder="Email or Username" required>
-                </div>
-                <div class="input-field">
-                    <input class="input-border" type="password" placeholder="Password" required>
-                </div>
-                <p>You don't have account <a href="#">Create it!</a></p>
-            </div>
-            <div class="btn-field">
-                <button type="button" id="signupBtn">Sign in</button>
-            </div>
-        </form>
-    </div>
-</div>
+<h1>Sign In to TimeWeaver</h1>
+<form>
+    <input type="email" placeholder="Email or Username" required>
+    <input type="password" placeholder="Password" required>
+    <p>You don't have account <a routerLink="/sign-up">Create it!</a></p>
+    <button>Sign in</button>
+</form>
