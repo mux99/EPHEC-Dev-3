@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_10_123028) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_085616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_123028) do
   create_table "projects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.json "json"
+    t.json "json", default: "{}"
     t.string "picture"
     t.uuid "owner"
     t.datetime "created_at", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_123028) do
   create_table "timelines", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.json "json"
+    t.json "json", default: "{}"
     t.integer "start"
     t.integer "end"
     t.datetime "created_at", null: false
