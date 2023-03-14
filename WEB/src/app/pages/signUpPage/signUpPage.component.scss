@@ -1,0 +1,64 @@
+:host {
+    width: 90%;
+    max-width: 450px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    background: #fff;
+    border-radius: 10px;
+    padding: 50px 60px 70px;
+    text-align: center;
+}
+
+:host h1 {
+    font-size: 30px;
+    margin-bottom: 60px;
+    color: var(--accent-2);
+}
+
+:host .inpt {
+    width: 100%;
+    border: 0;
+    padding: 18px 15px;
+    background: #eaeaea;
+    margin: 15px -13px;
+    border-radius: 3px;
+    max-height: 65px;
+    overflow: hidden;
+    outline: none;
+}
+
+:host .inpt:focus {
+    border: 2px solid;
+    border-color: var(--accent-1);
+}
+
+:host form p {
+    text-align: center;
+    font-size: 18px;
+    color: var(--accent-1);
+}
+
+:host button {
+    width: 100%;
+    background: var(--accent-1);
+    color: #fff;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background 1;
+    text-align: center;
+}
+
+:host button:hover {
+    background: #fff;
+    color: var(--accent-1);
+    border: 2px solid var(--accent-1);
+}
+
+:host button.disable{
+    background: #eaeaea;
+    color: var(--accent-2);
+}
