@@ -12,9 +12,9 @@ class UsersController < ApplicationController
     def new
         user_exists = User.find_by(email: params[:e]).nil?
         if user_exists
-            render json: {:error => ERR_USER_EXIST}
-        else
             User.create(name: params[:n], email: params[:e], password: params[:p], tag: generate_usertag)
+        else
+            render json: {:error => ERR_USER_EXIST}
         end
     end
 

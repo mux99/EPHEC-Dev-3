@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -30,11 +30,16 @@ export class SignUpPage {
   }
 
   onClickSubmit(data: any) {
-    if (data.password == data.password2) {
-      this.http.post(`/api/user?n=${data.username}&e=${data.email}&p=${data.password}`, {})
-    }
-    else {
-      alert("passwords doesn't match")
+    if(data.password != data.password2){
+        alert("passwords don't match")
+    } else {
+      const params = new HttpParams()
+        .set("n", data.username)
+        .set("e", data.email)
+        .set("p", data.password)
+      this.http.post(`/api/user`, null, {params: params}).subscribe(
+        () => this.router.navigate([''])
+      )
     }
  } 
 }
