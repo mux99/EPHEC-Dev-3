@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -8,8 +9,9 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./signUpPage.component.scss']
 })
 
+@Injectable()
 export class SignUpPage {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     this.router.events
@@ -26,4 +28,13 @@ export class SignUpPage {
         });
       });
   }
+
+  onClickSubmit(data: any) {
+    if (data.password == data.password2) {
+      this.http.post(`/api/user?n=${data.username}&e=${data.email}&p=${data.password}`, {})
+    }
+    else {
+      alert("passwords doesn't match")
+    }
+ } 
 }

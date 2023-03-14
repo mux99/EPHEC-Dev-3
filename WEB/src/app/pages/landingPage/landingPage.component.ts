@@ -12,6 +12,7 @@ export class LandingPage {
   constructor(private router: Router) {}
 
   ngOnInit() {
+    //routing
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {

@@ -9,13 +9,6 @@ import { Router } from '@angular/router';
 
 export class UserActions {
 
-  setCookie(cname: string, cvalue: string, exdays: number) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    let expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  }
-
   getCookie(cname: string) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -53,11 +46,13 @@ export class UserActions {
     element?.parentNode?.removeChild(element);
   }
 
-  conncetionCheck() {
-    let username = this.getCookie("username");
+  ngOnInit() {
+    let email = this.getCookie("email");
     let connectButton = document.getElementById("userConnect");
     let userButton = document.getElementById("userIcon");
-    if (username != "") {
+
+    //connected?
+    if (email != "") {
       if (connectButton?.style.display) {
         connectButton.style.display = "none";
       }
