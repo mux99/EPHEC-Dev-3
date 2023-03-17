@@ -1,18 +1,20 @@
 class UsersController < ApplicationController
+    require 'securerandom'
     include UsersHelper
     def auth
         user = User.find_by(email: params[:e])
         if user.nil?
-            render json: {:error => ERR_USER_NOT_EXIST, username: user.name, tag: user.tag}
+            render json: {:error => ERR_USER_NOT_EXIST}
         end
         result = user.authenticate(params[:p]) != false
-        render json: {:check => result}
+        render json: {:check => result, :username => user.name, :tag => user.tag, :id => user.id, :token => SecureRandom.hex}
     end
 
     def new
-        user_exists = User.find_by(email: params[:e]).nil?
-        if user_exists
-            User.create(name: params[:n], email: params[:e], password: params[:p], tag: generate_usertag)
+        user_not_exists = User.find_by(email: params[:e]).nil?
+        if user_not_exists
+            new_user = User.create(name: params[:n], email: params[:e], password: params[:p], tag: generate_usertag)
+            render json: {:token => SecureRandom.hex, :username => new_user.name, :tag => new_user.tag, :id => new_user.id}
         else
             render json: {:error => ERR_USER_EXIST}
         end
@@ -28,7 +30,7 @@ class UsersController < ApplicationController
     end
 
     def destroy 
-        User.destroy_by(email: params[:e])
+        User.destroy_by(email: params[:e]) unless User.find_by(email: params[:e]).nil?
     end
 
     def ispremium
