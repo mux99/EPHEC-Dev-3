@@ -1,0 +1,43 @@
+:host {
+    animation-duration: 250ms;
+    background-color: var(--background-2);
+    margin: 10px;
+    border-radius: 15px;
+    height: 25vh;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    overflow: hidden;
+    box-shadow: 2px 2px var(--background-shadow-2);
+}
+
+.projectText {
+    overflow: hidden;
+    background-size: cover;
+    padding: 15px;
+    margin-bottom: 18px;
+    overflow: hidden;
+}
+
+.projectName {
+    font-weight: bold;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--text-color);
+    margin-bottom: 10px;
+    box-sizing: content-box;
+}
+
+.projectImage {
+    background-image: url('https://placehold.co/1280x720/');
+    background-size: cover;
+    background-position: center;
+}
+
+:host:hover {
+    animation-name: projectHover;
+    grid-template-columns: 65% 35%;
+}
+
+@keyframes projectHover {
+    from {grid-template-columns: 35% 65%;}
+    to {grid-template-columns: 65% 35%;}
+}

@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    --timeline-height: 25vh;
+}
+
+#timelineBody {
+    align-self: center;
+    background-color: var(--red);
+    height: var(--timeline-height);
+    width: 100%;
+}

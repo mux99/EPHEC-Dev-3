@@ -1,0 +1,76 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+WEB/.vscode/
+
+WEB/node_modules/
+
+WEB/.angular/
+
+# Ignore bundler config.
+BACKEND/.bundle
+
+# Ignore the default SQLite database.
+BACKEND/db/*.sqlite3
+BACKEND/db/*.sqlite3-*
+
+# Ignore all logfiles and tempfiles.
+BACKEND/log/*
+BACKEND/tmp/*
+!/BACKEND/log/.keep
+!/BACKEND/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+BACKEND/tmp/pids/*
+!/BACKEND/tmp/pids/
+!/BACKEND/tmp/pids/.keep
+
+# Ignore uploaded files in development.
+BACKEND/storage/*
+!/BACKEND/storage/.keep
+BACKEND/tmp/storage/*
+!BACKEND/tmp/storage/
+!BACKEND/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+BACKEND/config/master.key

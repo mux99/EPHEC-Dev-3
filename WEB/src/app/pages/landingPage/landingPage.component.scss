@@ -1,0 +1,80 @@
+:host {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: fit-content;
+}
+
+#topBar {
+    //functionnal
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+
+    //visual
+    background-color: var(--accent-3);
+    box-shadow: 0 2px var(--accent-shadow-3);
+}
+
+#topBar > img {
+    height: 85%;
+    margin: auto 40px;
+    width: 300px;
+}
+
+#searchbar {
+    height: 30px;
+    border-color: var(--accent-2);
+    background-color: var(--accent-1);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+
+#searchbar > img {
+    margin: 0 5px;
+    height: 20px;
+    fill: var(--text-color);
+}
+
+#searchbar > input {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+}
+
+#searchbar > input:focus {
+    outline: none;
+}
+
+#projectsSelectors {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+#projectsSelectors > * {
+    margin: 5px 25px;
+    
+}
+
+#projectsSelectors select {
+  background-color: #E6E6E6;
+  border-radius: 4px;
+  padding: 8px 24px 8px 10px;
+  font-weight: normal;
+  max-width: 100%;
+}
+
+
+
+#projectGrid {
+    //functionnal
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    padding: 0 15px;
+}

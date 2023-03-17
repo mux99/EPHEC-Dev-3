@@ -1,0 +1,9 @@
+<h1>Sign Up to TimeWeaver</h1>
+<form #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)" ngNativeValidate>
+    <input type="text" class="inpt" placeholder="Username" name="username" required ngModel>
+    <input type="email" class="inpt" placeholder="Email" name="email" required ngModel>
+    <input type="password" class="inpt" placeholder="Password" name="password" required ngModel>
+    <input type="password" class="inpt" placeholder="Password confirmation" name="password2" required ngModel>
+    <p>You already have an account ? <a routerLink="/sign-in">Log in</a></p>
+    <button type="submit" value="submit">sign up</button>
+</form>
