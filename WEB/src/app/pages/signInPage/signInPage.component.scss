@@ -64,6 +64,43 @@
     color: var(--accent-2);
 }
 
+:host .remember-label{
+    padding: 12px;
+}
+
+input[type=checkbox] + label {
+    cursor: pointer;
+}
+  
+input[type=checkbox] {
+    display: none;
+}
+  
+input[type=checkbox] + label:before {
+    content: "\2714";
+    border: 1px solid var(--accent-1);
+    border-radius: 5px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    padding-left: 2px;
+    padding-bottom: 5px;
+    margin-right: 5px;
+    color: transparent;
+    transition: .1s;
+}
+  
+input[type=checkbox] + label:active:before {
+    transform: scale(0);
+}
+  
+input[type=checkbox]:checked + label:before {
+    background-color: var(--accent-1);
+    border-color: var(--accent-1);
+    color: #fff;
+}
+  
 :host label{
-    color: black;
+    font-size: 18px;
+    color: var(--accent-2);
 }
