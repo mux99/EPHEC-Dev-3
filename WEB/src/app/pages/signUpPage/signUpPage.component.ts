@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, Injectable } from '@angular/core';
+import { Component, inject, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -11,6 +12,8 @@ import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class SignUpPage {
+  cookieService = inject(CookieService)
+  cookieValue = ""
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
@@ -38,7 +41,11 @@ export class SignUpPage {
         .set("e", data.email)
         .set("p", data.password)
       this.http.post(`/api/user`, null, {params: params}).subscribe(
-        () => this.router.navigate([''])
+        (r: any) => {
+          this.cookieService.set('sessionKey', r.token)
+          this.cookieValue = this.cookieService.get('sessionKey')
+          this.router.navigate([''])
+        }
       )
     }
  } 

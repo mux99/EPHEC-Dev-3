@@ -16,6 +16,8 @@ import { TimelineEvent } from './pages/timelinePage/timelineEvent/timelineEvent.
 import { SignUpPage } from './pages/signUpPage/signUpPage.component';
 import { SignInPage } from './pages/signInPage/signInPage.component';
 
+import { CookieService } from 'ngx-cookie-service';
+
 const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage },
   { path: 'sign-in', component: SignInPage },
@@ -32,7 +34,7 @@ const appRoutes: Routes = [
       appRoutes
     )
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
