@@ -49,3 +49,5 @@ end
 #allows cross-domain communication between backend and frontent
 gem 'rack-cors'
 
+gem 'bcrypt'
+

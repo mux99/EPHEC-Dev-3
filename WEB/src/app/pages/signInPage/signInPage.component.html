@@ -1,7 +1,11 @@
 <h1>Sign In to TimeWeaver</h1>
-<form>
-    <input type="email" placeholder="Email or Username" required>
-    <input type="password" placeholder="Password" required>
-    <p>You don't have account <a routerLink="/sign-up">Create it!</a></p>
-    <button type="submit">Sign in</button>
+<form #userlogin="ngForm" (ngSubmit)="onClickSubmit(userlogin.value)" ngNativeValidate>
+  <input type="email" placeholder="Email or Username" name="email" required ngModel>
+  <input type="password" placeholder="Password" name="password" required ngModel>
+  <div class="remember-label">
+    <input type="checkbox" checked="checked" id="rememberMeCheckbox">
+    <label for="rememberMeCheckbox">Remember me</label>
+  </div>
+  <p>You don't have account <a routerLink="/sign-up">Create it!</a></p>
+  <button type="submit">Sign in</button>
 </form>

@@ -1,5 +1,5 @@
 <h1>Sign Up to TimeWeaver</h1>
-<form #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)">
+<form #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)" ngNativeValidate>
     <input type="text" class="inpt" placeholder="Username" name="username" required ngModel>
     <input type="email" class="inpt" placeholder="Email" name="email" required ngModel>
     <input type="password" class="inpt" placeholder="Password" name="password" required ngModel>

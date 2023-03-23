@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -9,7 +11,9 @@ import { filter } from 'rxjs/operators';
 })
 
 export class SignInPage {
-  constructor(private router: Router) {}
+  cookieService = inject(CookieService)
+  cookieValue = ""
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     this.router.events
@@ -25,5 +29,22 @@ export class SignInPage {
           }
         });
       });
+  }
+
+  onClickSubmit(data: any){
+    const params = new HttpParams()
+      .set("e", data.email)
+      .set("p", data.password)
+    this.http.get('/api/user', {params: params}).subscribe(
+      (r: any) => {
+        if(!r.check){
+          alert("Incorrect Password")
+          return
+        }
+        this.cookieService.set('sessionKey', r.token)
+        this.cookieValue = this.cookieService.get('sessionKey')
+        this.router.navigate([''])
+      }
+    )
   }
 }
