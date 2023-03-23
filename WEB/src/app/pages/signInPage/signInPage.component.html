@@ -1,6 +1,6 @@
 <h1>Sign In to TimeWeaver</h1>
 <form #userlogin="ngForm" (ngSubmit)="onClickSubmit(userlogin.value)" ngNativeValidate>
-  <input type="email" placeholder="Email or Username" name="email" required ngModel>
+  <input type="email" placeholder="Email" name="email" required ngModel>
   <input type="password" placeholder="Password" name="password" required ngModel>
   <div class="remember-label">
     <input type="checkbox" checked="checked" id="rememberMeCheckbox">
