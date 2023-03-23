@@ -26,21 +26,13 @@ class UsersController < ApplicationController
             render json: {:error => ERR_USER_NOT_EXIST}
         end
         user.update(name: params[:n]) unless params[:n].nil?
-        user.update(password: params[:p]) unless params[:p].nil?
+        if user.authenticate(params[:op])
+            user.update(password: params[:p]) unless params[:p].nil?
+        end
     end
 
     def destroy 
         User.destroy_by(email: params[:e]) unless User.find_by(email: params[:e]).nil?
-    end
-
-    def ispremium
-        user = User.find_by(email: params[:e])
-        render json: {:premium => user.premium} unless user.nil?
-    end
-
-    def changepremium
-        user = User.find_by(email: params[:e])
-        user.update(premium: params[:p] == 'true') unless user.nil?
     end
 
     def projects 

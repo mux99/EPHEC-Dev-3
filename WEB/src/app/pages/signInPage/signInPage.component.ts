@@ -35,7 +35,7 @@ export class SignInPage {
     const params = new HttpParams()
       .set("e", data.email)
       .set("p", data.password)
-    this.http.get('/api/user', {params: params}).subscribe(
+    this.http.post('/api/login', null, {params: params}).subscribe(
       (r: any) => {
         if(!r.check){
           alert("Incorrect Password")

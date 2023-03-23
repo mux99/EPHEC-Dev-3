@@ -40,7 +40,7 @@ export class SignUpPage {
         .set("n", data.username)
         .set("e", data.email)
         .set("p", data.password)
-      this.http.post(`/api/user`, null, {params: params}).subscribe(
+      this.http.post(`/api/users`, null, {params: params}).subscribe(
         (r: any) => {
           this.cookieService.set('sessionKey', r.token)
           this.cookieValue = this.cookieService.get('sessionKey')
@@ -48,5 +48,5 @@ export class SignUpPage {
         }
       )
     }
- } 
+  } 
 }

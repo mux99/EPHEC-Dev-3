@@ -9,7 +9,7 @@ class TimelinesController < ApplicationController
     end
 
     def update
-    	timeline = Timeline.find(params[:i])
+    	timeline = Timeline.find(params[:id])
     	timeline.update(name: params[:n]) unless params[:n].nil?
     	timeline.update(description: params[:d]) unless params[:d].nil?
     	timeline.update(start: params[:s]) unless params[:s].nil?
