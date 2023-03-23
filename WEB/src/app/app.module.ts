@@ -17,6 +17,7 @@ import { SignUpPage } from './pages/signUpPage/signUpPage.component';
 import { SignInPage } from './pages/signInPage/signInPage.component';
 
 import { ProjectPage } from './pages/projectPage/projectPage.component';
+import { ProjectEvent } from './pages/projectPage/projectEvent/projectEvent.component';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage, ProjectPage],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent],
   imports: [
     BrowserModule,
     HttpClientModule,
