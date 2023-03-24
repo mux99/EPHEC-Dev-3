@@ -19,7 +19,10 @@ import { SignInPage } from './pages/signInPage/signInPage.component';
 import { ProjectPage } from './pages/projectPage/projectPage.component';
 import { ProjectEvent } from './pages/projectPage/projectEvent/projectEvent.component';
 
+import { CookiePopup } from './components/cookiePopup/cookiePopup.component'
+
 import { CookieService } from 'ngx-cookie-service';
+import { projectTimelines } from './pages/projectPage/projectTimelines/projectTimelines.component';
 
 const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage },
@@ -53,7 +56,7 @@ export function getCookie(cname: string) {
 }
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent, projectTimelines, CookiePopup],
   imports: [
     BrowserModule,
     HttpClientModule,
