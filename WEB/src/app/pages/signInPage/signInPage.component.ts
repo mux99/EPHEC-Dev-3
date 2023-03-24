@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { setCookie } from 'src/app/app.module';
+import { RefreshService } from 'src/shared-services/refresh.service';
 
 @Component({
   selector: 'sign-in-page',
@@ -9,7 +12,7 @@ import { filter } from 'rxjs/operators';
 })
 
 export class SignInPage {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient, private refreshService: RefreshService) {}
 
   ngOnInit() {
     this.router.events
@@ -25,5 +28,17 @@ export class SignInPage {
           }
         });
       });
+  }
+
+  onClickSubmit(data: any) {
+    let obs=this.http.post(`/api/user?e=${data.email}&p=${data.password}`, {});
+    obs.subscribe(
+      (data: any) => {
+        if (data.check) {
+          this.refreshService.refresh(data.username, data.tag);
+          setCookie("email",data.email,1,"");
+        }
+      }
+    )
   }
 }

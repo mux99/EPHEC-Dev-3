@@ -26,5 +26,8 @@ export class LandingPage {
           }
         });
       });
+
+    //loading public projects
+    
   }
 }

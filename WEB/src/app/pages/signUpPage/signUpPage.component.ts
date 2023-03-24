@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { setCookie } from 'src/app/app.module';
+import { RefreshService } from 'src/shared-services/refresh.service';
 
 @Component({
   selector: 'sign-up-page',
@@ -11,7 +13,7 @@ import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class SignUpPage {
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private refreshService: RefreshService) {}
 
   ngOnInit() {
     this.router.events
@@ -29,12 +31,21 @@ export class SignUpPage {
       });
   }
 
-  onClickSubmit(data: any) {
+  onClickSubmit(data: any) { 
+    let obs;
     if (data.password == data.password2) {
-      this.http.post(`/api/user?n=${data.username}&e=${data.email}&p=${data.password}`, {})
+      obs=this.http.post(`/api/user?n=${data.username}&e=${data.email}&p=${data.password}`, {});
+      obs.subscribe(
+        (data: any) => {
+          if (data.check) {
+            this.refreshService.refresh(data.username, data.tag);
+            setCookie("email",data.email,1,"");
+          }
+        }
+      )
     }
     else {
-      alert("passwords doesn't match")
+      alert("passwords doesn't match");
     }
  } 
 }

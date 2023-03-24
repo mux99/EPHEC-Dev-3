@@ -12,7 +12,7 @@ $menuWidth: 150px;
     top: 0;
 }
 
-#UserIcon > button {
+#userIcon {
     //functionnal
     height: $iconSize;
     width: $iconSize;
@@ -28,7 +28,7 @@ $menuWidth: 150px;
     cursor: pointer;
 }
 
-#UserConnect > button {
+#userConnect {
     //functionnal
     height: $iconSize;
     width: $iconSize;
@@ -40,7 +40,7 @@ $menuWidth: 150px;
     cursor: pointer;
 }
 
-#UserConnect > button > img {
+#userConnect > img {
     height: 75%;
 }
 

@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { UserActions } from './pages/userActions/userActions.component';
+import { UserActions } from './components/userActions/userActions.component';
 
 import { LandingPage } from './pages/landingPage/landingPage.component';
 import { ProjectSmall } from './pages/landingPage/projectSmall/projectSmall.component';
@@ -22,6 +22,30 @@ const appRoutes: Routes = [
   { path: '', component: LandingPage },
 ];
 
+export function setCookie(name: string, value: string, expireDays: number, path: string = '') {
+  let d:Date = new Date();
+  d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
+  let expires:string = `expires=${d.toUTCString()}`;
+  let cpath:string = path ? `; path=${path}` : '';
+  document.cookie = `${name}=${value}; ${expires}${cpath}`;
+}
+
+export function getCookie(cname: string) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 @NgModule({
   declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage],
   imports: [
@@ -35,4 +59,5 @@ const appRoutes: Routes = [
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {}

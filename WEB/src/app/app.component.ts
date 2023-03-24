@@ -11,9 +11,7 @@ export interface StatusMsg {
 export class AppComponent implements OnInit {
   title = 'tmp';
   status: any;
-  constructor(private _http: HttpClient){
-
-  }
+  constructor(private _http: HttpClient){}
 
   ngOnInit(): void {
     this.status = this._http.get<StatusMsg>("/api/status").subscribe(msg => {
