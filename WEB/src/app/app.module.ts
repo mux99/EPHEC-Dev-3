@@ -16,10 +16,16 @@ import { TimelineEvent } from './pages/timelinePage/timelineEvent/timelineEvent.
 import { SignUpPage } from './pages/signUpPage/signUpPage.component';
 import { SignInPage } from './pages/signInPage/signInPage.component';
 
+import { ProjectPage } from './pages/projectPage/projectPage.component';
+import { ProjectEvent } from './pages/projectPage/projectEvent/projectEvent.component';
+
+import { CookieService } from 'ngx-cookie-service';
+
 const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage },
   { path: 'sign-in', component: SignInPage },
   { path: '', component: LandingPage },
+  { path: 'project', component: ProjectPage }
 ];
 
 export function setCookie(name: string, value: string, expireDays: number, path: string = '') {
@@ -47,7 +53,7 @@ export function getCookie(cname: string) {
 }
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -56,7 +62,7 @@ export function getCookie(cname: string) {
       appRoutes
     )
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 

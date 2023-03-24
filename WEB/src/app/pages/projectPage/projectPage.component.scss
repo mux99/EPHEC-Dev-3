@@ -1,0 +1,27 @@
+.topbar-project{
+  height: 10%;
+  width: 100%;
+  position: absolute;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+  
+.left {
+  width: 80%;
+  left: 0;
+}
+  
+.right {
+  width: 20%;
+  right: 0;
+  background-color: var(--accent-3);
+}
+
