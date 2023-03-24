@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { filter } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { setCookie } from 'src/app/app.module';
 import { RefreshService } from 'src/shared-services/refresh.service';
 
