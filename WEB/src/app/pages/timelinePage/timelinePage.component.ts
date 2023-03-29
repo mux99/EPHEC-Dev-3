@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd} from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -9,7 +9,10 @@ import { filter } from 'rxjs/operators';
 })
 
 export class TimelinePage {
-  constructor(private router: Router) {}
+  timelineScale: number;
+  constructor(private router: Router) {
+    this.timelineScale = 100;
+  }
 
   ngOnInit() {
     this.router.events
@@ -25,5 +28,15 @@ export class TimelinePage {
           }
         });
       });
+  }
+
+  @HostListener('wheel', ['$event'])
+  onWheelScroll(event: WheelEvent) {
+    const timeline = document.getElementById("timelineBody");
+    console.log(event.deltaY);
+    this.timelineScale += event.deltaY;
+    if (timeline != null) {
+      timeline.style.width = `${this.timelineScale}px`
+    }
   }
 }

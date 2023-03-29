@@ -39,8 +39,8 @@ export class SignUpPage {
       obs.subscribe(
         (data: any) => {
           if (data.check) {
-            this.refreshService.refresh(data.username, data.tag);
             setCookie("email",data.email,1,"");
+            this.refreshService.refresh(data.username, data.tag);
           }
         }
       )

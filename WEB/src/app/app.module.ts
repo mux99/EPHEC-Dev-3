@@ -28,7 +28,8 @@ const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage },
   { path: 'sign-in', component: SignInPage },
   { path: '', component: LandingPage },
-  { path: 'project', component: ProjectPage }
+  { path: 'project', component: ProjectPage },
+  { path: 'timeline', component: TimelinePage}
 ];
 
 export function setCookie(name: string, value: string, expireDays: number, path: string = '') {

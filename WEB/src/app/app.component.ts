@@ -7,7 +7,7 @@ export interface StatusMsg {
 }
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet><user-actions></user-actions><cookie-popup></cookie-popup>',
+  template: '<router-outlet></router-outlet><user-actions></user-actions>',
   providers: [CookieService]
 })
 export class AppComponent implements OnInit {
