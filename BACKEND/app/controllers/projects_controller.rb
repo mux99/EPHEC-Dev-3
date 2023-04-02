@@ -5,6 +5,20 @@ class ProjectsController < ApplicationController
         render json: {timelines: project_timelines.map{|x| x.json}, name: project.projects.name, desc: project.description}
     end
 
+    def show_pub
+        public_projects = Project.joins(:images).where(visibility: true)
+        res = {}
+        public_projects.each do |p|
+            res[p.id] = {
+                :name => p.name,
+                :description => p.description,
+                :owner => p.owner
+                :img => p.url
+            }
+        end
+        render json: res
+    end
+
     def new
         owner = User.find_by(email: params[:o])
         new_project = Project.create(name: params[:n], description: params[:d], owner: owner.id, visibility: params[:v].nil?)
