@@ -25,10 +25,10 @@ import { CookieService } from 'ngx-cookie-service';
 import { projectTimelines } from './pages/projectPage/projectTimelines/projectTimelines.component';
 
 const appRoutes: Routes = [
-  { path: 'sign-up', component: SignUpPage },
-  { path: 'sign-in', component: SignInPage },
-  { path: '', component: LandingPage },
-  { path: 'project', component: ProjectPage },
+  { path: 'sign-up', component: SignUpPage},
+  { path: 'sign-in', component: SignInPage},
+  { path: '', component: LandingPage},
+  { path: 'project', component: ProjectPage},
   { path: 'timeline', component: TimelinePage}
 ];
 

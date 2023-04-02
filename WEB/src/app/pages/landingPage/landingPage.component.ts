@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -9,7 +10,7 @@ import { filter } from 'rxjs/operators';
 })
 
 export class LandingPage {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     //routing
@@ -28,6 +29,14 @@ export class LandingPage {
       });
 
     //loading public projects
-    
+    let obs = this.http.get('TBD');
+    obs.subscribe(
+      (data: any) => {
+        let tmp = JSON.parse(data);
+        for (let i = 0; i < tmp.length; i++) {
+          //TBD create project small object with parameters
+        }
+      }
+    )
   }
 }
