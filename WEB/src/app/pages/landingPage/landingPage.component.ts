@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ElementRef, EnvironmentInjector, ViewChild, createComponent } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+
+import { ProjectSmall } from './projectSmall/projectSmall.component';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'landing-page',
@@ -10,9 +14,11 @@ import { filter } from 'rxjs/operators';
 })
 
 export class LandingPage {
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private envinjector: EnvironmentInjector) {}
 
-  ngOnInit() {
+  @ViewChild("projects") projects!: ElementRef;
+
+  async ngOnInit() {
     //routing
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -29,12 +35,25 @@ export class LandingPage {
       });
 
     //loading public projects
-    let obs = this.http.get('TBD');
+    let obs = this.http.get('/api/project/');
+    const applicationRef = await bootstrapApplication(AppComponent);
+
     obs.subscribe(
       (data: any) => {
-        let tmp = JSON.parse(data);
-        for (let i = 0; i < tmp.length; i++) {
-          //TBD create project small object with parameters
+        let projects_data = JSON.parse(data);
+        let projects_ids = projects_data.keys();
+
+        for (let i = 0; i < projects_ids.length; i++) {
+          //create project small instance
+          let elem = createComponent(ProjectSmall, {
+            environmentInjector: this.envinjector,
+            hostElement: this.projects.nativeElement
+          })
+          //set elem inputs
+          elem.instance.name = projects_data[projects_ids[i]].name;
+          elem.instance.description = projects_data[projects_ids[i]].description;
+          //add elem to view
+          applicationRef.attachView(elem.hostView);
         }
       }
     )
