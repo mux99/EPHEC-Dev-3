@@ -14,7 +14,7 @@ export class ProjectSmall {
   @ViewChild("description") description!: ElementRef;
   @ViewChild("image") image!: ElementRef;
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.name.nativeElement.innerHTML = this.data_name;
     this.description.nativeElement.innerHTML = this.data_description;
     this.image.nativeElement.style.backgroudImage = `url('${this.url_image}')`
