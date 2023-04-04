@@ -16,4 +16,11 @@ class TimelinesController < ApplicationController
     	timeline.update(end: params[:e]) unless params[:e].nil?
     	timeline.update(json: params[:j]) unless params[:j].nil?
     end
+
+    def show
+        timeline = Timeline.find(params[:id])
+        project = Project.find(params[:p])
+        events = project.json.events.select { |e| e.timelines.include? timeline.id }
+        render json: { name: timeline.name, description: timeline.description, start: timeline.start, end: timeline.end, events: events }
+    end
 end

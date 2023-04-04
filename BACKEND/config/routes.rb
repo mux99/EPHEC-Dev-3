@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   delete '/api/projects/:id', to: 'projects#destroy'
   put '/api/projects/:id/user', to: 'projects#add_user'
   delete '/api/projects/:id/user', to: 'projects#rm_user'
+  get '/api/projects/:id/event', to: 'projects#event_show'
+  put '/api/projects/:id/event', to: 'projects#event_update'
+  post '/api/projects/:id/event', to: 'projects#event_add'
+  delete '/api/projects/:id/event', to: 'projects#event_rm'
   post '/api/projects', to: 'projects#new'
   get '/api/projects', to: 'projects#show_pub'
 
@@ -24,4 +28,5 @@ Rails.application.routes.draw do
   post '/api/timelines', to: 'timelines#new'
   delete '/api/timelines/:id', to: 'timelines#destroy'
   put '/api/timelines/:id', to: 'timelines#update'
+  get '/api/timelines/:id', to: 'timeline#show'
 end
