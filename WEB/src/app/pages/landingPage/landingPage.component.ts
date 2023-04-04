@@ -37,11 +37,9 @@ export class LandingPage {
 
   ngAfterViewInit() {
     let obs = this.http.get('/api/projects/');
-
     obs.subscribe(
       (data: any) => {
-        let projects_data = data
-        let projects_ids = Object.keys(projects_data);
+        let projects_ids = Object.keys(data);
 
         for (let i = 0; i < projects_ids.length; i++) {
           //create project small instance
@@ -50,8 +48,8 @@ export class LandingPage {
             hostElement: this.projects.nativeElement
           })
           //set elem inputs
-          elem.instance.name = projects_data[projects_ids[i]].name;
-          elem.instance.description = projects_data[projects_ids[i]].description;
+          elem.instance.name = data[projects_ids[i]].name;
+          elem.instance.description = data[projects_ids[i]].description;
           //add elem to view
           this.applicationRef.attachView(elem.hostView);
         }
