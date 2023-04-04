@@ -25,10 +25,12 @@ export class TimelinePage {
   @ViewChild("events") events!: ElementRef;
 
   ngOnInit() {
+    //fetch id from url
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.timeline_id = paramMap.get('id'); 
     });
-    //ROUTING
+
+    //remove old pages from dom
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -43,7 +45,7 @@ export class TimelinePage {
         });
       });
     
-    //TIMELINE
+    //querry timeline data from api
     let obs = this.http.get(`/api/timelines/${this.timeline_id}`);
     obs.subscribe(
       (data: any) => {
@@ -80,7 +82,6 @@ export class TimelinePage {
   }
 
   datetodays(date: string) {
-    //calcuate starting day
     let date_array = date.split("/").map(function(n,_i,_a){return Number(n);},this);
     let days = date_array[0]+(date_array[2]*this.d_year);
     for (let i = 0; i < date_array[1]; i++) {

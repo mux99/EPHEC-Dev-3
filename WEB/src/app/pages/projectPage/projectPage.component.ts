@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -9,9 +9,17 @@ import { filter } from 'rxjs/operators';
 })
 
 export class ProjectPage {
-  constructor(private router: Router) {}
+  project_id: any;
+
+  constructor(private router: Router, private _Activatedroute: ActivatedRoute) {}
 
   ngOnInit() {
+    //fetch id from url
+    this._Activatedroute.paramMap.subscribe(paramMap => { 
+      this.project_id = paramMap.get('id'); 
+    });
+
+    //remove old pages from dom
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -25,5 +33,8 @@ export class ProjectPage {
           }
         });
       });
+    
+    //querry project data from api
+    //TBD
   }
 }

@@ -40,8 +40,6 @@ export class UserActions {
 
   userConnectClick() {
     this.router.navigate(['/sign-in']);
-    const element = document.querySelector('landing-page');
-    element?.parentNode?.removeChild(element);
   }
 
   init() {
