@@ -1,10 +1,13 @@
-<div class="topbar-project">
-    <h1>Project name</h1>
-    <h2>Search bar</h2>
+<div id="topBar">
+    <div id="searchbar">
+        <img src="assets/searchIcon.svg">
+        <input type="text" placeholder="Search...">
+    </div>
 </div>
 <div class="split left">
     <div class="timelines">
-        
+        <router-outlet name="project-timelines"></router-outlet>
+        <project-timeline></project-timeline>
     </div>
 </div>
 <div class="split right">
