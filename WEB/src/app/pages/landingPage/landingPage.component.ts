@@ -48,8 +48,8 @@ export class LandingPage {
             hostElement: this.projects.nativeElement
           })
           //set elem inputs
-          elem.instance.name = data[projects_ids[i]].name;
-          elem.instance.description = data[projects_ids[i]].description;
+          elem.instance.data_name = data[projects_ids[i]].name;
+          elem.instance.data_description = data[projects_ids[i]].description;
           //add elem to view
           this.applicationRef.attachView(elem.hostView);
         }
