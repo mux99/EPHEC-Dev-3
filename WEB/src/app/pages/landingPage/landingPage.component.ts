@@ -47,6 +47,8 @@ export class LandingPage {
           //set elem inputs
           elem.instance.data_name = data[projects_ids[i]].name;
           elem.instance.data_description = data[projects_ids[i]].description;
+          elem.instance.project_id = projects_ids[i];
+
           //add elem to view
           this.applicationRef.attachView(elem.hostView);
         }

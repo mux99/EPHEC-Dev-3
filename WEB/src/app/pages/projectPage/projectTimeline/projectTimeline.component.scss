@@ -1,0 +1,17 @@
+:host {
+    display: block;
+    height: 35px;
+    width: 100%;
+    background-color: red;
+}
+
+:host:hover {
+    animation-name: timelineHover;
+    animation-duration: 250ms;
+    height: 70px;
+}
+
+@keyframes timelineHover {
+    from {height: 35px;}
+    to {height: 70px;}
+}

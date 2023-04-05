@@ -28,6 +28,9 @@
 //text
 --text-color: hsl(0,0%,97%);
 --text-shadow: rgba(105, 101, 101, 0.503);
+
+//dimentions
+--topbar-height: 100px;
 }
 
 html {
@@ -45,11 +48,14 @@ body {
     padding: 0;
 }
 
-.text {
-    font-size: 12pt;
-}
+#topBar {
+    //functionnal
+    width: 100%;
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
 
-.title {
-    font-size: 15pt;
-    font-weight: bold;
+    //visual
+    background-color: var(--accent-3);
+    box-shadow: 0 2px var(--accent-shadow-3);
 }
