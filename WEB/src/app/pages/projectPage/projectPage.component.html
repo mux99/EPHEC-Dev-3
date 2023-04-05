@@ -1,18 +1,14 @@
 <div id="topBar">
-    <div id="searchbar">
-        <img src="assets/searchIcon.svg">
-        <input type="text" placeholder="Search...">
-    </div>
+    <div #title>project title here</div><div #owner>creator name here</div>
+    <search-bar></search-bar>
 </div>
-<div class="split left">
-    <div class="timelines">
-        <router-outlet name="project-timelines"></router-outlet>
+<div id="main">
+    <div #description>description of project</div>
+    <div #text>project text lots of it</div>
+    <div #timelines id="timelines">
         <project-timeline></project-timeline>
     </div>
 </div>
-<div class="split right">
-    <div class="events">
-        <router-outlet name="project-events"></router-outlet>
-        <project-event></project-event>
-    </div>
+<div #events id="events_list">
+    <project-event></project-event>
 </div>
