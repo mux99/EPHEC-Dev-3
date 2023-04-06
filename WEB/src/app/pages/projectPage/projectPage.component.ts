@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, ViewChild, createComponent } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { ProjectEvent } from './projectEvent/projectEvent.component';
+import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
 
 @Component({
   selector: 'project-page',
@@ -9,9 +12,24 @@ import { filter } from 'rxjs/operators';
 })
 
 export class ProjectPage {
-  constructor(private router: Router) {}
+  project_id: any;
+
+  constructor(private router: Router, private _Activatedroute: ActivatedRoute, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef) {}
+
+  @ViewChild('title') title_ref!: ElementRef;
+  @ViewChild('owner') owner_ref!: ElementRef;
+  @ViewChild('description') description_ref!: ElementRef;
+  @ViewChild('text') text_ref!: ElementRef;
+  @ViewChild('timelines') timelines_ref!: ElementRef;
+  @ViewChild('events') events_ref!: ElementRef;
 
   ngOnInit() {
+    //fetch id from url
+    this._Activatedroute.paramMap.subscribe(paramMap => { 
+      this.project_id = paramMap.get('id'); 
+    });
+
+    //remove old pages from dom
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -25,5 +43,31 @@ export class ProjectPage {
           }
         });
       });
+    
+    //querry project data from api
+    let obs = this.http.get(`/api/projects/${this.project_id}`);
+    obs.subscribe(
+      (data: any) => {
+        //load project data
+        this.title_ref.nativeElement.innerHTML = data.title;
+        this.owner_ref = data.owner_name;
+        this.description_ref = data.description;
+        this.text_ref = data.text;
+
+        //load events
+        for (let i = 0; i < data.events; i++) {
+          //create event instance
+          let elem = createComponent(ProjectEvent, {
+            environmentInjector: this.envinjector,
+            hostElement: this.events_ref.nativeElement
+          })
+          //set elem inputs
+
+
+          //add elem to view
+          this.applicationRef.attachView(elem.hostView);
+        }
+      }
+    )
   }
 }

@@ -1,15 +1,14 @@
-<div class="topbar-project">
-    <h1>Project name</h1>
-    <h2>Search bar</h2>
+<div id="topBar">
+    <div #title>project title here</div><div #owner>creator name here</div>
+    <search-bar></search-bar>
 </div>
-<div class="split left">
-    <div class="timelines">
-        
+<div id="main">
+    <div #description>description of project</div>
+    <div #text>project text lots of it</div>
+    <div #timelines id="timelines">
+        <project-timeline></project-timeline>
     </div>
 </div>
-<div class="split right">
-    <div class="events">
-        <router-outlet name="project-events"></router-outlet>
-        <project-event></project-event>
-    </div>
+<div #events id="events_list">
+    <project-event></project-event>
 </div>

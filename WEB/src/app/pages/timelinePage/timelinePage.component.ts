@@ -1,7 +1,8 @@
-import { ArrayType } from '@angular/compiler';
-import { Component, HostListener, Input } from '@angular/core';
-import { Router, NavigationEnd} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Input, ViewChild, createComponent } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { TimelineEvent } from './timelineEvent/timelineEvent.component';
 
 @Component({
   selector: 'timeline-page',
@@ -11,14 +12,25 @@ import { filter } from 'rxjs/operators';
 
 export class TimelinePage {
   timelineScale: number;
-  constructor(private router: Router) {
+  d_year: number;
+  d_month: Array<number>;
+  timeline_id: any;
+
+  constructor(private router: Router, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef, private _Activatedroute: ActivatedRoute) {
     this.timelineScale = 100;
+    this.d_year = 0;
+    this.d_month = [];
   }
 
-  @Input() json_events!: Array<Object>; json_timeline!: string;
+  @ViewChild("events") events!: ElementRef;
 
   ngOnInit() {
-    //ROUTING
+    //fetch id from url
+    this._Activatedroute.paramMap.subscribe(paramMap => { 
+      this.timeline_id = paramMap.get('id'); 
+    });
+
+    //remove old pages from dom
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -33,27 +45,30 @@ export class TimelinePage {
         });
       });
     
-    //EVENTS
-    let timeline = JSON.parse(this.json_timeline);
+    //querry timeline data from api
+    let obs = this.http.get(`/api/timelines/${this.timeline_id}`);
+    obs.subscribe(
+      (data: any) => {
+        //load timeline data
+        this.d_year = data.d_year;
+        this.d_month = data.d_month;
 
-    //calcuate starting day
-    let timeline_start = timeline.start.split("/");
-    let start = timeline_start[0]+(timeline_start[2]*timeline.d_year);
-    for (let i = 0; i < timeline_start[1]; i++) {
-      start += timeline.d_month[i];
-    }
-    
-    //calcuate ending day
-    let timeline_stop = timeline.stop.split("/");
-    let stop = timeline_stop[0]+(timeline_stop[2]*timeline.d_year);
-    for (let i = 0; i < timeline_stop[1]; i++) {
-      stop += timeline.d_month[i];
-    }
-    
-    let lenght = stop - start;
-    for (let i = 0; i < this.json_events.length; i++) {
-      //TBD create timeline event object with it's variables
-    }
+        //load events
+        for (let i = 0; i < data.events; i++) {
+          //create event instance
+          let elem = createComponent(TimelineEvent, {
+            environmentInjector: this.envinjector,
+            hostElement: this.events.nativeElement
+          })
+          //set elem inputs
+          elem.instance.data = data.events[i];
+          elem.instance.pos = (this.datetodays(data.events[i].date)/(this.datetodays(data.stop)-this.datetodays(data.start)))*100
+
+          //add elem to view
+          this.applicationRef.attachView(elem.hostView);
+        }
+      }
+    )
   }
 
   @HostListener('wheel', ['$event'])
@@ -64,5 +79,14 @@ export class TimelinePage {
     if (timeline != null) {
       timeline.style.width = `${this.timelineScale}px`
     }
+  }
+
+  datetodays(date: string) {
+    let date_array = date.split("/").map(function(n,_i,_a){return Number(n);},this);
+    let days = date_array[0]+(date_array[2]*this.d_year);
+    for (let i = 0; i < date_array[1]; i++) {
+      days += this.d_month[i];
+    }
+    return days;
   }
 }

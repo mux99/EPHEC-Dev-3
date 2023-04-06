@@ -18,18 +18,19 @@ import { SignInPage } from './pages/signInPage/signInPage.component';
 
 import { ProjectPage } from './pages/projectPage/projectPage.component';
 import { ProjectEvent } from './pages/projectPage/projectEvent/projectEvent.component';
+import { ProjectTimeline } from './pages/projectPage/projectTimeline/projectTimeline.component';
 
-import { CookiePopup } from './components/cookiePopup/cookiePopup.component'
+import { CookiePopup } from './components/cookiePopup/cookiePopup.component';
+import { SearchBar } from './components/searchBar/searchBar.component';
 
 import { CookieService } from 'ngx-cookie-service';
-import { projectTimelines } from './pages/projectPage/projectTimelines/projectTimelines.component';
 
 const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage},
   { path: 'sign-in', component: SignInPage},
   { path: '', component: LandingPage},
-  { path: 'project', component: ProjectPage},
-  { path: 'timeline', component: TimelinePage}
+  { path: 'p/:id', component: ProjectPage},
+  { path: 't/:id', component: TimelinePage}
 ];
 
 export function setCookie(name: string, value: string, expireDays: number, path: string = '') {
@@ -57,7 +58,7 @@ export function getCookie(cname: string) {
 }
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent, projectTimelines, CookiePopup],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,SearchBar],
   imports: [
     BrowserModule,
     HttpClientModule,
