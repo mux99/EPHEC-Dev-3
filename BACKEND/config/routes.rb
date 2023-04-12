@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   put '/api/project/:id/user', to: 'projects#add_user'
   delete '/api/project/:id/user', to: 'projects#rm_user'
   post '/api/project', to: 'projects#new'
+  get '/api/projects', to: 'projects#show_pub'
 
   #timelines queries
   post '/api/timelines/new', to: 'timelines#new'
