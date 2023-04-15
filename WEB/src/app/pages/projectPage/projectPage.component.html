@@ -1,14 +1,17 @@
 <div id="topBar">
-    <div #title>project title here</div><div #owner>creator name here</div>
-    <search-bar></search-bar>
+    <div #title id="projectTitle"><h1>project title here</h1></div>
+    <div #owner id="creatorName"><h2>creator name here</h2></div>
 </div>
 <div id="main">
-    <div #description>description of project</div>
-    <div #text>project text lots of it</div>
+    <div #description id="description"><p>description of project</p></div>
     <div #timelines id="timelines">
         <project-timeline></project-timeline>
+        <div #descriptionTimeline><p>description of timeline</p></div>
     </div>
 </div>
-<div #events id="events_list">
-    <project-event></project-event>
+<div id="sideBar">
+    <search-bar></search-bar>
+    <div #events id="events_list">
+        <project-event></project-event>
+    </div>
 </div>
