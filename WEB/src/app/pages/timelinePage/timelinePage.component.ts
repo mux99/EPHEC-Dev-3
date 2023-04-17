@@ -17,12 +17,13 @@ export class TimelinePage {
   timeline_id: any;
 
   constructor(private router: Router, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef, private _Activatedroute: ActivatedRoute) {
-    this.timelineScale = 100;
+    this.timelineScale = 1;
     this.d_year = 0;
     this.d_month = [];
   }
 
   @ViewChild("events") events!: ElementRef;
+  @ViewChild("container") container!: ElementRef;
 
   ngOnInit() {
     //fetch id from url
@@ -73,12 +74,16 @@ export class TimelinePage {
 
   @HostListener('wheel', ['$event'])
   onWheelScroll(event: WheelEvent) {
-    const timeline = document.getElementById("timelineBody");
-    console.log(event.deltaY);
-    this.timelineScale += event.deltaY;
-    if (timeline != null) {
-      timeline.style.width = `${this.timelineScale}px`
-    }
+    let old_width = parseInt(window.getComputedStyle(this.events.nativeElement).getPropertyValue("width"));
+    let mouse_pos = (event.clientX - parseInt(window.getComputedStyle(this.container.nativeElement).getPropertyValue("margin-left")));
+    let offset = (parseInt(this.container.nativeElement.scrollLeft)+mouse_pos);
+
+    this.timelineScale += (event.deltaY / 2000) * parseInt(window.getComputedStyle(this.container.nativeElement).getPropertyValue("width"));
+    this.events.nativeElement.style.width = `${this.timelineScale}px`;
+    let new_width = parseInt(window.getComputedStyle(this.events.nativeElement).getPropertyValue("width"));
+
+    console.log(offset, new_width, old_width, mouse_pos)
+    this.container.nativeElement.scrollLeft = ((offset * new_width) / old_width) - mouse_pos;
   }
 
   datetodays(date: string) {
