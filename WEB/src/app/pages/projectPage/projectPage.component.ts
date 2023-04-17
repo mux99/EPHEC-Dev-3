@@ -23,6 +23,12 @@ export class ProjectPage {
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
 
+  edit(action: string) {
+    this.title_ref.nativeElement.setAttribute("contenteditable","true");
+    this.description_ref.nativeElement.setAttribute("contenteditable","true");
+    this.text_ref.nativeElement.setAttribute("contenteditable","true");
+  }
+
   ngOnInit() {
     //fetch id from url
     this._Activatedroute.paramMap.subscribe(paramMap => { 
