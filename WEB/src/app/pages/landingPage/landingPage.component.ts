@@ -33,6 +33,9 @@ export class LandingPage {
       });
 
     //loading public projects
+  }
+
+  ngAfterViewInit() {
     let obs = this.http.get('/api/projects/');
     obs.subscribe(
       (data: any) => {

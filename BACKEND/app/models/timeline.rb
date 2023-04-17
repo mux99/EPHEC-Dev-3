@@ -1,4 +1,4 @@
 class Timeline < ApplicationRecord
-    has_one :projectstimeline 
-    has_one :project, :through => :projectstimelines
+    has_one :projects_timeline
+    has_one :project, :through => :projects_timeline
 end

@@ -1,8 +1,24 @@
 class ProjectsController < ApplicationController
     def show
-        project = Project.find(params[:i])
-        project_timelines = Timeline.joins('projects-timelines'.to_sym).where(project_id: project.id)
-        render json: {timelines: project_timelines.map{|x| x.json}, name: project.projects.name, desc: project.description}
+        project = Project.find(params[:id])
+        owner = User.find(project.owner)
+        timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
+        render json: { timelines: timelines.map{|x| x.json}, name: project.name, description: project.description, owner_name: owner.name}
+    end
+
+    def show_pub
+        public_projects = Project.joins(:images).where(visibility: true)
+        res = {}
+        public_projects.each do |p|
+            cover_img = Image.where(project_id: p.id, cover: true)[0]
+            res[p.id] = {
+                :name => p.name,
+                :description => p.description,
+                :owner => p.owner,
+                :img => cover_img.url
+            }
+        end
+        render json: res
     end
 
     def new
