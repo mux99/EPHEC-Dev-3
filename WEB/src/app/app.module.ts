@@ -22,6 +22,7 @@ import { ProjectTimeline } from './pages/projectPage/projectTimeline/projectTime
 
 import { CookiePopup } from './components/cookiePopup/cookiePopup.component';
 import { SearchBar } from './components/searchBar/searchBar.component';
+import { EditButton } from './components/editButton/editButton.component';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -58,7 +59,7 @@ export function getCookie(cname: string) {
 }
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,SearchBar],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,SearchBar,EditButton],
   imports: [
     BrowserModule,
     HttpClientModule,
