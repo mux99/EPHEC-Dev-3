@@ -12,6 +12,14 @@
     width: 300px;
 }
 
+#topBar > div {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    right: 15px;
+    top: var(--topbar-height)
+}
+
 #projectsSelectors {
     width: 100%;
     display: flex;
@@ -32,12 +40,17 @@
   max-width: 100%;
 }
 
-
+.placeholder {
+    background-color: var(--background-shadow-1);
+    margin: 10px;
+    border-radius: 15px;
+    height: 25vh;
+}
 
 #projectGrid {
     //functionnal
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
-    padding: 0 15px;
+    padding: 25px 15px 0 15px;
 }
