@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'project-timeline',
   styleUrls: ['./projectTimeline.component.scss'],
 
-  template: ''
+  template: '<div></div><p>tmp</p>'
 })
 
 export class ProjectTimeline { }
