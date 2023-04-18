@@ -21,9 +21,23 @@ class ProjectsController < ApplicationController
         render json: res
     end
 
+    def show_pub
+        public_projects = Project.joins(:images).where(visibility: true)
+        res = {}
+        public_projects.each do |p|
+            res[p.id] = {
+                :name => p.name,
+                :description => p.description,
+                :owner => p.owner
+                :img => p.url
+            }
+        end
+        render json: res
+    end
+
     def new
         owner = User.find_by(email: params[:o])
-        new_project = Project.create(name: params[:n], description: params[:d], owner: owner.id, visibility: params[:v])
+        new_project = Project.create(name: params[:n], description: params[:d], owner: owner.id, visibility: params[:v].nil?)
         ProjetsUser.create(user_id: owner.id, project_id: new_project.id)
     end
 
@@ -31,7 +45,7 @@ class ProjectsController < ApplicationController
     	project = Project.find(params[:i])
 		project.update(name: params[:n]) unless params[:n].nil?
 		project.update(description: params[:d]) unless params[:d].nil?
-		project.update(json: params[:j]) unless params[:j].nil?
+		project.update(visibility: params[:v]) unless params[:v].nil?
     end
 
     def destroy
