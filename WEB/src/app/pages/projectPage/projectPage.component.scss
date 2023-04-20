@@ -8,24 +8,23 @@
 }
 
 #topBar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   grid-row: 1;
   grid-column: 1 / 3;
 }
 
-#topBar > h1   {
-  font-size: 30px;
+#title {
+  white-space: nowrap;
+}
+
+#topBar > div {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+#topBar > div > * {
   margin: 0;
-  text-decoration: underline;
 }
-
-#topBar > h2 {
-  font-size: 20px;
-  margin: 10px 0 0;
-}
-
 
 #sideBar {
   grid-row: 2;
@@ -42,16 +41,19 @@
   align-items: center;
 }
 
+#main > edit-button {
+  align-self: flex-end;
+  position: sticky;
+  top: 10px;
+  right: 10px;
+}
+
 #main > p {
-  grid-row: 2;
-  grid-column: 1;
-  align-self: flex-start;
-  margin-left: 80px;
+  width: 85%;
 }
 
 #timelines {
   width: 95%;
-  border-top: 1px solid white;
 }
 
 #timelines project-timeline {
@@ -63,14 +65,19 @@
   overflow-y: scroll;;
 }
 
-
 #sideBar search-bar {
-  margin-top: 20px;
-  margin-left : 30px ;
-  margin-right : 220px ;
+  margin: 20px 30px 0 30px;
 }
 
+*[contenteditable="true"] {
+  background-color: var(--background-2);
+  border-radius: 20px;
+  padding: 0 10px;
+  outline: 0;
+  word-wrap: break-word;
+}
 
-div[contenteditable="true"] {
-  background-color: purple;
+*[contenteditable="true"]:focus {
+  border: 2px solid;
+  border-color: var(--accent-1);
 }

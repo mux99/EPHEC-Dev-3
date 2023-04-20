@@ -15,9 +15,20 @@
 #topBar > div {
     display: flex;
     flex-direction: row;
-    position: fixed;
-    right: 15px;
-    top: var(--topbar-height)
+}
+
+#topBar > div > * {
+    box-shadow: 0 2px var(--accent-shadow-3);
+}
+
+#topBar > div > select {
+    color: var(--text-color);
+    text-align: center;
+    margin-left: 10px;
+    height: 30px;
+    border: none;
+    background-color: var(--accent-1);
+    border-radius: 15px;
 }
 
 #projectsSelectors {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, ViewChild, createComponent } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -14,6 +14,13 @@ import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
 export class ProjectPage {
   project_id: any;
 
+  title_holder: string | undefined;
+  description_holder: string | undefined;
+  text_holder: string | undefined;
+
+  markdownDesc: string | undefined;
+  markdownText: string | undefined;
+
   constructor(private router: Router, private _Activatedroute: ActivatedRoute, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef) {}
 
   @ViewChild('title') title_ref!: ElementRef;
@@ -24,9 +31,29 @@ export class ProjectPage {
   @ViewChild('events') events_ref!: ElementRef;
 
   edit(action: string) {
-    this.title_ref.nativeElement.setAttribute("contenteditable","true");
-    this.description_ref.nativeElement.setAttribute("contenteditable","true");
-    this.text_ref.nativeElement.setAttribute("contenteditable","true");
+    console.log(action);
+    if (action == 'edit') {
+      this.title_ref.nativeElement.setAttribute("contenteditable","true");
+      this.title_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
+      this.description_ref.nativeElement.setAttribute("contenteditable","true");
+      this.text_ref.nativeElement.setAttribute("contenteditable","true");
+
+      this.title_holder = this.title_ref.nativeElement.innerHTML;
+      this.description_holder = this.markdownDesc;
+      this.text_holder = this.markdownText;
+    } else {
+      this.title_ref.nativeElement.setAttribute("contenteditable","false");
+      this.description_ref.nativeElement.setAttribute("contenteditable","false");
+      this.text_ref.nativeElement.setAttribute("contenteditable","false");
+    }
+    if (action == 'cancel') {
+      this.title_ref.nativeElement.innerHTML = this.title_holder;
+      this.description_ref.nativeElement.innerHTM = this.description_holder;
+      this.text_ref.nativeElement.innerHTM = this.text_holder;
+    } else if (action == 'save') {
+      this.http.put(`/api/projects/${this.project_id}`, new HttpParams().set('n', this.title_ref.nativeElement.innerHTML).set('d', this.description_ref.nativeElement.innerHTM).set('text', this.text_ref.nativeElement.innerHTM));
+    }
+    
   }
 
   ngOnInit() {
@@ -56,9 +83,9 @@ export class ProjectPage {
       (data: any) => {
         //load project data
         this.title_ref.nativeElement.innerHTML = data.title;
-        this.owner_ref = data.owner_name;
-        this.description_ref = data.description;
-        this.text_ref = data.text;
+        this.owner_ref.nativeElement.innerHTML = data.owner_name;
+        this.description_ref.nativeElement.innerHTML = data.description;
+        this.text_ref.nativeElement.innerHTML = data.text;
 
         //load events
         for (let i = 0; i < data.events; i++) {

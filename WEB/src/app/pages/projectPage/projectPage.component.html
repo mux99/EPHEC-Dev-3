@@ -1,14 +1,20 @@
 <div id="topBar">
-    <h1 #title id="projectTitle">project title here</h1>
-    <h2 #owner id="creatorName">creator name here</h2>
+    <div>
+        <h1 #title id="projectTitle">project title here</h1>
+        <span #owner id="creatorName">creator name here</span>
+    </div>
 </div>
 <div id="main">
-    <edit-button></edit-button>
-    <p #description id="description">description of project</p>
+    <edit-button (childEvent)="edit($event)"></edit-button>
+    <div #description id="description">
+        # test text
+        - test
+        - test2
+    </div>
     <div #timelines id="timelines">
         <project-timeline></project-timeline>
-        <p #descriptionTimeline>description of timeline</p>
     </div>
+    <div #text id="text"></div>
 </div>
 <div id="sideBar">
     <search-bar></search-bar>
