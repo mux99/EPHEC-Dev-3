@@ -49,10 +49,10 @@ export class ProjectPage {
     obs.subscribe(
       (data: any) => {
         //load project data
-        this.title_ref.nativeElement.innerHTML = data.title;
-        this.owner_ref = data.owner_name;
-        this.description_ref = data.description;
-        this.text_ref = data.text;
+        this.title_ref.nativeElement.innerHTML = data.name;
+        this.owner_ref.nativeElement.innerHTML = data.owner_name;
+        this.description_ref.nativeElement.innerHTML = data.description;
+        this.text_ref.nativeElement.innerHTML = data.text;
 
         //load events
         for (let i = 0; i < data.events; i++) {
