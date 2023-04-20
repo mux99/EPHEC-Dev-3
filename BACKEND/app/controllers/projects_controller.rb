@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
                 :name => p.name,
                 :description => p.description,
                 :owner => p.owner
-                :img => p.url
+                #:img => p.url
             }
         end
         render json: res
@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
     end
 
     def update
-    	project = Project.find(params[:i])
+        project = Project.find(params[:id])
 		project.update(name: params[:n]) unless params[:n].nil?
 		project.update(description: params[:d]) unless params[:d].nil?
 		project.update(visibility: params[:v]) unless params[:v].nil?

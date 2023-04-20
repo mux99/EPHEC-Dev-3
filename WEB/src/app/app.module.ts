@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { MarkdownModule } from 'ngx-markdown';
+//import { MarkdownModule } from 'ngx-markdown';
 
 import { AppComponent } from './app.component';
 import { UserActions } from './components/userActions/userActions.component';
@@ -26,7 +26,7 @@ import { CookiePopup } from './components/cookiePopup/cookiePopup.component';
 import { SearchBar } from './components/searchBar/searchBar.component';
 import { EditButton } from './components/editButton/editButton.component';
 
-import { CookieService } from 'ngx-cookie-service';
+//import { CookieService } from 'ngx-cookie-service';
 
 const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage},
@@ -66,10 +66,10 @@ export function getCookie(cname: string) {
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    MarkdownModule.forChild(),
+    //MarkdownModule.forChild(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [CookieService],
+  //providers: [CookieService],
   bootstrap: [AppComponent]
 })
 

@@ -51,7 +51,10 @@ export class ProjectPage {
       this.description_ref.nativeElement.innerHTM = this.description_holder;
       this.text_ref.nativeElement.innerHTM = this.text_holder;
     } else if (action == 'save') {
-      this.http.put(`/api/projects/${this.project_id}`, new HttpParams().set('n', this.title_ref.nativeElement.innerHTML).set('d', this.description_ref.nativeElement.innerHTM).set('text', this.text_ref.nativeElement.innerHTM));
+      const req_params = new HttpParams().set('n', this.title_ref.nativeElement.innerHTML)
+      .set('d', this.description_ref.nativeElement.innerHTML)
+      .set('text', this.text_ref.nativeElement.innerHTML);
+      this.http.put(`/api/projects/${this.project_id}`, {params: req_params});
     }
     
   }
