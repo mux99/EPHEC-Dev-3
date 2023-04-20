@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { MarkdownModule } from 'ngx-markdown';
+
 import { AppComponent } from './app.component';
 import { UserActions } from './components/userActions/userActions.component';
 
@@ -64,9 +66,8 @@ export function getCookie(cname: string) {
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(
-      appRoutes
-    )
+    MarkdownModule.forChild(),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

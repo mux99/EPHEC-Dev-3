@@ -82,7 +82,7 @@ export class ProjectPage {
     obs.subscribe(
       (data: any) => {
         //load project data
-        this.title_ref.nativeElement.innerHTML = data.title;
+        this.title_ref.nativeElement.innerHTML = data.name;
         this.owner_ref.nativeElement.innerHTML = data.owner_name;
         this.description_ref.nativeElement.innerHTML = data.description;
         this.text_ref.nativeElement.innerHTML = data.text;
