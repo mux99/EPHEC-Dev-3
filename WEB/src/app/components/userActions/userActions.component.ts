@@ -24,6 +24,7 @@ export class UserActions {
   }
 
   userIconClick() {
+    this.panel_visible = !this.panel_visible;
     if (this.panel_visible) {
       this.panel_ref.nativeElement.classList.add("panel_off");
       this.panel_ref.nativeElement.classList.remove("panel_on");

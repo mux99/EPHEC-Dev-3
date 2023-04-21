@@ -1,8 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { UserActions } from 'src/app/components/userActions/userActions.component';
+import { connect, filter } from 'rxjs/operators';
+import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
   selector: 'sign-in-page',
@@ -11,7 +10,7 @@ import { UserActions } from 'src/app/components/userActions/userActions.componen
 })
 
 export class SignInPage {
-  constructor(private router: Router, private http: HttpClient, private uaction: UserActions) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit() {
     this.router.events
@@ -30,12 +29,12 @@ export class SignInPage {
   }
 
   onClickSubmit(data: any) {
-    let obs=this.http.post(`/api/login?e=${data.email}&p=${data.password}`, {});
+    let obs = this.auth.login(data.email, data.password);
     obs.subscribe(
-      (sub_data: any) => {
-        if (sub_data.check) {
-          //call connect on useractions
-          this.uaction.connect(data.email);
+      (obs_data: any) => {
+        console.log(obs_data);
+        if (obs_data.check) {
+          this.router.navigate(["/"]);
         }
       }
     )

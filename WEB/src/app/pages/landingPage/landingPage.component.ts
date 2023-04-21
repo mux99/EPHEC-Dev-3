@@ -37,6 +37,7 @@ export class LandingPage {
     let obs = this.http.get('/api/projects/');
     obs.subscribe(
       (data: any) => {
+        console.log(data);
         let projects_ids = Object.keys(data);
 
         //generate project components

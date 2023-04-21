@@ -38,8 +38,8 @@ export class SignUpPage {
       obs.subscribe(
         (sub_data: any) => {
           if (sub_data.check) {
-            //call connect on useractions
             this.uaction.connect(data.email);
+            this.router.navigate(["/"]);
           }
         }
       )
