@@ -31,8 +31,6 @@ export class LandingPage {
           }
         });
       });
-
-    //loading public projects
   }
 
   ngAfterViewInit() {
@@ -41,7 +39,13 @@ export class LandingPage {
       (data: any) => {
         let projects_ids = Object.keys(data);
 
+        //generate project components
         for (let i = 0; i < projects_ids.length; i++) {
+          //remove first placeholder
+          if (i < 8) {
+            document.querySelectorAll('.placeholder')[0].remove();
+          }
+
           //create project small instance
           let elem = createComponent(ProjectSmall, {
             environmentInjector: this.envinjector,

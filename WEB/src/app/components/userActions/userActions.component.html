@@ -1,5 +1,5 @@
-<div id="UserActions">
-    <div id="UserNametag"><span>username</span><span>#tag</span></div>
+<div #userPanel id="userPanel">
+    <div id="userNametag"><span>username</span><span>#tag</span></div>
     <div style="height: 2px;background-color: white;"></div>
     <a>projects</a>
     <a>profile</a>
@@ -7,5 +7,5 @@
     <a>options</a>
     <a>log-out</a>
 </div>
-<button id="userIcon" class="userButton" (click)="userIconClick()"></button>
-<button id="userConnect" class="userButton" (click)="userConnectClick()"><img src="/assets/connectIcon.svg"></button>
+<button id="userIcon" class="hidden" (click)="userIconClick()"></button>
+<button id="userConnect" (click)="userConnectClick()"><img src="/assets/connectIcon.svg"></button>

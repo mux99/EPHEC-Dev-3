@@ -1,10 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-//import { CookieService } from 'ngx-cookie-service';
 import { filter } from 'rxjs/operators';
-import { setCookie } from 'src/app/app.module';
-import { RefreshService } from 'src/shared-services/refresh.service';
+
+import { UserActions } from 'src/app/components/userActions/userActions.component';
 
 @Component({
   selector: 'sign-up-page',
@@ -14,7 +13,7 @@ import { RefreshService } from 'src/shared-services/refresh.service';
 
 @Injectable()
 export class SignUpPage {
-  constructor(private router: Router, private http: HttpClient, private refreshService: RefreshService) {}
+  constructor(private router: Router, private http: HttpClient, private uaction: UserActions) {}
 
   ngOnInit() {
     this.router.events
@@ -35,12 +34,12 @@ export class SignUpPage {
   onClickSubmit(data: any) { 
     let obs;
     if (data.password == data.password2) {
-      obs=this.http.post(`/api/user?n=${data.username}&e=${data.email}&p=${data.password}`, {});
+      obs=this.http.post(`/api/users?n=${data.username}&e=${data.email}&p=${data.password}`, {});
       obs.subscribe(
-        (data: any) => {
-          if (data.check) {
-            setCookie("email",data.email,1,"");
-            this.refreshService.refresh(data.username, data.tag);
+        (sub_data: any) => {
+          if (sub_data.check) {
+            //call connect on useractions
+            this.uaction.connect(data.email);
           }
         }
       )

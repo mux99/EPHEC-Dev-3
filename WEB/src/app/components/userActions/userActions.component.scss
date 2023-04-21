@@ -2,21 +2,22 @@ $iconSize: 55px;
 $menuWidth: 150px;
 
 :host {
-    z-index: 100;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    height: $iconSize;
+    width: $iconSize;
 }
 
-.userButton {
-    //functionnal
-    position: fixed;
-    right: 0;
-    top: 0;
+:host > button {
+    width: inherit;
+    height: inherit;
 }
 
 #userIcon {
     //functionnal
     height: $iconSize;
     width: $iconSize;
-    display: none;
 
     //visuals
     background-image: url('https://placehold.co/400x400');
@@ -24,19 +25,12 @@ $menuWidth: 150px;
     background-size: contain;
     border-radius: 50%;
     border-width: 2px;
-    margin: 20px;
     cursor: pointer;
 }
 
 #userConnect {
-    //functionnal
-    height: $iconSize;
-    width: $iconSize;
     background-color: transparent;
-
-    //visuals
-    margin: 20px;
-    border-width: 0px;
+    border: none;
     cursor: pointer;
 }
 
@@ -44,7 +38,7 @@ $menuWidth: 150px;
     height: 75%;
 }
 
-#UserActions {
+#userPanel {
     //functionnal
     position: fixed;
     top: 0;
@@ -62,22 +56,12 @@ $menuWidth: 150px;
     padding: 25px;
 }
 
-#UserNametag {
-    height: 6vh;
-    margin-right: 12vh;
-    margin-bottom: 1vh;
-    text-align: right;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.visible {animation-name: 'actions-visible';}
+.panel_on {animation-name: 'actions-visible';}
 @keyframes actions-visible {
     from {right: -$menuWidth -50;}
     to {right: 0;}
 }
-.hidden {animation-name: 'actions-hidden';}
+.panel_off {animation-name: 'actions-hidden';}
 @keyframes actions-hidden {
     from {right: 0;}
     to {right: -$menuWidth - 50;}

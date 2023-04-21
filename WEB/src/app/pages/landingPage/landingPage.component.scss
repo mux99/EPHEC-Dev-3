@@ -21,7 +21,7 @@
     box-shadow: 0 2px var(--accent-shadow-3);
 }
 
-#topBar > div > select {
+#topBar .input {
     color: var(--text-color);
     text-align: center;
     margin-left: 10px;
@@ -29,6 +29,7 @@
     border: none;
     background-color: var(--accent-1);
     border-radius: 15px;
+    padding: 0 10px
 }
 
 #projectsSelectors {
