@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_09_095326) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_081656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -49,6 +49,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_095326) do
     t.json "json", default: "{}"
     t.integer "start"
     t.integer "end"
+  end
+
+  create_table "tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "token"
+    t.uuid "user_id"
+    t.integer "ttl", default: 60
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
