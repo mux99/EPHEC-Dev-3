@@ -31,17 +31,22 @@ export class LandingPage {
           }
         });
       });
-
-    //loading public projects
   }
 
   ngAfterViewInit() {
     let obs = this.http.get('/api/projects/');
     obs.subscribe(
       (data: any) => {
+        console.log(data);
         let projects_ids = Object.keys(data);
 
+        //generate project components
         for (let i = 0; i < projects_ids.length; i++) {
+          //remove first placeholder
+          if (i < 8) {
+            document.querySelectorAll('.placeholder')[0].remove();
+          }
+
           //create project small instance
           let elem = createComponent(ProjectSmall, {
             environmentInjector: this.envinjector,
