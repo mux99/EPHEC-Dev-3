@@ -19,6 +19,20 @@ class ProjectsController < ApplicationController
         render json: res
     end
 
+    def download
+        project = Project.find(params[:id])
+        owner = User.find(project.owner)
+        timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
+        render json: {timelines: timelines.map{|x| {json: x.json, 
+            start: x.start, 
+            end: x.end, 
+            desc: x.description}},
+            name: project.name,
+            description: project.description,
+            owner: owner.name,
+            owner_tag: owner.tag}
+    end
+    
     def new
         session_token = request.headers['Authorization']&.split(' ')&.last
         owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
