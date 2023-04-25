@@ -2,27 +2,21 @@ class ProjectsController < ApplicationController
     include UsersHelper
 
     def show_pub
-        session_token = request.headers['Authorization']&.split(' ')&.last
-        owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if session_token.nil? || owner.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            public_projects = Project.joins(:images).where(visibility: true)
-            res = {}
-            public_projects.each do |p|
-                tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
-                img = tmp.img unless tmp.nil?
-                owner = User.find_by(id: p.owner)
-                res[p.id] = {
-                    :name => p.name,
-                    :description => p.description,
-                    :owner => owner.name,
-                    :tag => owner.tag,
-                    :img => img
-                }
-            end
-            render json: res
+        public_projects = Project.joins(:images)
+        res = {}
+        public_projects.each do |p|
+            tmp = Image.joins(:project).where(project_id: p.id, cover: true).first
+            img = tmp.url unless tmp.nil?
+            owner = User.find_by(id: p.owner)
+            res[p.id] = {
+                :name => p.name,
+                :description => p.description,
+                :owner => owner.name,
+                :tag => owner.tag,
+                :img => img
+            }
         end
+        render json: res
     end
 
     def new
