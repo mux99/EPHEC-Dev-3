@@ -10,13 +10,24 @@
 #topBar {
   grid-row: 1;
   grid-column: 1 / 3;
+  display: flex;
+  justify-content: space-between;
 }
+
+#sliderDelete {
+  display: flex;
+  align-items: center ;
+  flex-direction: row;
+  margin-right: 95px;
+  gap: 20px;
+}
+
 
 #title {
   white-space: nowrap;
 }
 
-#topBar > div {
+#topBar > #titleCreator {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
