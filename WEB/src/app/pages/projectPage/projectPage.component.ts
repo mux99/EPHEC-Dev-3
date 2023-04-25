@@ -36,6 +36,21 @@ export class ProjectPage {
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
 
+  exportProject(){
+    let proj = this.http.get(`/api/projects_dl/${this.project_id}`);
+    let projTimelines;
+    proj.subscribe((data: any) => {
+      const fileName = `${data.name}.json`
+      const file = new Blob([JSON.stringify(data)], {type: 'application/json'})
+      const url = window.URL.createObjectURL(file)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = fileName
+      a.click()
+      URL.revokeObjectURL(url)
+    })
+  }
+
   edit(action: string) {
     if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");

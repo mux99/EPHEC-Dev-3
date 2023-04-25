@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get '/api/projects', to: 'projects#show_pub'
   post '/api/projects', to: 'projects#new'
   get '/api/projects/:id', to: 'projects#show'
+  get '/api/projects_dl/:id', to: 'projects#download'
+  post '/api/projects', to: 'projects#new'
+  
   put '/api/projects/:id', to: 'projects#update'
   delete '/api/projects/:id', to: 'projects#destroy'
 
