@@ -26,6 +26,7 @@ import { EditTimeline } from './components/editTimeline/editTimeline.component';
 import { DeleteButton } from './components/deleteButton/deleteButton.component';
 import { ProjectAdd } from './pages/landingPage/projectAdd/projectAdd.component';
 import { LogOut } from './components/logOut/logOut.component';
+import { TimelineAdd } from './pages/projectPage/timelineAdd/timelineAdd.component';
 
 //import { CookieService } from 'ngx-cookie-service';
 
@@ -39,7 +40,9 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,SearchBar,EditButton,ProjectAdd,EventPopup,EditTimeline,LogOut,SliderButton,DeleteButton],
+  declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,
+    SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,SearchBar,EditButton,ProjectAdd,EventPopup,
+    EditTimeline,LogOut,SliderButton,DeleteButton,TimelineAdd],
   imports: [
     BrowserModule,
     HttpClientModule,

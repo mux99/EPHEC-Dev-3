@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { SliderButton } from 'src/app/components/sliderButton/sliderButton.component';
+import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
 
 @Component({
   selector: 'project-page',
@@ -23,8 +24,11 @@ export class ProjectPage {
   constructor(
     private router: Router,
     private _Activatedroute: ActivatedRoute,
+    private envinjector: EnvironmentInjector,
+    private applicationRef: ApplicationRef,
     private http: HttpClient,
-    private auth: AuthService
+    private auth: AuthService,
+    private renderer: Renderer2
   ) {}
 
   @ViewChild('title') title_ref!: ElementRef;
@@ -111,10 +115,24 @@ export class ProjectPage {
       (obs_data: any) => {
         //load project data
         this.title_ref.nativeElement.innerHTML = obs_data.name;
-        this.owner_ref.nativeElement.innerHTML = obs_data.owner_name;
+        this.owner_ref.nativeElement.innerHTML = obs_data.owner;
         this.description_ref.nativeElement.innerHTML = obs_data.description;
         this.text_ref.nativeElement.innerHTML = obs_data.text;
         this.sliderButton.setState(obs_data.visibility);
+        console.log(obs_data.timelines);
+        //load timelines instances
+        for (let i = 0; i < obs_data.timelines.length; i++) {
+          const tmp = this.renderer.createElement('div');
+          this.renderer.appendChild(this.timelines_ref.nativeElement, tmp);
+          let elem = createComponent(ProjectTimeline, {
+            environmentInjector: this.envinjector,
+            hostElement: tmp
+          })
+          elem.instance.timeline_id = obs_data.timelines[i];
+          this.applicationRef.attachView(elem.hostView);
+          let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
+          this.timelines_ref.nativeElement.appendChild(tmp2);
+        }
       }
     )
   }

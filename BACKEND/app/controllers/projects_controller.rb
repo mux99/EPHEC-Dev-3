@@ -54,19 +54,19 @@ class ProjectsController < ApplicationController
                 render json: {:error => ERR_USER_NOT_EXIST}
                 return
             else
-                if project.nil? || ProjectsUser.find_by(user_id: user.id, project_id: project.id).nil?
+                if project.nil? || ProjectsUser.find_by(user_id: user.id, project_id: params[:id]).nil?
                     render json: {}
                     return
                 end
             end
         end
         owner = User.find(project.owner)
-        tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
+        tmp = Image.joins(:project).where(project_id: params[:id], cover: true).first
         img = tmp.url unless tmp.nil?
-        timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
+        timelines = ProjectsTimeline.where(project_id: params[:id])
         timelines_ids = []
         timelines.each do |t|
-            timelines_ids += [t.id]
+            timelines_ids += [t.timeline_id]
         end
         project_json = JSON.parse(project.json)
         res = {
