@@ -1,9 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, ViewChild, createComponent } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectEvent } from './projectEvent/projectEvent.component';
-import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
+import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
   selector: 'project-page',
@@ -21,7 +20,14 @@ export class ProjectPage {
   markdownDesc: string | undefined;
   markdownText: string | undefined;
 
-  constructor(private router: Router, private _Activatedroute: ActivatedRoute, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef) {}
+  constructor(
+    private _Activatedroute: ActivatedRoute,
+    private http: HttpClient,
+    private envinjector: EnvironmentInjector,
+    private applicationRef: ApplicationRef,
+    private auth: AuthService,
+    private renderer: Renderer2
+  ) {}
 
   @ViewChild('title') title_ref!: ElementRef;
   @ViewChild('owner') owner_ref!: ElementRef;
@@ -31,7 +37,6 @@ export class ProjectPage {
   @ViewChild('events') events_ref!: ElementRef;
 
   edit(action: string) {
-    console.log(action);
     if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");
       this.title_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
@@ -41,7 +46,8 @@ export class ProjectPage {
       this.title_holder = this.title_ref.nativeElement.innerHTML;
       this.description_holder = this.markdownDesc;
       this.text_holder = this.markdownText;
-    } else {
+    }
+    else {
       this.title_ref.nativeElement.setAttribute("contenteditable","false");
       this.description_ref.nativeElement.setAttribute("contenteditable","false");
       this.text_ref.nativeElement.setAttribute("contenteditable","false");
@@ -50,7 +56,8 @@ export class ProjectPage {
       this.title_ref.nativeElement.innerHTML = this.title_holder;
       this.description_ref.nativeElement.innerHTM = this.description_holder;
       this.text_ref.nativeElement.innerHTM = this.text_holder;
-    } else if (action == 'save') {
+    }
+    else if (action == 'save') {
       const req_params = new HttpParams().set('n', this.title_ref.nativeElement.innerHTML)
       .set('d', this.description_ref.nativeElement.innerHTML)
       .set('text', this.text_ref.nativeElement.innerHTML);
@@ -64,34 +71,22 @@ export class ProjectPage {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.project_id = paramMap.get('id'); 
     });
+  }
 
-    //remove old pages from dom
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'project-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
-    
+  ngAfterViewInit() {
     //querry project data from api
-    let obs = this.http.get(`/api/projects/${this.project_id}`);
+    let obs = this.http.get(`/api/projects/${this.project_id}`, this.auth.httpHeader);
     obs.subscribe(
-      (data: any) => {
+      (obs_data: any) => {
+        console.log(obs_data)
         //load project data
-        this.title_ref.nativeElement.innerHTML = data.name;
-        this.owner_ref.nativeElement.innerHTML = data.owner_name;
-        this.description_ref.nativeElement.innerHTML = data.description;
-        this.text_ref.nativeElement.innerHTML = data.text;
+        this.title_ref.nativeElement.innerHTML = obs_data.name;
+        this.owner_ref.nativeElement.innerHTML = obs_data.owner_name;
+        this.description_ref.nativeElement.innerHTML = obs_data.description;
+        this.text_ref.nativeElement.innerHTML = obs_data.text;
 
         //load events
-        for (let i = 0; i < data.events; i++) {
+        for (let i = 0; i < obs_data.events; i++) {
           //create event instance
           let elem = createComponent(ProjectEvent, {
             environmentInjector: this.envinjector,

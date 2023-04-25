@@ -20,7 +20,7 @@ export class UserActions {
   @ViewChild('userPanel') panel_ref!: ElementRef;
 
   constructor(private router: Router) {
-    this.panel_visible = false;
+    this.panel_visible = true;
   }
 
   userIconClick() {
@@ -39,11 +39,27 @@ export class UserActions {
     this.router.navigate(['/sign-in']);
   }
 
+  userDisconnectClick() {
+    this.router.navigate(['/sign-out']);
+  }
+
   connect(email: string) {
     let icon = document.getElementById("userIcon");
     let connect = document.getElementById("userConnect");
     icon?.classList.remove("hidden");
     if (icon != null) icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}")`;
     connect?.classList.add("hidden");
+  }
+
+  disconnect() {
+    let icon = document.getElementById("userIcon");
+    let connect = document.getElementById("userConnect");
+    let panel = document.getElementById("userPanel");
+    icon?.classList.add("hidden");
+    if (icon != null) icon.style.backgroundImage = 'https://placehold.co/400x400")';
+    connect?.classList.remove("hidden");
+    this.panel_visible = true;
+    panel?.classList.add("panel_off");
+    panel?.classList.remove("panel_on");
   }
 }

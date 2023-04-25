@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -10,23 +9,10 @@ import { AuthService } from 'src/shared-services/auth.service';
 })
 
 export class SignInPage {
-  constructor(private router: Router, private auth: AuthService) {}
-
-  ngOnInit() {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'sign-in-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
-  }
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   onClickSubmit(data: any) {
     let obs = this.auth.login(data.email, data.password);

@@ -1,13 +1,30 @@
 class ProjectsController < ApplicationController
     include UsersHelper
 
-    def show
-        project = Project.find(params[:id])
-        owner = User.find(project.owner)
-        timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
-        render json: { timelines: timelines.map{|x| x.json}, name: project.name, description: project.description, owner_name: owner.name}
+    def show_pub
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if session_token.nil? || owner.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+        else
+            public_projects = Project.joins(:images).where(visibility: true)
+            res = {}
+            public_projects.each do |p|
+                tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
+                img = tmp.img unless tmp.nil?
+                owner = User.find_by(id: p.owner)
+                res[p.id] = {
+                    :name => p.name,
+                    :description => p.description,
+                    :owner => owner.name,
+                    :tag => owner.tag,
+                    :img => img
+                }
+            end
+            render json: res
+        end
     end
-    
+
     def new
         session_token = request.headers['Authorization']&.split(' ')&.last
         owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
@@ -20,18 +37,41 @@ class ProjectsController < ApplicationController
         render json: { id: new_project.id }
     end
 
-    def show_pub
-        public_projects = Project.joins(:images).where(visibility: true)
-        res = {}
-        public_projects.each do |p|
-            cover_img = Image.where(project_id: p.id, cover: true)[0]
-            res[p.id] = {
-                :name => p.name,
-                :description => p.description,
-                :owner => p.owner,
-                :img => cover_img.url
-            }
+    def show
+        project = Project.find(params[:id])
+        if not project.visibility
+            session_token = request.headers['Authorization']&.split(' ')&.last
+            user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+            puts "token: #{session_token}"
+            if session_token.nil? || user.nil?
+                render json: {:error => ERR_USER_NOT_EXIST}
+                return
+            else
+                if project.nil? || ProjectsUser.find_by(user_id: user.id, project_id: project.id).nil?
+                    render json: {}
+                    return
+                end
+            end
         end
+        owner = User.find(project.owner)
+        tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
+        img = tmp.img unless tmp.nil?
+        timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
+        timelines_ids = []
+        timelines.each do |t|
+            timelines_ids += t.id
+        end
+        project_json = JSON.parse(project.json)
+        res = {
+            :name => project.name,
+            :description => project.description,
+            :owner => owner.name,
+            :tag => owner.tag,
+            :image => img,
+            :text => project_json[:text],
+            :events => project_json[:events],
+            :timelines => timelines_ids
+        }
         render json: res
     end
 
