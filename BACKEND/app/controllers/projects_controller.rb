@@ -49,11 +49,11 @@ class ProjectsController < ApplicationController
         end
         owner = User.find(project.owner)
         tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
-        img = tmp.img unless tmp.nil?
+        img = tmp.url unless tmp.nil?
         timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
         timelines_ids = []
         timelines.each do |t|
-            timelines_ids += t.id
+            timelines_ids += [t.id]
         end
         project_json = JSON.parse(project.json)
         res = {
