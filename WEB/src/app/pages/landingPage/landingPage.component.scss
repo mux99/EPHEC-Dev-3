@@ -59,6 +59,12 @@
     height: 25vh;
 }
 
+#gridContainer {
+    width: 100vw;
+    height: calc(100vh - var(--topbar-height));
+    overflow: scroll;
+}
+
 #projectGrid {
     //functionnal
     display: grid;

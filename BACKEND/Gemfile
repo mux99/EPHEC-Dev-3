@@ -51,3 +51,5 @@ gem 'rack-cors'
 
 gem 'bcrypt'
 
+# schedules tasks to perforom periodically on the db
+gem 'whenever', require: false
