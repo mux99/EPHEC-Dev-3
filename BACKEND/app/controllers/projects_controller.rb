@@ -36,7 +36,6 @@ class ProjectsController < ApplicationController
         if not project.visibility
             session_token = request.headers['Authorization']&.split(' ')&.last
             user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-            puts "token: #{session_token}"
             if session_token.nil? || user.nil?
                 render json: {:error => ERR_USER_NOT_EXIST}
                 return
@@ -77,7 +76,23 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
-    	Project.destroy_by(params[:i])
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if session_token.nil? || user.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+            return
+        else
+            Image.destroy_by(project_id: params[:id])
+            ProjectsUser.destroy_by(project_id: params[:id])
+            timelines = ProjectsTimeline.find_by(project_id: params[:id])
+            if not timelines.nil?
+                timelines.each do |t|
+                    Timeline.find(t.timeline_id).destroy
+                    t.destroy
+                end
+            end
+            Project.destroy_by(id: params[:id])
+        end
     end
 
     def add_user

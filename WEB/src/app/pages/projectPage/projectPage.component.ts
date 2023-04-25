@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProjectEvent } from './projectEvent/projectEvent.component';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
+import { SliderButton } from 'src/app/components/sliderButton/sliderButton.component';
 
 @Component({
   selector: 'project-page',
@@ -21,12 +21,10 @@ export class ProjectPage {
   markdownText: string | undefined;
 
   constructor(
+    private router: Router,
     private _Activatedroute: ActivatedRoute,
     private http: HttpClient,
-    private envinjector: EnvironmentInjector,
-    private applicationRef: ApplicationRef,
-    private auth: AuthService,
-    private renderer: Renderer2
+    private auth: AuthService
   ) {}
 
   @ViewChild('title') title_ref!: ElementRef;
@@ -35,10 +33,10 @@ export class ProjectPage {
   @ViewChild('text') text_ref!: ElementRef;
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
+  @ViewChild(SliderButton) sliderButton!:SliderButton;
 
   exportProject(){
     let proj = this.http.get(`/api/projects/${this.project_id}`);
-    let projTimelines;
     proj.subscribe((data: any) => {
       const fileName = `${data.name}.json`
       const file = new Blob([JSON.stringify(data)], {type: 'application/json'})
@@ -81,6 +79,20 @@ export class ProjectPage {
     
   }
 
+  clickDelete() {
+    let obs = this.http.delete(`/api/projects/${this.project_id}`, this.auth.httpHeader);
+    obs.subscribe(
+      (obs_data: any) => {
+        this.router.navigate(['/'])
+      }
+    );
+  }
+
+  clickPublic(event: string) {
+    let obs = this.http.put(`/api/projects/${this.project_id}/?v=${event}`, this.auth.httpHeader);
+    obs.subscribe();
+  }
+
   ngOnInit() {
     //fetch id from url
     this._Activatedroute.paramMap.subscribe(paramMap => { 
@@ -99,20 +111,7 @@ export class ProjectPage {
         this.owner_ref.nativeElement.innerHTML = obs_data.owner_name;
         this.description_ref.nativeElement.innerHTML = obs_data.description;
         this.text_ref.nativeElement.innerHTML = obs_data.text;
-
-        //load events
-        for (let i = 0; i < obs_data.events; i++) {
-          //create event instance
-          let elem = createComponent(ProjectEvent, {
-            environmentInjector: this.envinjector,
-            hostElement: this.events_ref.nativeElement
-          })
-          //set elem inputs
-
-
-          //add elem to view
-          this.applicationRef.attachView(elem.hostView);
-        }
+        this.sliderButton.setState(obs_data.visibility);
       }
     )
   }

@@ -42,6 +42,7 @@ export class AuthService {
     wake() {
         if (this.cookieService.check("session")) {
             let token = this.cookieService.get("session");
+            console.log(token);
             this.isUserLoggedIn = true;
             this.httpHeader = { headers: { Authorization: `Bearer ${token}`} };
             let obs = this.http.get("/api/me", this.httpHeader);

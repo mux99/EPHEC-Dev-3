@@ -1,10 +1,16 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'delete-button',
   styleUrls: ['./deleteButton.component.scss'],
 
-  template: '<button type="remove">delete project</button>'
+  template: '<button (click)="click()" type="remove">delete project</button>'
 })
 
-export class DeleteButton {}
+export class DeleteButton {
+  @Output() childEvent = new EventEmitter<string>();
+  
+  click() {
+    this.childEvent.emit();
+  }
+}

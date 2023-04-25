@@ -20,6 +20,7 @@ export class LandingPage {
     ) {}
 
   @ViewChild("projects") projects!: ElementRef;
+  @ViewChild("addProject") add_ref!: ElementRef;
 
   ngAfterViewInit() {
     let obs: any;
@@ -29,6 +30,7 @@ export class LandingPage {
     } else {
       //load public project
       obs = this.http.get('/api/projects/');
+      this.add_ref.nativeElement.style.display = "none";
     }
     obs.subscribe(
       (obs_data: any) => {
