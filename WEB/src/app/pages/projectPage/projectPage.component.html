@@ -1,6 +1,24 @@
-<div class="split left">
-    <h1>left of the page</h1>
+<div id="topBar">
+    <div>
+        <h1 #title id="projectTitle">project title here</h1>
+        <span #owner id="creatorName">creator name here</span>
+    </div>
 </div>
-<div class="split right">
-    <h1>right of the page</h1>
+<div id="main">
+    <edit-button (childEvent)="edit($event)"></edit-button>
+    <div #description id="description">
+        # test text
+        - test
+        - test2
+    </div>
+    <div #timelines id="timelines">
+        <project-timeline></project-timeline>
+    </div>
+    <div #text id="text"></div>
+</div>
+<div id="sideBar">
+    <search-bar></search-bar>
+    <div #events id="events_list">
+        <project-event></project-event>
+    </div>
 </div>

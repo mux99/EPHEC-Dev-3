@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Injectable } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { filter } from 'rxjs/operators';
+
+import { UserActions } from 'src/app/components/userActions/userActions.component';
 
 @Component({
   selector: 'sign-up-page',
@@ -12,9 +13,7 @@ import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class SignUpPage {
-  cookieService = inject(CookieService)
-  cookieValue = ""
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private uaction: UserActions) {}
 
   ngOnInit() {
     this.router.events
@@ -32,21 +31,21 @@ export class SignUpPage {
       });
   }
 
-  onClickSubmit(data: any) {
-    if(data.password != data.password2){
-        alert("passwords don't match")
-    } else {
-      const params = new HttpParams()
-        .set("n", data.username)
-        .set("e", data.email)
-        .set("p", data.password)
-      this.http.post(`/api/users`, null, {params: params}).subscribe(
-        (r: any) => {
-          this.cookieService.set('sessionKey', r.token)
-          this.cookieValue = this.cookieService.get('sessionKey')
-          this.router.navigate([''])
+  onClickSubmit(data: any) { 
+    let obs;
+    if (data.password == data.password2) {
+      obs=this.http.post(`/api/users?n=${data.username}&e=${data.email}&p=${data.password}`, {});
+      obs.subscribe(
+        (sub_data: any) => {
+          if (sub_data.check) {
+            this.uaction.connect(data.email);
+            this.router.navigate(["/"]);
+          }
         }
       )
     }
-  } 
+    else {
+      alert("passwords doesn't match");
+    }
+ } 
 }

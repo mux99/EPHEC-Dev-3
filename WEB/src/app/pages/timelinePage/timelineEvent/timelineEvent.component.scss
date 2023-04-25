@@ -1,18 +1,26 @@
 :host {
+    position: relative;
+    width: 0;
+    overflow: visible;
+    right: -25%;
+}
+
+.event {
+    margin-left: -11px;
     height: auto;
     width: auto;
 }
 
 .eventIcon {
-    height: 21px;
-    width: 21px;
+    height: 22px;
+    width: 22px;
     border-radius: 50%;
     background-color: var(--white);
     margin-top: -21px;
 }
 
 .eventBar {
-    width: 3px;
+    width: 2px;
     height: var(--timeline-height);
     background-color: var(--white);
     justify-self: center;

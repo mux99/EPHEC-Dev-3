@@ -1,0 +1,31 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+:host > button {
+    height: 30px;
+    width: 30px;
+    border-radius: 30%;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#edit {
+    background-image: url("/assets/optionIcon.svg");
+    border-color: var(--accent-2);
+    background-color: var(--accent-1);
+}
+
+#save {
+    display: none;
+    border-color: var(--accent-2);
+    background-color: var(--green);
+}
+
+#cancel {
+    display: none;
+    border-color: var(--accent-2);
+    background-color: var(--red);
+}

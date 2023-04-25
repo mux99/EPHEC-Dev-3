@@ -1,13 +1,42 @@
 :host {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    --timeline-height: 25vh;
+  height: 100vh;
+  width: 100vw;
+  --timeline-height: 25vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+  
+#container {
+  display: flex;
+  width: 95vw;
+  margin: auto;
+  overflow-x: scroll;
+  grid-row: 2 / 3;
+}
+  
+#timelineBody {
+  align-self: center;
+  margin: auto;
+  background-image: url("https://appcodelabs.com/wp-content/uploads/2017/12/horiz-gradient-rainbow-1.png");
+  background-size: cover;
+  height: var(--timeline-height);
+  display: flex;
+  overflow-y: visible;
+  flex: 1 0 auto;
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
+}
+  
+#settingsButton {
+  justify-self: start;
+  grid-row: 3 / 3;
+  grid-column: 1 / 1;
+  margin: 10px;
+  margin-left: 30px;
+  margin-bottom: 15px;
 }
 
-#timelineBody {
-    align-self: center;
-    background-color: var(--red);
-    height: var(--timeline-height);
-    width: 100%;
+#modifyEvent {
+  display: none;
 }

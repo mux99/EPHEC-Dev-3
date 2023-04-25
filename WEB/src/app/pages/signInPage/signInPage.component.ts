@@ -1,8 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { filter } from 'rxjs/operators';
+import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
   selector: 'sign-in-page',
@@ -11,9 +10,7 @@ import { filter } from 'rxjs/operators';
 })
 
 export class SignInPage {
-  cookieService = inject(CookieService)
-  cookieValue = ""
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit() {
     this.router.events
@@ -31,20 +28,30 @@ export class SignInPage {
       });
   }
 
-  onClickSubmit(data: any){
-    const params = new HttpParams()
-      .set("e", data.email)
-      .set("p", data.password)
-    this.http.post('/api/login', null, {params: params}).subscribe(
-      (r: any) => {
-        if(!r.check){
-          alert("Incorrect Password")
-          return
+  onClickSubmit(data: any) {
+    let obs = this.auth.login(data.email, data.password);
+    obs.subscribe(
+      (obs_data: any) => {
+        if (obs_data.check) {
+          setTimeout(() => {
+            this.router.navigate(["/"]);
+          }, 500);
         }
-        this.cookieService.set('sessionKey', r.token)
-        this.cookieValue = this.cookieService.get('sessionKey')
-        this.router.navigate([''])
       }
     )
+  }
+
+  togglePassword() {
+    const passwordInput = document.querySelector("#password");
+    const eyeIcon = document.querySelector("#togglePassword");
+    if (passwordInput && eyeIcon) {
+      if (passwordInput.getAttribute("type") === "password") {
+        passwordInput.setAttribute("type", "text");
+        eyeIcon.classList.add("eye-slash");
+      } else {
+        passwordInput.setAttribute("type", "password");
+        eyeIcon.classList.remove("eye-slash");
+      }
+    }
   }
 }

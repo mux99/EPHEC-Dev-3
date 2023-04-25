@@ -1,0 +1,33 @@
+$iconSize: 55px;
+$menuWidth: 150px;
+
+:host {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    height: $iconSize;
+    width: $iconSize;
+}
+
+:host > button {
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#userIcon {
+    background-image: url('https://placehold.co/400x400');
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-width: 2px;
+}
+
+#userConnect {
+    background-color: transparent;
+    border: none;
+}
+
+#userConnect > img {
+    height: 75%;
+}
