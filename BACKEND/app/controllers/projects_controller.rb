@@ -1,9 +1,23 @@
 class ProjectsController < ApplicationController
+    include UsersHelper
+
     def show
         project = Project.find(params[:id])
         owner = User.find(project.owner)
         timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
         render json: { timelines: timelines.map{|x| x.json}, name: project.name, description: project.description, owner_name: owner.name}
+    end
+    
+    def new
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if session_token.nil? || owner.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+        else
+            new_project = Project.create(name: "project name", description: "project description", owner: owner.id, visibility: false)
+            ProjectsUser.create(user_id: owner.id, project_id: new_project.id)
+        end
+        render json: { id: new_project.id }
     end
 
     def show_pub
@@ -19,26 +33,6 @@ class ProjectsController < ApplicationController
             }
         end
         render json: res
-    end
-
-    def show_pub
-        public_projects = Project.joins(:images).where(visibility: true)
-        res = {}
-        public_projects.each do |p|
-            res[p.id] = {
-                :name => p.name,
-                :description => p.description,
-                :owner => p.owner
-                #:img => p.url
-            }
-        end
-        render json: res
-    end
-
-    def new
-        owner = User.find_by(email: params[:o])
-        new_project = Project.create(name: params[:n], description: params[:d], owner: owner.id, visibility: params[:v].nil?)
-        ProjetsUser.create(user_id: owner.id, project_id: new_project.id)
     end
 
     def update

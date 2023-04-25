@@ -4,8 +4,8 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%, 20%);
-    background: #fff;
-    border-radius: 10px;
+    background: #282a37;
+    border-radius: 20px;
     padding: 50px 60px 70px;
     text-align: center;
 }
@@ -13,33 +13,38 @@
 :host h1 {
     font-size: 30px;
     margin-bottom: 60px;
-    color: var(--accent-2);
 }
 
 :host .inpt {
     width: 100%;
     border: 0;
     padding: 18px 15px;
-    background: #eaeaea;
+    background: #323645;
     margin: 15px -13px;
-    border-radius: 3px;
+    border-radius: 8px;
     max-height: 65px;
     overflow: hidden;
     outline: none;
+    color: white;
+}
+
+:host a {
+    color: white;
 }
 
 :host .inpt:focus {
     border: 2px solid;
     border-color: var(--accent-1);
+    background-color: #3d404a;
 }
 
 :host form p {
     text-align: center;
     font-size: 18px;
-    color: var(--accent-1);
 }
 
 :host button {
+    margin-top: 15px;
     width: 100%;
     background: var(--accent-1);
     color: #fff;
@@ -53,8 +58,8 @@
 }
 
 :host button:hover {
-    background: #fff;
-    color: var(--accent-1);
+    background: #282a37;
+    color: white;
     border: 2px solid var(--accent-1);
 }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { connect, filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -32,11 +32,26 @@ export class SignInPage {
     let obs = this.auth.login(data.email, data.password);
     obs.subscribe(
       (obs_data: any) => {
-        console.log(obs_data);
         if (obs_data.check) {
-          this.router.navigate(["/"]);
+          setTimeout(() => {
+            this.router.navigate(["/"]);
+          }, 500);
         }
       }
     )
+  }
+
+  togglePassword() {
+    const passwordInput = document.querySelector("#password");
+    const eyeIcon = document.querySelector("#togglePassword");
+    if (passwordInput && eyeIcon) {
+      if (passwordInput.getAttribute("type") === "password") {
+        passwordInput.setAttribute("type", "text");
+        eyeIcon.classList.add("eye-slash");
+      } else {
+        passwordInput.setAttribute("type", "password");
+        eyeIcon.classList.remove("eye-slash");
+      }
+    }
   }
 }
