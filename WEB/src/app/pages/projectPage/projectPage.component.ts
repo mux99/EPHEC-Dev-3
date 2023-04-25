@@ -50,6 +50,17 @@ export class ProjectPage {
   }
 
   edit(action: string) {
+    if (action == 'save') {
+      let n = this.title_ref.nativeElement.innerHTML.trim()
+      let d = this.description_ref.nativeElement.innerHTML.trim()
+      let t = this.text_ref.nativeElement.innerHTML.trim()
+      let obs = this.http.put(`/api/projects/${this.project_id}/?n=${n}&d=${d}&t=${t}`, {},this.auth.httpHeader);
+      obs.subscribe(
+        (obs_data: any) => {
+          console.log(obs_data);
+        }
+      );
+    }
     if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");
       this.title_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
@@ -70,13 +81,6 @@ export class ProjectPage {
       this.description_ref.nativeElement.innerHTM = this.description_holder;
       this.text_ref.nativeElement.innerHTM = this.text_holder;
     }
-    else if (action == 'save') {
-      const req_params = new HttpParams().set('n', this.title_ref.nativeElement.innerHTML)
-      .set('d', this.description_ref.nativeElement.innerHTML)
-      .set('text', this.text_ref.nativeElement.innerHTML);
-      this.http.put(`/api/projects/${this.project_id}`, {params: req_params});
-    }
-    
   }
 
   clickDelete() {
@@ -105,7 +109,6 @@ export class ProjectPage {
     let obs = this.http.get(`/api/projects/${this.project_id}`, this.auth.httpHeader);
     obs.subscribe(
       (obs_data: any) => {
-        console.log(obs_data)
         //load project data
         this.title_ref.nativeElement.innerHTML = obs_data.name;
         this.owner_ref.nativeElement.innerHTML = obs_data.owner_name;

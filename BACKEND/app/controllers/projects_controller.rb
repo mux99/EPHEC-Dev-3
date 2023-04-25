@@ -83,10 +83,19 @@ class ProjectsController < ApplicationController
     end
 
     def update
-        project = Project.find(params[:id])
-		project.update(name: params[:n]) unless params[:n].nil?
-		project.update(description: params[:d]) unless params[:d].nil?
-		project.update(visibility: params[:v]) unless params[:v].nil?
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if session_token.nil? || user.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+        else
+            project = Project.find(params[:id])
+            project.update(name: params[:n]) unless params[:n].nil?
+            project.update(description: params[:d]) unless params[:d].nil?
+            project.update(visibility: params[:v]) unless params[:v].nil?
+            tmp = JSON.parse(project.json)
+            tmp["text"] = params[:t] unless params[:t].nil?
+            project.update(json: JSON.generate(tmp))
+        end
     end
 
     def destroy
@@ -94,7 +103,6 @@ class ProjectsController < ApplicationController
         user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
         if session_token.nil? || user.nil?
             render json: {:error => ERR_USER_NOT_EXIST}
-            return
         else
             Image.destroy_by(project_id: params[:id])
             ProjectsUser.destroy_by(project_id: params[:id])
