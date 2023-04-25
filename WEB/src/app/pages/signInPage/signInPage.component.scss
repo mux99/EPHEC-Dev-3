@@ -3,10 +3,10 @@
     max-width: 450px;
     position: absolute;
     left: 50%;
-    transform: translate(-50%, 40%);
+    transform: translate(-50%, 30%);
     
-    background: #fff;
-    border-radius: 10px;
+    background: #282a37;
+    border-radius: 20px;
     padding: 50px 60px 70px;
     text-align: center;
 }
@@ -14,7 +14,6 @@
 :host h1{
     font-size: 30px;
     margin-bottom: 60px;
-    color: var(--accent-2);
 }
 
 :host input {
@@ -22,17 +21,24 @@
     border: 0;
     outline: 0;
     padding: 18px 15px;
-    background: #eaeaea;
+    background-color: #323645;
     margin: 15px -13px;
-    border-radius: 3px;
+    border-radius: 8px;
     max-height: 65px;
     transition: max-height 0.5s;
     overflow: hidden;
+    color: white;
+}
+
+
+:host a {
+    color: white;
 }
 
 :host input:focus{
     border: 2px solid;
     border-color: var(--accent-1);
+    background-color: #3d404a;
 }
 
 :host button {
@@ -40,7 +46,7 @@
     outline: none;
     width: 100%;
     height: 40px;
-
+    margin-top: 15px;
     background: var(--accent-1);
     color: #fff;
     border-radius: 20px;
@@ -48,15 +54,13 @@
 }
 
 :host button:hover{
-    background: #fff;
-    color: var(--accent-1);
+    background-color: #282a37;
     border: 2px solid;
     border-color: var(--accent-1);
 }
 
 :host p{
     font-size: 18px;
-    color: var(--accent-1);
 }
 
 :host button.disable{
@@ -67,6 +71,25 @@
 :host .remember-label{
     padding: 12px;
 }
+
+
+.eye{
+  position: absolute;
+  top: 52%;
+  right: 12%;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-image: url("/assets/eyeOpen.svg");
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+}
+
+.eye-slash {
+    background-image: url("/assets/eyeClosed.svg");
+}
+
 
 input[type=checkbox] + label {
     cursor: pointer;
@@ -102,5 +125,5 @@ input[type=checkbox]:checked + label:before {
   
 :host label{
     font-size: 18px;
-    color: var(--accent-2);
 }
+
