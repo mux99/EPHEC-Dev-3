@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Host, Renderer2, ViewChild, createComponent } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
 
 import { ProjectSmall } from './projectSmall/projectSmall.component';
 import { AuthService } from 'src/shared-services/auth.service';
@@ -13,31 +11,16 @@ import { AuthService } from 'src/shared-services/auth.service';
 })
 
 export class LandingPage {
-  constructor(private router: Router,
+  constructor(
     private http: HttpClient,
     private envinjector: EnvironmentInjector,
     private applicationRef: ApplicationRef,
     private auth: AuthService,
-    private renderer: Renderer2) {}
+    private renderer: Renderer2
+    ) {}
 
   @ViewChild("projects") projects!: ElementRef;
-
-  ngOnInit() {
-    //routing
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'landing-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
-  }
+  @ViewChild("addProject") add_ref!: ElementRef;
 
   ngAfterViewInit() {
     let obs: any;
@@ -47,6 +30,7 @@ export class LandingPage {
     } else {
       //load public project
       obs = this.http.get('/api/projects/');
+      this.add_ref.nativeElement.style.display = "none";
     }
     obs.subscribe(
       (obs_data: any) => {

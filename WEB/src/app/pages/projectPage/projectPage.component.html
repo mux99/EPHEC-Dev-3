@@ -1,24 +1,25 @@
 <div id="topBar">
-    <div>
-        <h1 #title id="projectTitle">project title here</h1>
-        <span #owner id="creatorName">creator name here</span>
+    <div id="titleCreator">
+        <h1 #title id="projectTitle"></h1>
+        <span #owner id="creatorName"></span>
+    </div>
+    <div id="sliderDelete">
+        <delete-button (childEvent)="clickDelete()"></delete-button>
+        <slider-button #sliderButton (childEvent)="clickPublic($event)"></slider-button>
     </div>
 </div>
 <div id="main">
+    <button #export (click)="exportProject()">Export Project</button>
     <edit-button (childEvent)="edit($event)"></edit-button>
     <div #description id="description">
-        # test text
-        - test
-        - test2
     </div>
     <div #timelines id="timelines">
-        <project-timeline></project-timeline>
+        <timeline-add></timeline-add>
     </div>
     <div #text id="text"></div>
 </div>
 <div id="sideBar">
     <search-bar></search-bar>
     <div #events id="events_list">
-        <project-event></project-event>
     </div>
 </div>

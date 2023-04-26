@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'project-timeline',
@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
   template: '<div></div><p>tmp</p>'
 })
 
-export class ProjectTimeline { }
+export class ProjectTimeline {
+  @Input() timeline_id!: string;
+}

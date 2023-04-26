@@ -16,26 +16,60 @@ class UsersController < ApplicationController
         end
         result = user.authenticate(params[:p]) != false
         if result
-            token = SecureRandom.hex
-            Token.create(user_id: user.id, token: token)
-            render json: {:check => result, :username => user.name, :tag => user.tag, :token => token}
+            token_value = SecureRandom.hex
+            token = Token.create(user_id: user.id, token: token_value)
+            render json: {:check => result, :token => token_value, :ttl => token.ttl}
+        end
+    end
+
+    def logoff
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if user.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+        else
+            if params[:a] != true
+                tokens = Token.where(user_id: user.id)
+                tokens.each do |t|
+                    t.destroy
+                end
+            else
+                Token.find_by(token: session_token).first.destroy
+            end
+        end
+    end
+
+    def info
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if session_token.nil? || user.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+        else
+            render json: {:email => user.email, :name => user.name, :tag => user.tag, :creation_date => user.created_at}
         end
     end
 
     def update 
         session_token = request.headers['Authorization']&.split(' ')&.last
         user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if user.nil?
+        if session_token.nil? || user.nil?
             render json: {:error => ERR_USER_NOT_EXIST}
-        end
-        user.update(name: params[:n]) unless params[:n].nil?
-        if user.authenticate(params[:op])
-            user.update(password: params[:p]) unless params[:p].nil?
+        else
+            user.update(name: params[:n]) unless params[:n].nil?
+            if user.authenticate(params[:op])
+                user.update(password: params[:p]) unless params[:p].nil?
+            end
         end
     end
 
-    def destroy 
-        User.destroy_by(email: params[:e]) unless User.find_by(email: params[:e]).nil?
+    def destroy
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        if user.nil?
+            render json: {:error => ERR_USER_NOT_EXIST}
+        else
+            user.destroy
+        end
     end
 
     def projects 
@@ -48,10 +82,15 @@ class UsersController < ApplicationController
             res = {}
             user_projects.each do |p|
                 project = Project.find_by(id: p.project_id)
+                owner = User.find_by(id: project.owner)
+                tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
+                img = tmp.img unless tmp.nil?
                 res[project.id] = {
                     :name => project.name,
                     :description => project.description,
-                    :owner => project.owner
+                    :owner => owner.name,
+                    :tag => owner.tag,
+                    :img => img
                 }
             end
             render json: res
