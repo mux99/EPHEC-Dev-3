@@ -32,36 +32,33 @@ export class LandingPage {
       obs = this.http.get('/api/projects/');
       this.add_ref.nativeElement.style.display = "none";
     }
-    obs.subscribe(
-      (obs_data: any) => {
-        console.log(obs_data);
-        let projects_ids = Object.keys(obs_data);
+    obs.subscribe((obs_data: any) => {
+      let projects_ids = Object.keys(obs_data);
 
-        //generate project components
-        for (let i = 0; i < projects_ids.length; i++) {
+      //generate project components
+      for (let i = 0; i < projects_ids.length; i++) {
 
-          //create host container
-          const tmp = this.renderer.createElement('div');
-          this.renderer.appendChild(this.projects.nativeElement, tmp);
+        //create host container
+        const tmp = this.renderer.createElement('div');
+        this.renderer.appendChild(this.projects.nativeElement, tmp);
 
-          //create project small instance
-          let elem = createComponent(ProjectSmall, {
-            environmentInjector: this.envinjector,
-            hostElement: tmp
-          })
-          //set elem inputs
-          elem.instance.data_name = obs_data[projects_ids[i]].name;
-          elem.instance.data_description = obs_data[projects_ids[i]].description;
-          elem.instance.project_id = projects_ids[i];
+        //create project small instance
+        let elem = createComponent(ProjectSmall, {
+          environmentInjector: this.envinjector,
+          hostElement: tmp
+        })
+        //set elem inputs
+        elem.instance.data_name = obs_data[projects_ids[i]].name;
+        elem.instance.data_description = obs_data[projects_ids[i]].description;
+        elem.instance.project_id = projects_ids[i];
 
-          //add elem to view
-          this.applicationRef.attachView(elem.hostView);
+        //add elem to view
+        this.applicationRef.attachView(elem.hostView);
 
-          //keep addbutton to the bottom
-          let tmp2 = this.projects.nativeElement.children[this.projects.nativeElement.children.length - 2];
-          this.projects.nativeElement.appendChild(tmp2);
-        }
+        //keep addbutton to the bottom
+        let tmp2 = this.projects.nativeElement.children[this.projects.nativeElement.children.length - 2];
+        this.projects.nativeElement.appendChild(tmp2);
       }
-    )
+    })
   }
 }

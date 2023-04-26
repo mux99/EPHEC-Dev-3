@@ -1,19 +1,36 @@
 :host {
     display: block;
-    height: 35px;
     width: 100%;
-    background-color: var(--accent-1);
-    margin-top: 50px;
-    margin-bottom: 50px;
 }
 
-:host:hover {
+#timeline {
+    background-color: var(--accent-1);
+    height: 35px;
+    border-radius: 17.5px;
+}
+#container {
+    overflow: hidden;
+    position: relative;
+    top: -35px;
+    height: 0;
+    z-index: -1;
+}
+:host:hover > #timeline {
     animation-name: timelineHover;
     animation-duration: 250ms;
-    height: 70px;
+    animation-fill-mode: forwards;
 }
-
 @keyframes timelineHover {
     from {height: 35px;}
     to {height: 70px;}
+}
+
+:host:hover > #container {
+    animation-name: containerHover;
+    animation-duration: 250ms;
+    animation-fill-mode: forwards;
+}
+@keyframes containerHover {
+    from {height: 0;top: -35px;}
+    to {height: fit-content;top: 0;}
 }

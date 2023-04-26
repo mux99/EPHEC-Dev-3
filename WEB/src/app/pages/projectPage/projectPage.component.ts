@@ -129,6 +129,7 @@ export class ProjectPage {
             hostElement: tmp
           })
           elem.instance.timeline_id = obs_data.timelines[i];
+          elem.instance.project_id = this.project_id;
           this.applicationRef.attachView(elem.hostView);
           let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
           this.timelines_ref.nativeElement.appendChild(tmp2);
