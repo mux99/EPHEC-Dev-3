@@ -16,7 +16,12 @@ export class TimelinePage {
   d_month: Array<number>;
   timeline_id: any;
 
-  constructor(private router: Router, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef, private _Activatedroute: ActivatedRoute) {
+  constructor(
+    private http: HttpClient,
+    private envinjector: EnvironmentInjector,
+    private applicationRef: ApplicationRef,
+    private _Activatedroute: ActivatedRoute
+  ) {
     this.timelineScale = 1;
     this.d_year = 0;
     this.d_month = [];
@@ -30,21 +35,6 @@ export class TimelinePage {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.timeline_id = paramMap.get('id'); 
     });
-
-    //remove old pages from dom
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'timeline-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
     
     //querry timeline data from api
     let obs = this.http.get(`/api/timelines/${this.timeline_id}`);

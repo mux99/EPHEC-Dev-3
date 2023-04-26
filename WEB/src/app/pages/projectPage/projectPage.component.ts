@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, ViewChild, createComponent } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { ProjectEvent } from './projectEvent/projectEvent.component';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/shared-services/auth.service';
+import { SliderButton } from 'src/app/components/sliderButton/sliderButton.component';
 import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
 
 @Component({
@@ -21,7 +21,15 @@ export class ProjectPage {
   markdownDesc: string | undefined;
   markdownText: string | undefined;
 
-  constructor(private router: Router, private _Activatedroute: ActivatedRoute, private http: HttpClient, private envinjector: EnvironmentInjector, private applicationRef: ApplicationRef) {}
+  constructor(
+    private router: Router,
+    private _Activatedroute: ActivatedRoute,
+    private envinjector: EnvironmentInjector,
+    private applicationRef: ApplicationRef,
+    private http: HttpClient,
+    private auth: AuthService,
+    private renderer: Renderer2
+  ) {}
 
   @ViewChild('title') title_ref!: ElementRef;
   @ViewChild('owner') owner_ref!: ElementRef;
@@ -29,9 +37,34 @@ export class ProjectPage {
   @ViewChild('text') text_ref!: ElementRef;
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
+  @ViewChild(SliderButton) sliderButton!:SliderButton;
+
+  exportProject(){
+    let proj = this.http.get(`/api/projects/${this.project_id}`);
+    proj.subscribe((data: any) => {
+      const fileName = `${data.name}.json`
+      const file = new Blob([JSON.stringify(data)], {type: 'application/json'})
+      const url = window.URL.createObjectURL(file)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = fileName
+      a.click()
+      URL.revokeObjectURL(url)
+    })
+  }
 
   edit(action: string) {
-    console.log(action);
+    if (action == 'save') {
+      let n = this.title_ref.nativeElement.innerHTML.trim()
+      let d = this.description_ref.nativeElement.innerHTML.trim()
+      let t = this.text_ref.nativeElement.innerHTML.trim()
+      let obs = this.http.put(`/api/projects/${this.project_id}/?n=${n}&d=${d}&t=${t}`, {},this.auth.httpHeader);
+      obs.subscribe(
+        (obs_data: any) => {
+          console.log(obs_data);
+        }
+      );
+    }
     if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");
       this.title_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
@@ -41,7 +74,8 @@ export class ProjectPage {
       this.title_holder = this.title_ref.nativeElement.innerHTML;
       this.description_holder = this.markdownDesc;
       this.text_holder = this.markdownText;
-    } else {
+    }
+    else {
       this.title_ref.nativeElement.setAttribute("contenteditable","false");
       this.description_ref.nativeElement.setAttribute("contenteditable","false");
       this.text_ref.nativeElement.setAttribute("contenteditable","false");
@@ -50,13 +84,21 @@ export class ProjectPage {
       this.title_ref.nativeElement.innerHTML = this.title_holder;
       this.description_ref.nativeElement.innerHTM = this.description_holder;
       this.text_ref.nativeElement.innerHTM = this.text_holder;
-    } else if (action == 'save') {
-      const req_params = new HttpParams().set('n', this.title_ref.nativeElement.innerHTML)
-      .set('d', this.description_ref.nativeElement.innerHTML)
-      .set('text', this.text_ref.nativeElement.innerHTML);
-      this.http.put(`/api/projects/${this.project_id}`, {params: req_params});
     }
-    
+  }
+
+  clickDelete() {
+    let obs = this.http.delete(`/api/projects/${this.project_id}`, this.auth.httpHeader);
+    obs.subscribe(
+      (obs_data: any) => {
+        this.router.navigate(['/'])
+      }
+    );
+  }
+
+  clickPublic(event: string) {
+    let obs = this.http.put(`/api/projects/${this.project_id}/?v=${event}`, this.auth.httpHeader);
+    obs.subscribe();
   }
 
   ngOnInit() {
@@ -64,44 +106,32 @@ export class ProjectPage {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.project_id = paramMap.get('id'); 
     });
+  }
 
-    //remove old pages from dom
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'project-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
-    
+  ngAfterViewInit() {
     //querry project data from api
-    let obs = this.http.get(`/api/projects/${this.project_id}`);
+    let obs = this.http.get(`/api/projects/${this.project_id}`, this.auth.httpHeader);
     obs.subscribe(
-      (data: any) => {
+      (obs_data: any) => {
         //load project data
-        this.title_ref.nativeElement.innerHTML = data.name;
-        this.owner_ref.nativeElement.innerHTML = data.owner_name;
-        this.description_ref.nativeElement.innerHTML = data.description;
-        this.text_ref.nativeElement.innerHTML = data.text;
-
-        //load events
-        for (let i = 0; i < data.events; i++) {
-          //create event instance
-          let elem = createComponent(ProjectEvent, {
+        this.title_ref.nativeElement.innerHTML = obs_data.name;
+        this.owner_ref.nativeElement.innerHTML = obs_data.owner;
+        this.description_ref.nativeElement.innerHTML = obs_data.description;
+        this.text_ref.nativeElement.innerHTML = obs_data.text;
+        this.sliderButton.setState(obs_data.visibility);
+        console.log(obs_data.timelines);
+        //load timelines instances
+        for (let i = 0; i < obs_data.timelines.length; i++) {
+          const tmp = this.renderer.createElement('div');
+          this.renderer.appendChild(this.timelines_ref.nativeElement, tmp);
+          let elem = createComponent(ProjectTimeline, {
             environmentInjector: this.envinjector,
-            hostElement: this.events_ref.nativeElement
+            hostElement: tmp
           })
-          //set elem inputs
-
-
-          //add elem to view
+          elem.instance.timeline_id = obs_data.timelines[i];
           this.applicationRef.attachView(elem.hostView);
+          let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
+          this.timelines_ref.nativeElement.appendChild(tmp2);
         }
       }
     )

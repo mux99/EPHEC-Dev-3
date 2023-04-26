@@ -1,15 +1,18 @@
 $iconSize: 55px;
-$menuWidth: 150px;
+$panelWidth: 20vw;
 
 :host {
     position: fixed;
-    right: 20px;
-    top: 20px;
+    right: 0;
+    top: 0;
     height: $iconSize;
     width: $iconSize;
 }
 
 :host > button {
+    position: relative;
+    right: 20px;
+    top: 20px;
     width: inherit;
     height: inherit;
     border-radius: 50%;
@@ -30,4 +33,26 @@ $menuWidth: 150px;
 
 #userConnect > img {
     height: 75%;
+}
+
+#userPanel {
+    position: fixed;
+    top: var(--topbar-height);
+    right: -$panelWidth;
+    background-color: var(--accent-2);
+    width: $panelWidth;
+    height: 200px;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+}
+
+.panel_off {animation-name: 'actions-hidden';}
+@keyframes actions-hidden {
+    from {right: 0;}
+    to {right: -$panelWidth;}
+}
+.panel_on {animation-name: 'actions-visible';}
+@keyframes actions-visible {
+    from {right: -$panelWidth;}
+    to {right: 0;}
 }

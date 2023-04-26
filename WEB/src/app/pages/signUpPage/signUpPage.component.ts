@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { UserActions } from 'src/app/components/userActions/userActions.component';
 
@@ -13,23 +12,11 @@ import { UserActions } from 'src/app/components/userActions/userActions.componen
 
 @Injectable()
 export class SignUpPage {
-  constructor(private router: Router, private http: HttpClient, private uaction: UserActions) {}
-
-  ngOnInit() {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'sign-up-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
-  }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private uaction: UserActions
+  ) {}
 
   onClickSubmit(data: any) { 
     let obs;

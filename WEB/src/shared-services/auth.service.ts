@@ -11,7 +11,11 @@ export class AuthService {
     isUserLoggedIn: boolean = false;
     httpHeader: any;
 
-    constructor (private http: HttpClient, private uaction: UserActions, private cookieService: CookieService) {}
+    constructor (
+        private http: HttpClient,
+        private uaction: UserActions,
+        private cookieService: CookieService
+        ) {}
 
     login(email: string, password: string): Observable<any> {
         let obs = this.http.post(`/api/login?e=${email}&p=${password}`, {});
@@ -31,12 +35,22 @@ export class AuthService {
     logout() {
         this.isUserLoggedIn = false;
         this.cookieService.delete("session");
+        let obs = this.http.delete(`/api/login/?a=true`, this.httpHeader);
+        obs.subscribe();
     }
 
     wake() {
-        let token = this.cookieService.get("session");
-        this.isUserLoggedIn = true;
-        this.httpHeader = { headers: { Authorization: `Bearer ${token}`} };
-        this.uaction.connect("mux99@live.be")
+        if (this.cookieService.check("session")) {
+            let token = this.cookieService.get("session");
+            console.log(token);
+            this.isUserLoggedIn = true;
+            this.httpHeader = { headers: { Authorization: `Bearer ${token}`} };
+            let obs = this.http.get("/api/me", this.httpHeader);
+            obs.subscribe(
+                (obs_data: any) => {
+                    this.uaction.connect(obs_data.email);
+                }
+            );
+        }
     }
 }

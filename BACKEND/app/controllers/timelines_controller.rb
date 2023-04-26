@@ -1,7 +1,9 @@
 class TimelinesController < ApplicationController
     def new
-        project = Project.find(params[:p])
-        new_timeline = Timeline.create(name: params[:n], description: params[:d], start: params[:s], end: params[:e])
+        project = Project.find(params[:id])
+        new_timeline = Timeline.create(name: "Timeline name", description: "timeline description", start: "", end: "")
+        ProjectsTimeline.create(timeline_id: new_timeline.id, project_id: params[:id])
+        render json: { id: new_timeline.id }
     end
 
     def destroy
