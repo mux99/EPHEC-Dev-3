@@ -40,7 +40,7 @@ export class ProjectPage {
   @ViewChild(SliderButton) sliderButton!:SliderButton;
 
   exportProject(){
-    let proj = this.http.get(`/api/projects/${this.project_id}`);
+    let proj = this.http.get(`/api/projects_dl/${this.project_id}`);
     proj.subscribe((data: any) => {
       const fileName = `${data.name}.json`
       const file = new Blob([JSON.stringify(data)], {type: 'application/json'})
@@ -129,6 +129,7 @@ export class ProjectPage {
             hostElement: tmp
           })
           elem.instance.timeline_id = obs_data.timelines[i];
+          elem.instance.project_id = this.project_id;
           this.applicationRef.attachView(elem.hostView);
           let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
           this.timelines_ref.nativeElement.appendChild(tmp2);
