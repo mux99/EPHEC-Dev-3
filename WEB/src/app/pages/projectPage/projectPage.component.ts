@@ -40,7 +40,7 @@ export class ProjectPage {
   @ViewChild(SliderButton) sliderButton!:SliderButton;
 
   exportProject(){
-    let proj = this.http.get(`/api/projects/${this.project_id}`);
+    let proj = this.http.get(`/api/projects_dl/${this.project_id}`);
     proj.subscribe((data: any) => {
       const fileName = `${data.name}.json`
       const file = new Blob([JSON.stringify(data)], {type: 'application/json'})
