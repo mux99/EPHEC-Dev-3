@@ -22,14 +22,14 @@ export class LandingPage {
   @ViewChild("projects") projects!: ElementRef;
   @ViewChild("addProject") add_ref!: ElementRef;
 
-  ngAfterViewInit() {
+  load(querry: string, is_auth: boolean) {
     let obs: any;
-    if (this.auth.isUserLoggedIn) {
+    if (is_auth) {
       //load only personal projects
-      obs = this.http.get('/api/user_projects', this.auth.httpHeader );
+      obs = this.http.get(querry, this.auth.httpHeader );
     } else {
       //load public project
-      obs = this.http.get('/api/projects/');
+      obs = this.http.get(querry);
       this.add_ref.nativeElement.style.display = "none";
     }
     obs.subscribe((obs_data: any) => {
@@ -60,5 +60,13 @@ export class LandingPage {
         this.projects.nativeElement.appendChild(tmp2);
       }
     })
+  }
+
+  ngAfterViewInit() {
+    if (this.auth.isUserLoggedIn) {
+      this.load('/api/user_projects',true)
+    } else {
+      this.load('/api/rojects',false)
+    }
   }
 }

@@ -7,7 +7,7 @@ import { AuthService } from 'src/shared-services/auth.service';
   selector: 'project-timeline',
   styleUrls: ['./projectTimeline.component.scss'],
 
-  template: '<div (click)="click()" id="timeline"></div><div id="container"><div #name></div><div #description></div></div>'
+  template: '<span #name></span><div (click)="click()"></div><p #description></p>'
 })
 
 export class ProjectTimeline {

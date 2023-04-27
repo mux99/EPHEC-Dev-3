@@ -1,29 +1,33 @@
 :host {
     display: block;
     width: 100%;
+    margin-bottom: 15px;
 }
 
-#timeline {
+:host:hover > span {height: 20px;transition: height 300ms;margin-bottom: 3px;}
+:host > span {
+    margin-bottom: -7px;
+    padding-left: 15px;
+    display: block;
+    height: 0;
+    transition: height 300ms;
+    font-weight: bolder;
+}
+
+:host:hover > div {height: 70px;transition: height 300ms;}
+:host > div {
     background-color: var(--accent-1);
     height: 35px;
     border-radius: 17.5px;
     transition: height 300ms;
-}
-#container {
-    overflow: hidden;
-    position: relative;
-    top: -35px;
-    height: 0;
-    z-index: -1;
-    transition: height 300ms;
-}
-:host:hover > #timeline {
-    height: 70px;
-    transition: height 300ms;
+    cursor: pointer;
 }
 
-:host:hover > #container {
+:host:hover > p {height: 100px;transition: height 300ms;overflow-x: scroll;}
+:host > p {
+    padding-left: 15px;
+    margin: 0;
+    height: 0;
     transition: height 300ms;
-    height: 90px;
-    top: 0;
+    overflow: hidden;
 }

@@ -1,19 +1,26 @@
 :host {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    height: 0;
+    overflow: visible;
 }
 
+:host > #edit {width: 40px;}
 :host > button {
-    height: 30px;
-    width: 30px;
-    border-radius: 30%;
-    background-size: 70%;
+    height: 40px;
+    width: fit-content;
+    border-radius: 20px;
+    background-size: 60%;
+    margin-left: 10px;
     background-repeat: no-repeat;
     background-position: center;
+    font-size: 13pt;
+    font-weight: bolder;
+    padding: 0 15px;
 }
 
 #edit {
-    background-image: url("/assets/optionIcon.svg");
+    background-image: url("/assets/editIcon.svg");
     border-color: var(--accent-2);
     background-color: var(--accent-1);
 }

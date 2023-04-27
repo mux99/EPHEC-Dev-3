@@ -1,51 +1,37 @@
 :root {
-//background color by order of importance (page is 1)
---background-1: #3b3b47;
---background-2: #534c7a;
---background-3: #331d96;
+    --background-1: #413b47;
+    --background-2: #3d3a41;
+    --background-3: #3d3a41;
+    --accent-1: #5f2a87;
+    // --accent-2: #71399b;
+    --accent-2: #17121f;
+    --accent-1-hover: #8248ad;
 
---background-shadow-1: #0404056f;
---background-shadow-2: #20263470;
---background-shadow-3: #1065936b;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 
-//the accent color of the site (from dak to light)
---accent-1: #836c9f;
---accent-2: #4c4668;
---accent-3: #465780;
+    --red: rgb(197, 76, 76);
+    --green: rgb(59, 161, 59);
 
---accent-shadow-1: ;
---accent-shadow-2: ;
---accent-shadow-3: #242d438e;
+    //text
+    --text-color: hsl(0, 0%, 97%);
+    --text-color-2: hsl(0, 0%, 50%);
 
-//general purpose color
---red: rgb(178, 57, 57);
---green: rgb(46, 167, 46); 
---purple: rgb(164, 53, 164);
---orange: rgb(173, 131, 53);
---cyan: rgb(54, 154, 154);
---white: rgb(179, 173, 173);
 
-//text
---text-color: hsl(0,0%,97%);
---text-shadow: rgba(105, 101, 101, 0.503);
-
-//dimentions
---topbar-height: 100px;
+    //dimentions
+    --topbar-height: 100px
 }
 
 html {
     //general text
     color: var(--text-color);
-    font-family: 'Lato', sans-serif;
+    font-family: 'Tahoma', sans-serif;
     font-size: 13pt;
 }
 
 body {
     background-color: var(--background-1);
-    height: fit-content;
-    width: inherit;
     margin: 0;
-    padding: 0;
 }
 
 #topBar {
@@ -56,10 +42,85 @@ body {
     align-items: center;
 
     //visual
-    background-color: var(--accent-3);
-    box-shadow: 0 2px var(--accent-shadow-3);
+    background-color: var(--accent-2);
 }
 
 .hidden {
     display: none;
+}
+
+.bubble:hover {
+    background-color: var(--accent-1-hover);
+}
+
+.bubble {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: none;
+    background-color: var(--accent-1);
+    cursor: pointer;
+}
+
+input, button, select, label {
+    height: 35px;
+    border-radius: 17.5px;
+    background-color: var(--accent-1);
+    outline: none;
+    border: none;
+    color: var(--text-color);
+    font-family: 'Tahoma', sans-serif;
+    text-align: center;
+    padding: 0 10px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+input:hover,
+button:hover,
+select:hover {
+    background-color: var(--accent-1-hover);
+}
+
+input[type=search] {
+    text-align: left;
+    padding-left: 40px;
+    background-image: url("assets/searchIcon.svg");
+    background-position: -89% center;
+    background-size: 70% 70%;
+    cursor: text;
+}
+
+input[type=checkbox] {height: 0;width: 0;visibility: hidden;position: absolute;}
+input:checked+label {background: var(--accent-1);}
+input:checked+label:after {left: calc(100% - 2.5px);transform: translateX(-100%);}
+label:active:after {width: 50px;}
+label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 50px;
+    background: var(--background-2);
+    display: block;
+    position: relative;
+}
+label:after {
+    content: '';
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.add_button {
+    background-image: url("/assets/plusIcon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70%;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
 }

@@ -1,15 +1,15 @@
 <div id="topBar">
-    <div id="titleCreator">
-        <h1 #title id="projectTitle"></h1>
-        <span #owner id="creatorName"></span>
+    <div id="titleContainer">
+        <h1 #title id="title"></h1>
+        <span><span #owner id="owner"></span><span #tag id="tag"></span></span>
     </div>
-    <div id="sliderDelete">
-        <delete-button (childEvent)="clickDelete()"></delete-button>
-        <slider-button #sliderButton (childEvent)="clickPublic($event)"></slider-button>
+    <div id="options">
+        <button #export (click)="exportProject()">Export Project</button>
+        <button (click)="clickDelete()">delete project</button>
+        <input type="checkbox" #visibilityToggle (click)="clickPublic()" id="switch"><label for="switch"></label>
     </div>
 </div>
 <div id="main">
-    <button #export (click)="exportProject()">Export Project</button>
     <edit-button (childEvent)="edit($event)"></edit-button>
     <div #description id="description">
     </div>
@@ -19,7 +19,7 @@
     <div #text id="text"></div>
 </div>
 <div id="sideBar">
-    <search-bar></search-bar>
+    <input type="search" placeholder="Search...">
     <div #events id="events_list">
     </div>
 </div>

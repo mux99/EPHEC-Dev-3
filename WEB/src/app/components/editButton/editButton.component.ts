@@ -4,7 +4,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
   selector: 'edit-button',
   styleUrls: ['./editButton.component.scss'],
 
-  template: '<button #edit id="edit" (click)="click(\'edit\')"></button><button #save id="save" (click)="click(\'save\')"></button><button #cancel id="cancel" (click)="click(\'cancel\')"></button>'
+  template: '<button #edit id="edit" (click)="click(\'edit\')"></button><button #save id="save" (click)="click(\'save\')">save</button><button #cancel id="cancel" (click)="click(\'cancel\')">cancel</button>'
 })
 
 export class EditButton {

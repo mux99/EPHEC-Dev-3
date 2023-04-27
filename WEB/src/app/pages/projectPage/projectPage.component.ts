@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
-import { SliderButton } from 'src/app/components/sliderButton/sliderButton.component';
 import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
 
 @Component({
@@ -33,11 +32,12 @@ export class ProjectPage {
 
   @ViewChild('title') title_ref!: ElementRef;
   @ViewChild('owner') owner_ref!: ElementRef;
+  @ViewChild('tag') tag_ref!: ElementRef;
   @ViewChild('description') description_ref!: ElementRef;
   @ViewChild('text') text_ref!: ElementRef;
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
-  @ViewChild(SliderButton) sliderButton!:SliderButton;
+  @ViewChild('visibilityToggle') sliderButton!: ElementRef;
 
   exportProject(){
     let proj = this.http.get(`/api/projects_dl/${this.project_id}`);
@@ -96,7 +96,7 @@ export class ProjectPage {
     );
   }
 
-  clickPublic(event: string) {
+  clickPublic() {
     let obs = this.http.put(`/api/projects/${this.project_id}/?v=${event}`, this.auth.httpHeader);
     obs.subscribe();
   }
@@ -116,9 +116,9 @@ export class ProjectPage {
         //load project data
         this.title_ref.nativeElement.innerHTML = obs_data.name;
         this.owner_ref.nativeElement.innerHTML = obs_data.owner;
+        this.tag_ref.nativeElement.innerHTML = "#"+obs_data.tag;
         this.description_ref.nativeElement.innerHTML = obs_data.description;
         this.text_ref.nativeElement.innerHTML = obs_data.text;
-        this.sliderButton.setState(obs_data.visibility);
         console.log(obs_data.timelines);
         //load timelines instances
         for (let i = 0; i < obs_data.timelines.length; i++) {
