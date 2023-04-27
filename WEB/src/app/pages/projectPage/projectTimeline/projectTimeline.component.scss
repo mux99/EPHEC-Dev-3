@@ -7,6 +7,7 @@
     background-color: var(--accent-1);
     height: 35px;
     border-radius: 17.5px;
+    transition: height 300ms;
 }
 #container {
     overflow: hidden;
@@ -14,23 +15,15 @@
     top: -35px;
     height: 0;
     z-index: -1;
+    transition: height 300ms;
 }
 :host:hover > #timeline {
-    animation-name: timelineHover;
-    animation-duration: 250ms;
-    animation-fill-mode: forwards;
-}
-@keyframes timelineHover {
-    from {height: 35px;}
-    to {height: 70px;}
+    height: 70px;
+    transition: height 300ms;
 }
 
 :host:hover > #container {
-    animation-name: containerHover;
-    animation-duration: 250ms;
-    animation-fill-mode: forwards;
-}
-@keyframes containerHover {
-    from {height: 0;top: -35px;}
-    to {height: fit-content;top: 0;}
+    transition: height 300ms;
+    height: 90px;
+    top: 0;
 }

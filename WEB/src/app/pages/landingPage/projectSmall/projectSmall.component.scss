@@ -8,6 +8,7 @@
     grid-template-columns: 35% 65%;
     overflow: hidden;
     box-shadow: 2px 2px var(--background-shadow-2);
+    animation-name: projectHoverNot;
 }
 
 .projectText {
@@ -40,4 +41,9 @@
 @keyframes projectHover {
     from {grid-template-columns: 35% 65%;}
     to {grid-template-columns: 65% 35%;}
+}
+
+@keyframes projectHoverNot {
+    from {grid-template-columns: 65% 35%;}
+    to {grid-template-columns: 35% 65%;}
 }
