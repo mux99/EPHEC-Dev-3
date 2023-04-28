@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Input, ViewChild, createComponent } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, ViewChild, createComponent } from '@angular/core';
+import {  ActivatedRoute} from '@angular/router';
 import { TimelineEvent } from './timelineEvent/timelineEvent.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -73,10 +72,12 @@ export class TimelinePage {
     let offset = (parseInt(this.container.nativeElement.scrollLeft)+mouse_pos);
 
     this.timelineScale += (event.deltaY / 2000) * parseInt(window.getComputedStyle(this.container.nativeElement).getPropertyValue("width"));
+    console.log(this.timelineScale, this.container.nativeElement.offsetWidth);
+    if (this.timelineScale < this.container.nativeElement.offsetWidth) {
+      this.timelineScale = this.container.nativeElement.offsetWidth;
+    }
     this.events.nativeElement.style.width = `${this.timelineScale}px`;
     let new_width = parseInt(window.getComputedStyle(this.events.nativeElement).getPropertyValue("width"));
-
-    console.log(offset, new_width, old_width, mouse_pos)
     this.container.nativeElement.scrollLeft = ((offset * new_width) / old_width) - mouse_pos;
   }
 
