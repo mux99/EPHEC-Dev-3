@@ -18,14 +18,10 @@ import { ProjectPage } from './pages/projectPage/projectPage.component';
 import { ProjectEvent } from './pages/projectPage/projectEvent/projectEvent.component';
 import { ProjectTimeline } from './pages/projectPage/projectTimeline/projectTimeline.component';
 import { CookiePopup } from './components/cookiePopup/cookiePopup.component';
-import { SearchBar } from './components/searchBar/searchBar.component';
 import { EditButton } from './components/editButton/editButton.component';
-import { SliderButton } from './components/sliderButton/sliderButton.component';
 import { EventPopup } from './components/eventPopup/eventPopup.component';
 import { EditTimeline } from './components/editTimeline/editTimeline.component';
-import { DeleteButton } from './components/deleteButton/deleteButton.component';
 import { ProjectAdd } from './pages/landingPage/projectAdd/projectAdd.component';
-import { LogOut } from './components/logOut/logOut.component';
 import { TimelineAdd } from './pages/projectPage/timelineAdd/timelineAdd.component';
 
 //import { CookieService } from 'ngx-cookie-service';
@@ -33,16 +29,15 @@ import { TimelineAdd } from './pages/projectPage/timelineAdd/timelineAdd.compone
 const appRoutes: Routes = [
   { path: 'sign-up', component: SignUpPage},
   { path: 'sign-in', component: SignInPage},
-  { path: 'sign-out', component: LogOut},
   { path: '', component: LandingPage},
   { path: 'p/:id', component: ProjectPage},
-  { path: 't/:id', component: TimelinePage}
+  { path: 'p/:pid/t/:tid', component: TimelinePage}
 ];
 
 @NgModule({
   declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,
-    SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,SearchBar,EditButton,ProjectAdd,EventPopup,
-    EditTimeline,LogOut,SliderButton,DeleteButton,TimelineAdd],
+    SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,EditButton,ProjectAdd,EventPopup,
+    EditTimeline,TimelineAdd],
   imports: [
     BrowserModule,
     HttpClientModule,

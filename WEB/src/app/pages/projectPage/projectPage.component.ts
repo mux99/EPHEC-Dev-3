@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
-import { SliderButton } from 'src/app/components/sliderButton/sliderButton.component';
 import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
 
 @Component({
@@ -33,14 +32,15 @@ export class ProjectPage {
 
   @ViewChild('title') title_ref!: ElementRef;
   @ViewChild('owner') owner_ref!: ElementRef;
+  @ViewChild('tag') tag_ref!: ElementRef;
   @ViewChild('description') description_ref!: ElementRef;
   @ViewChild('text') text_ref!: ElementRef;
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
-  @ViewChild(SliderButton) sliderButton!:SliderButton;
+  @ViewChild('visibilityToggle') sliderButton!: ElementRef;
 
   exportProject(){
-    let proj = this.http.get(`/api/projects/${this.project_id}`);
+    let proj = this.http.get(`/api/projects_dl/${this.project_id}`);
     proj.subscribe((data: any) => {
       const fileName = `${data.name}.json`
       const file = new Blob([JSON.stringify(data)], {type: 'application/json'})
@@ -96,7 +96,7 @@ export class ProjectPage {
     );
   }
 
-  clickPublic(event: string) {
+  clickPublic() {
     let obs = this.http.put(`/api/projects/${this.project_id}/?v=${event}`, this.auth.httpHeader);
     obs.subscribe();
   }
@@ -116,9 +116,9 @@ export class ProjectPage {
         //load project data
         this.title_ref.nativeElement.innerHTML = obs_data.name;
         this.owner_ref.nativeElement.innerHTML = obs_data.owner;
+        this.tag_ref.nativeElement.innerHTML = "#"+obs_data.tag;
         this.description_ref.nativeElement.innerHTML = obs_data.description;
         this.text_ref.nativeElement.innerHTML = obs_data.text;
-        this.sliderButton.setState(obs_data.visibility);
         console.log(obs_data.timelines);
         //load timelines instances
         for (let i = 0; i < obs_data.timelines.length; i++) {
@@ -129,6 +129,7 @@ export class ProjectPage {
             hostElement: tmp
           })
           elem.instance.timeline_id = obs_data.timelines[i];
+          elem.instance.project_id = this.project_id;
           this.applicationRef.attachView(elem.hostView);
           let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
           this.timelines_ref.nativeElement.appendChild(tmp2);

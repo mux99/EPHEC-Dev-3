@@ -1,49 +1,40 @@
 $iconSize: 55px;
-$panelWidth: 20vw;
+$panelWidth: 25vw;
 
 :host {
     position: fixed;
-    right: 0;
-    top: 0;
-    height: $iconSize;
-    width: $iconSize;
+    right: 20px;
+    top: 20px;
 }
 
 :host > button {
-    position: relative;
-    right: 20px;
-    top: 20px;
-    width: inherit;
-    height: inherit;
+    height: $iconSize;
+    width: $iconSize;
     border-radius: 50%;
     cursor: pointer;
 }
 
 #userIcon {
     background-image: url('https://placehold.co/400x400');
-    background-repeat: no-repeat;
     background-size: contain;
-    border-width: 2px;
 }
-
-#userConnect {
-    background-color: transparent;
-    border: none;
-}
-
-#userConnect > img {
-    height: 75%;
-}
-
+#userConnect {background-color: transparent;border: none;}
+#userConnect > img {height: 75%;}
+#userPanel > * { width: 90%;margin: 0 15px;}
 #userPanel {
     position: fixed;
     top: var(--topbar-height);
     right: -$panelWidth;
-    background-color: var(--accent-2);
+    background-color: var(--background-3);
     width: $panelWidth;
-    height: 200px;
-    animation-duration: 200ms;
+    height: fit-content;
+    animation-duration: 300ms;
     animation-fill-mode: forwards;
+    border-radius: 0 0 0 25px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
 }
 
 .panel_off {animation-name: 'actions-hidden';}

@@ -7,9 +7,9 @@ import { AuthService } from 'src/shared-services/auth.service';
   selector: 'project-add',
   styleUrls: ['./projectAdd.component.scss'],
   host: {
-    "class": "placeholder"
+    "id": "addProject"
   },
-  template: '<button (click)="onClick()"><img src="/assets/plusIcon.svg"></button>'
+  template: '<button (click)="onClick()" class="bubble"><img src="/assets/plusIcon.svg"></button>'
 })
 
 export class ProjectAdd {

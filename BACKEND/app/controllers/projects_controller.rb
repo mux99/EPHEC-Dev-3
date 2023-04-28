@@ -76,7 +76,6 @@ class ProjectsController < ApplicationController
             :tag => owner.tag,
             :image => img,
             :text => project_json[:text],
-            :events => project_json[:events],
             :timelines => timelines_ids
         }
         render json: res

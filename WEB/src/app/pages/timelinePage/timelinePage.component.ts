@@ -3,6 +3,7 @@ import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListene
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TimelineEvent } from './timelineEvent/timelineEvent.component';
+import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
   selector: 'timeline-page',
@@ -15,12 +16,14 @@ export class TimelinePage {
   d_year: number;
   d_month: Array<number>;
   timeline_id: any;
+  project_id: any;
 
   constructor(
     private http: HttpClient,
     private envinjector: EnvironmentInjector,
     private applicationRef: ApplicationRef,
-    private _Activatedroute: ActivatedRoute
+    private _Activatedroute: ActivatedRoute,
+    private auth: AuthService
   ) {
     this.timelineScale = 1;
     this.d_year = 0;
@@ -33,11 +36,12 @@ export class TimelinePage {
   ngOnInit() {
     //fetch id from url
     this._Activatedroute.paramMap.subscribe(paramMap => { 
-      this.timeline_id = paramMap.get('id'); 
+      this.timeline_id = paramMap.get('tid'); 
+      this.project_id = paramMap.get('pid');
     });
     
     //querry timeline data from api
-    let obs = this.http.get(`/api/timelines/${this.timeline_id}`);
+    let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.httpHeader);
     obs.subscribe(
       (data: any) => {
         //load timeline data

@@ -1,5 +1,7 @@
 <button id="userIcon" class="hidden" (click)="userIconClick()"></button>
 <button id="userConnect" (click)="userConnectClick()"><img src="/assets/connectIcon.svg"></button>
 <div #userPanel id="userPanel">
-    <span (click)="userDisconnectClick()">log out</span>
+    <a href="/">home</a>
+    <a href="">my profile</a>
+    <button (click)="userDisconnectClick()">log out</button>
 </div>

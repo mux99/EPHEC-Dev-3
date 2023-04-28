@@ -33,5 +33,5 @@ Rails.application.routes.draw do
   post '/api/projects/:id/timelines', to: 'timelines#new'
   delete '/api/timelines/:id', to: 'timelines#destroy'
   put '/api/timelines/:id', to: 'timelines#update'
-  get '/api/timelines/:id', to: 'timeline#show'
+  get '/api/projects/:pid/timelines/:tid', to: 'timelines#show'
 end

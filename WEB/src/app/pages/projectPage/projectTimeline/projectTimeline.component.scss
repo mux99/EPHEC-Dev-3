@@ -1,19 +1,33 @@
 :host {
     display: block;
-    height: 35px;
     width: 100%;
+    margin-bottom: 15px;
+}
+
+:host:hover > span {height: 20px;transition: height 300ms;margin-bottom: 3px;}
+:host > span {
+    margin-bottom: -7px;
+    padding-left: 15px;
+    display: block;
+    height: 0;
+    transition: height 300ms;
+    font-weight: bolder;
+}
+
+:host:hover > div {height: 70px;transition: height 300ms;}
+:host > div {
     background-color: var(--accent-1);
-    margin-top: 50px;
-    margin-bottom: 50px;
+    height: 35px;
+    border-radius: 17.5px;
+    transition: height 300ms;
+    cursor: pointer;
 }
 
-:host:hover {
-    animation-name: timelineHover;
-    animation-duration: 250ms;
-    height: 70px;
-}
-
-@keyframes timelineHover {
-    from {height: 35px;}
-    to {height: 70px;}
+:host:hover > p {height: 100px;transition: height 300ms;overflow-x: scroll;}
+:host > p {
+    padding-left: 15px;
+    margin: 0;
+    height: 0;
+    transition: height 300ms;
+    overflow: hidden;
 }

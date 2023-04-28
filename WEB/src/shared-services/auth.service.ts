@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
-import { UserActions } from 'src/app/components/userActions/userActions.component';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -11,9 +10,10 @@ export class AuthService {
     isUserLoggedIn: boolean = false;
     httpHeader: any;
 
+    public triggerUserIcon$: Subject<string> = new Subject<string>();
+
     constructor (
         private http: HttpClient,
-        private uaction: UserActions,
         private cookieService: CookieService
         ) {}
 
@@ -24,8 +24,8 @@ export class AuthService {
                 this.isUserLoggedIn = obs_data.check;
                 if (obs_data.check) {
                     this.cookieService.set("session",obs_data.token,60,undefined,undefined,true,"Strict");
-                    this.uaction.connect(email);
                     this.httpHeader = { headers: { Authorization: `Bearer ${obs_data.token}`} };
+                    this.triggerUserIcon$.next(email);
                 }
             }
         )
@@ -42,13 +42,12 @@ export class AuthService {
     wake() {
         if (this.cookieService.check("session")) {
             let token = this.cookieService.get("session");
-            console.log(token);
             this.isUserLoggedIn = true;
             this.httpHeader = { headers: { Authorization: `Bearer ${token}`} };
             let obs = this.http.get("/api/me", this.httpHeader);
             obs.subscribe(
                 (obs_data: any) => {
-                    this.uaction.connect(obs_data.email);
+                    this.triggerUserIcon$.next(obs_data.email);
                 }
             );
         }

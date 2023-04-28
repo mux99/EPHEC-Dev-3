@@ -20,9 +20,8 @@ class TimelinesController < ApplicationController
     end
 
     def show
-        timeline = Timeline.find(params[:id])
-        project = Project.find(params[:p])
-        events = project.json.events.select { |e| e.timelines.include? timeline.id }
-        render json: { name: timeline.name, description: timeline.description, start: timeline.start, end: timeline.end, events: events }
+        timeline = Timeline.find(params[:tid])
+        project = Project.find(params[:pid])
+        render json: { name: timeline.name, description: timeline.description, start: timeline.start, end: timeline.end }
     end
 end

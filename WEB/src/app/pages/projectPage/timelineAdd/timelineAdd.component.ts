@@ -9,7 +9,7 @@ import { AuthService } from 'src/shared-services/auth.service';
   host: {
     "class": "placeholder"
   },
-  template: '<div><span>add timeline</span><button (click)="onClick()"><img src="/assets/plusIcon.svg"></button><div>'
+  template: '<div><span>add timeline</span><button class="add_button" (click)="onClick()"></button><div>'
 })
 
 export class TimelineAdd {
