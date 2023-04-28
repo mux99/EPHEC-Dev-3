@@ -31,6 +31,6 @@ export class ProjectTimeline {
   }
 
   click() {
-    this.router.navigate([`/t/${this.timeline_id}`])
+    this.router.navigate([`/p/${this.project_id}/t/${this.timeline_id}`])
   }
 }
