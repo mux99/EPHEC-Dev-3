@@ -31,7 +31,7 @@ const appRoutes: Routes = [
   { path: 'sign-in', component: SignInPage},
   { path: '', component: LandingPage},
   { path: 'p/:id', component: ProjectPage},
-  { path: 't/:id', component: TimelinePage}
+  { path: 'p/:pid/t/:tid', component: TimelinePage}
 ];
 
 @NgModule({

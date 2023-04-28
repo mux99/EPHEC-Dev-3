@@ -18,21 +18,15 @@
     font-weight: bolder;
     padding: 0 15px;
 }
-
-#edit {
-    background-image: url("/assets/editIcon.svg");
-    border-color: var(--accent-2);
-    background-color: var(--accent-1);
-}
-
+#edit {background-image: url("/assets/editIcon.svg");}
+#save:hover {background-color: var(--green-hover);}
 #save {
     display: none;
-    border-color: var(--accent-2);
     background-color: var(--green);
 }
 
+#cancel:hover {background-color: var(--red-hover);}
 #cancel {
     display: none;
-    border-color: var(--accent-2);
     background-color: var(--red);
 }
