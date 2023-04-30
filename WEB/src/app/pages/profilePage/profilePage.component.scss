@@ -1,0 +1,162 @@
+//grid divs
+:host {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr 3fr; 
+    overflow: hidden;
+}
+
+:host > .pictureName {
+    grid-column: 1;
+    grid-row: 1;
+    background-color: var(--accent-2);
+}
+
+:host > .rightColumn {
+    grid-column: 2;
+    grid-row: 2;
+    overflow: auto;
+}
+
+:host > .nav {
+    display: flex;
+    justify-content: end;
+    grid-column: 1;
+    grid-row: 2;
+    background-color: var(--accent-2);
+}
+
+//sidebar
+:host > .nav > ul {
+    padding-top: 45px;
+	width: 350px;
+	background-color: var(--accent-2);
+}
+
+:host > .nav > ul > li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: rgba(0, 0, 0, 0) 1px solid;
+    border-right: none;
+}
+
+:host > .nav > ul > li:hover {
+    border: 1px solid white;
+    border-right: none;
+    border-radius: 40px 0px 0px 40px;
+    transition: all 200ms ease-in-out;
+}
+
+
+:host > .nav > ul > li > a {
+	display: block;
+	position: relative;
+	padding: 22px 0 22px 60px;
+    text-decoration: none;
+    color: #FFF;
+}
+
+:host > .nav > ul > li.selected > a {
+    background-color: var(--accent-1);
+    border-radius: 40px 0px 0px 40px;
+}
+
+//display/disable div
+:host .disabled {
+    display: none;
+}
+  
+:host .active {
+    display: block;
+}
+
+//icon settings
+.icon {
+    left: -15px;
+    top: 2.5px;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+}
+
+#accountIcon {background-image: url("/assets/homeIcon.svg");}
+#pswdIcon {background-image: url("/assets/pswdIcon.svg");}
+#appearanceIcon {background-image: url("/assets/appearanceIcon.svg");}
+#premiumIcon {background-image: url("/assets/premiumIcon.svg");}
+:host > .rightColumn hr {
+    width: 83% ;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+:host > .rightColumn {
+    padding: 0px 20%;
+}
+:host > .rightColumn > form > * { margin-top: 5px; }
+:host > .rightColumn > form > input {
+    width: 80%;
+    margin-top: 20px;
+}
+
+:host > .rightColumn > form > .form-row > span {
+  margin-left: 15px;
+  font-size: 12px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+:host > .rightColumn .updateCancel {
+    padding: 3% 0;
+    display: flex;
+}
+
+:host .updateCancel > button {
+    width: 15%;
+    margin-right: 3%;
+}
+
+
+:host > .rightColumn > form > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 0;
+}
+:host > .rightColumn > form > .form-row > span:hover {text-decoration-line: underline;}
+:host form > span > * {margin-left: 15px;}
+
+:host > .rightColumn > form > button { width: 33%; }
+
+//appearance div
+.theme-container {
+    display: flex;
+    padding-top: 30px;
+    justify-content: space-between;
+    width: 80%;
+}
+  
+.theme {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 3px solid transparent;
+}
+  
+.theme:hover {
+    border: 3px solid white;
+}
+  
+.theme-color {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+}
