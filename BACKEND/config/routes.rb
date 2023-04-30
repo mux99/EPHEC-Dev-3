@@ -24,10 +24,10 @@ Rails.application.routes.draw do
   delete '/api/projects/:id/user', to: 'projects#rm_user'
 
   #events queries
-  get '/api/projects/:id/event', to: 'projects#event_show'
-  put '/api/projects/:id/event', to: 'projects#event_update'
+  get '/api/projects/:id/event/:eid', to: 'projects#event_show'
+  put '/api/projects/:id/event/:eid', to: 'projects#event_update'
   post '/api/projects/:id/event', to: 'projects#event_add'
-  delete '/api/projects/:id/event', to: 'projects#event_rm'
+  delete '/api/projects/:id/event/:eid', to: 'projects#event_rm'
 
   #timelines queries
   post '/api/projects/:id/timelines', to: 'timelines#new'
