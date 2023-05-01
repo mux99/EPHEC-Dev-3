@@ -125,7 +125,44 @@ class ProjectsController < ApplicationController
     	ProjetsUser.destroy_by(user_id: params[:u], project_id: params[:p])
     end
 
+    def event_show
+        project_events = Project.find(params[:id]).json["events"]
+        event = project_events.select {|e| e["ID"] == params[:eid]}
+        render json: event
+    end
+
+    def event_update
+        project = Project.find(params[:id])
+        project_json = project.json
+        project_events = project_json["events"]
+        index = 0
+        project_events.each_with_index do |e, i|
+            if e["ID"] == params[:eid]
+                index = i 
+                break
+            end
+        end
+        project_events[index] = params[:event]
+        project_json["events"] = project_events
+        project.update(json: project_json)
+    end
+
     def event_add
-        Project.find(params[:id])
+        project = Project.find(params[:id])
+        project_json = project.json
+        project_json["events"] += [params[:event]]
+        project.update(json: project_json)
+    end
+
+    def event_rm
+        project = Project.find(params[:id])
+        project_json = project.json
+        project_json["events"].each do |e|
+            if e["ID"] == params[:eid]
+                project_json["events"] -= e 
+                break
+            end
+        end
+        project.update(json: project_json)
     end
 end
