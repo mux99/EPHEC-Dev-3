@@ -133,30 +133,51 @@
 :host > .rightColumn > form > button { width: 33%; }
 
 //appearance div
-.theme-container {
+:host .theme-container {
     display: flex;
     padding-top: 30px;
     justify-content: space-between;
     width: 80%;
 }
-  
-.theme {
+
+:host .theme {
     position: relative;
     width: 100px;
     height: 100px;
     cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
-    border: 3px solid transparent;
+    border: rgba(0, 0, 0, 0) 2px solid;
 }
   
-.theme:hover {
-    border: 3px solid white;
+:host .theme:hover {
+    border: 2px solid white;
 }
   
-.theme-color {
+:host .theme-color {
     position: absolute;
     width: 50%;
     height: 100%;
     top: 0;
+}
+
+
+.disabletheme .theme {
+    cursor: not-allowed;
+    border-color: #666;
+}
+  
+.disabletheme .theme:hover {
+    border-color: #666;
+}
+
+.disabletheme > .updateCancel > button {
+    background-color: #272727;
+    color: #666;
+    cursor: not-allowed;
+    border-color: #666;
+  }
+  
+.disabletheme > .updateCancel > button:hover {
+    border-color: #666;
 }
