@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, ViewChild, createComponent } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Renderer2, ViewChild, createComponent } from '@angular/core';
 import {  ActivatedRoute} from '@angular/router';
 import { TimelineEvent } from './timelineEvent/timelineEvent.component';
 import { AuthService } from 'src/shared-services/auth.service';
@@ -22,15 +22,21 @@ export class TimelinePage {
     private envinjector: EnvironmentInjector,
     private applicationRef: ApplicationRef,
     private _Activatedroute: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private renderer: Renderer2
   ) {
     this.timelineScale = 1;
     this.d_year = 0;
     this.d_month = [];
   }
 
-  @ViewChild("events") events!: ElementRef;
-  @ViewChild("container") container!: ElementRef;
+  @ViewChild("periods") periods_ref!: ElementRef;
+  @ViewChild("events") events_ref!: ElementRef;
+
+  @ViewChild("container") container_ref!: ElementRef;
+  @ViewChild("container2") container2_ref!: ElementRef;
+
+  @ViewChild("altScroll") scroll_ref!: ElementRef;
 
   ngOnInit() {
     //fetch id from url
@@ -49,10 +55,14 @@ export class TimelinePage {
 
         //load events
         for (let i = 0; i < data.events; i++) {
+          //create host container
+          const tmp = this.renderer.createElement('div');
+          this.renderer.appendChild(this.events_ref.nativeElement, tmp);
+
           //create event instance
           let elem = createComponent(TimelineEvent, {
             environmentInjector: this.envinjector,
-            hostElement: this.events.nativeElement
+            hostElement: tmp
           })
           //set elem inputs
           elem.instance.data = data.events[i];
@@ -67,18 +77,26 @@ export class TimelinePage {
 
   @HostListener('wheel', ['$event'])
   onWheelScroll(event: WheelEvent) {
-    let old_width = parseInt(window.getComputedStyle(this.events.nativeElement).getPropertyValue("width"));
-    let mouse_pos = (event.clientX - parseInt(window.getComputedStyle(this.container.nativeElement).getPropertyValue("margin-left")));
-    let offset = (parseInt(this.container.nativeElement.scrollLeft)+mouse_pos);
-
-    this.timelineScale += (event.deltaY / 2000) * parseInt(window.getComputedStyle(this.container.nativeElement).getPropertyValue("width"));
-    console.log(this.timelineScale, this.container.nativeElement.offsetWidth);
-    if (this.timelineScale < this.container.nativeElement.offsetWidth) {
-      this.timelineScale = this.container.nativeElement.offsetWidth;
+    if (event.clientX == 0) {
+      return;
     }
-    this.events.nativeElement.style.width = `${this.timelineScale}px`;
-    let new_width = parseInt(window.getComputedStyle(this.events.nativeElement).getPropertyValue("width"));
-    this.container.nativeElement.scrollLeft = ((offset * new_width) / old_width) - mouse_pos;
+    let old_width = parseInt(window.getComputedStyle(this.periods_ref.nativeElement).getPropertyValue("width"));
+    let mouse_pos = (event.clientX - parseInt(window.getComputedStyle(this.container_ref.nativeElement).getPropertyValue("margin-left")));
+    let offset = (parseInt(this.container_ref.nativeElement.scrollLeft)+mouse_pos);
+
+    this.timelineScale += (event.deltaY / 2000) * parseInt(window.getComputedStyle(this.container_ref.nativeElement).getPropertyValue("width"));
+
+    //prevent underzooming
+    if (this.timelineScale < this.container_ref.nativeElement.offsetWidth) {
+      this.timelineScale = this.container_ref.nativeElement.offsetWidth;
+    }
+    this.periods_ref.nativeElement.style.width = `${this.timelineScale}px`;
+    this.events_ref.nativeElement.style.width = `${this.timelineScale}px`;
+
+    let new_width = parseInt(window.getComputedStyle(this.periods_ref.nativeElement).getPropertyValue("width"));
+    let tmp = ((offset * new_width) / old_width) - mouse_pos;
+    this.container_ref.nativeElement.scrollLeft = tmp;
+    this.container2_ref.nativeElement.scrollLeft = tmp;
   }
 
   datetodays(date: string) {
@@ -88,5 +106,12 @@ export class TimelinePage {
       days += this.d_month[i];
     }
     return days;
+  }
+
+  toggleOptions() {}
+
+  addEvent() {
+    let obs = this.http.post(`/api/projects/${this.project_id}/events`, this.auth.httpHeader);
+    obs.subscribe((data: any) => {});
   }
 }

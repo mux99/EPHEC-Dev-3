@@ -124,4 +124,8 @@ class ProjectsController < ApplicationController
     def rm_user
     	ProjetsUser.destroy_by(user_id: params[:u], project_id: params[:p])
     end
+
+    def event_add
+        Project.find(params[:id])
+    end
 end

@@ -2,41 +2,54 @@
   height: 100vh;
   width: 100vw;
   --timeline-height: 25vh;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
-}
-  
-#container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.container::-webkit-scrollbar {display: none;} //chrome, safari
+.container {
   width: 95vw;
-  margin: auto;
-  overflow-x: scroll;
-  grid-row: 2 / 3;
-}
-  
-#timelineBody {
-  align-self: center;
-  margin: auto;
-  background-image: url("https://appcodelabs.com/wp-content/uploads/2017/12/horiz-gradient-rainbow-1.png");
-  background-size: cover;
-  height: var(--timeline-height);
-  display: flex;
-  overflow-y: visible;
-  flex: 1 0 auto;
-  grid-column: 1 / -1;
-  grid-row: 1 / 2;
-}
-  
-#settingsButton {
-  justify-self: start;
-  grid-row: 3 / 3;
-  grid-column: 1 / 1;
-  margin: 10px;
-  margin-left: 30px;
-  margin-bottom: 15px;
+  height: fit-content;
+  overflow: scroll;
+  scrollbar-width: 0;
+  border-radius: 25px;
+  scrollbar-width: none; //firefox
 }
 
-#modifyEvent {
-  display: none;
+#events {width: 95vw;}
+#timelineBody {
+  height: var(--timeline-height);
+
+  //to be replaced
+  background-image: url("https://appcodelabs.com/wp-content/uploads/2017/12/horiz-gradient-rainbow-1.png");
+  background-size: cover;
+}
+
+#settings {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#settings .bubble {
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 20px 0 20px 20px;
+}
+#edit {background-image: url("/assets/optionIcon.svg");}
+#addEvent {background-image: url("/assets/plusIcon.svg");}
+#optionPanel input[type=search] {width: 100%;}
+#optionPanel select {width: fit-content;}
+#optionPanel {
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--buble-size) + 40px);
+  background-color: var(--accent-2);
+  width: 25vw;
+  padding: 20px;
+  border-radius: 0 25px 25px 0;
+  display: flex;
+  flex-direction: column;
 }

@@ -4,7 +4,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
   selector: 'timeline-event',
   styleUrls: ['./timelineEvent.component.scss'],
 
-  template: '<div class="event"><div class="eventIcon"></div><div class="eventBar"></div><div #text class="eventText"></div></div>'
+  template: '<div></div><p>text</p>'
 })
 
 export class TimelineEvent {

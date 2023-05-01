@@ -21,7 +21,8 @@
 
 
     //dimentions
-    --topbar-height: 100px
+    --topbar-height: 100px;
+    --buble-size: 60px;
 }
 
 html {
@@ -55,8 +56,8 @@ body {
 }
 
 .bubble {
-    height: 60px;
-    width: 60px;
+    height: var(--buble-size);
+    width: var(--buble-size);
     border-radius: 50%;
     overflow: hidden;
     border: none;
