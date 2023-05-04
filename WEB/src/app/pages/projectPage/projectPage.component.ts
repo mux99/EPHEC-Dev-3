@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
@@ -97,7 +97,14 @@ export class ProjectPage {
   }
 
   clickPublic() {
-    let obs = this.http.put(`/api/projects/${this.project_id}/?v=${event}`, this.auth.httpHeader);
+    let params = new HttpParams()
+    .set("v", this.sliderButton.nativeElement.checked)
+    let head = new HttpHeaders()
+    .append("Authorization", this.auth.httpHeader["headers"]["Authorization"])
+    let obs = this.http.put(`/api/projects/${this.project_id}`,{} , {
+      headers: head,
+      params: params
+    });
     obs.subscribe();
   }
 
