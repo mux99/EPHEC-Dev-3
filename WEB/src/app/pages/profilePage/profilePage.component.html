@@ -1,84 +1,61 @@
-<div class="pictureName">
-</div>
-<div class="nav">
-    <ul>
-        <li id="accountLink">
-            <a (click)="showSection('account-section')"><i class="icon" id="accountIcon"></i><span>Account</span></a>
-        </li>
-        <li id="passwordLink">
-            <a (click)="showSection('password-section')"><i class="icon" id="pswdIcon"></i><span>Password</span></a>
-        </li>
-        <li id="appearanceLink">
-            <a (click)="showSection('appearance-section')"><i class="icon" id="appearanceIcon"></i><span>Appearance</span></a>
-        </li>
-        <li id="premiumLink">
-            <a (click)="showSection('premium-section')"><i class="icon" id="premiumIcon"></i><span>Premium</span></a>
-        </li>
-    </ul>
-</div>
+<ul #nav>
+  <li id="accountLink" (click)="showSection('account-section')">Account</li>
+  <li id="passwordLink" (click)="showSection('password-section')">Password</li>
+  <li id="appearanceLink" (click)="showSection('appearance-section')">Appearance</li>
+  <li id="premiumLink" (click)="showSection('premium-section')">Premium</li>
+</ul>
+
+
 <div id="account-section" class="active rightColumn">
   <h2>Account settings</h2>
-  <form #userprofile="ngForm" ngNativeValidate>
-    <input type="text" name="text" value="" placeholder="Name" disabled class="accountInput">
-    <input type="email" name="email" value="" placeholder="Email" disabled class="accountInput">
-    <div class="form-row">
-      <span (click)="enableInputs()">modify</span><span (click)="disableInputs()">register</span>
-    </div>    
-    <span><input type="checkbox" checked="checked" id="rememberMeCheckbox"><label for="rememberMeCheckbox">keep
-        me</label><span>accept cookies ?</span></span>
-    <div class="form-row updateCancel">
-        <button type="submit">update</button>
-        <button type="submit">cancel</button>
-    </div>
-    <hr>
-    <button id="deleteAccount">delete your account</button>
-  </form>
+  <input type="text" name="text" placeholder="Name">
+  <input type="email" name="email" placeholder="Email">
+  <span class="underline"><button type="submit">update</button><button type="submit">cancel</button></span>
+  <button id="deleteAccount">delete your account</button>
 </div>
+
+
 <div id="password-section" class="disabled rightColumn">
   <h2>Password settings</h2>
-  <form #passwordForm="ngForm" ngNativeValidate>
     <input type="password" name="currentPassword" placeholder="Current password" required>
     <input type="password" name="newPassword" placeholder="New password" required>
     <input type="password" name="confirmPassword" placeholder="Confirm new password" required>
-    <div class="form-row updateCancel">
-      <button type="submit">update</button>
-      <button type="submit">cancel</button>
-    </div>
-  </form>
+    <span><button type="submit">update</button><button>cancel</button></span>
 </div>
-<div id="appearance-section" class="disabled rightColumn disabletheme">
+
+
+<div id="appearance-section" class="disabled rightColumn">
   <h2>Appearance settings</h2>
   <p>Choose your preferred theme:</p>
-  <div class="disabletheme theme-container">
-    <div class="theme" style="background-color: #5f2a87; color: #17121f;">
+  <div id="theme-container">
+    <div class="theme" (click)="themeSelect('1')">
       <div class="theme-color" style="background: #5f2a87;"></div>
       <div class="theme-color" style="background: #17121f;"></div>
     </div>
-    <div class="theme" style="background-color: #bc3855; color: #010b1a;">
+    <div class="theme" (click)="themeSelect('2')">
       <div class="theme-color" style="background: #bc3855;"></div>
       <div class="theme-color" style="background: #010b1a;"></div>
     </div>
-    <div class="theme" style="background-color: #00b387; color: #161b22;">
+    <div class="theme" (click)="themeSelect('3')">
       <div class="theme-color" style="background: #00b387;"></div>
       <div class="theme-color" style="background: #161b22;"></div>
     </div>
-    <div class="theme" style="background-color: #12b8c9; color: #f6f6f6;">
+    <div class="theme" (click)="themeSelect('4')">
       <div class="theme-color" style="background: #12b8c9;"></div>
       <div class="theme-color" style="background: #f6f6f6;"></div>
     </div>
-    <div class="theme" style="background-color: #5ecd88; color: #ffffff;">
+    <div class="theme" (click)="themeSelect('5')">
       <div class="theme-color" style="background: #5ecd88;"></div>
       <div class="theme-color" style="background: #ffffff;"></div>
     </div>
   </div>
-  <div class="form-row updateCancel">
-    <button type="submit">update</button>
-    <button type="submit">cancel</button>
-  </div>
-  <hr>
+  <span class="underline"><button>update</button><button>cancel</button></span>
   <p>Become a premium member to change appearance</p>
   <button type="submit">Upgrade to Premium</button>
 </div>
+
+
+
 <div id="premium-section" class="disabled rightColumn">
   <h2>Premium</h2>
   <p>Become a premium member to access exclusive content and features!</p>

@@ -1,36 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
+import { ThemeService } from 'src/shared-services/theme.service';
 
 @Component({
   selector: 'profile-page',
   templateUrl: './profilePage.component.html',
   styleUrls: ['./profilePage.component.scss']
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
 
   constructor(
     private router: Router,
-    private auth: AuthService
-  ) {}
-
-
-  ngOnInit() {
-    const navLinks = document.querySelectorAll('.nav li');
-    
-    const accountLink = document.querySelector('.nav #accountLink') as HTMLAnchorElement;
-    accountLink.classList.add('selected');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (event) => {
-        navLinks.forEach(link => {
-          link.classList.remove('selected');
-        });
-        const li = event.currentTarget as HTMLLIElement;
-        li.classList.add('selected');
-      });
-    });
-  }
-  
+    private auth: AuthService,
+    private theme: ThemeService
+  ) {}  
   activeSection = 'account-section';
   
   showSection(sectionId: string) {
@@ -47,18 +31,9 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  disableInputs() {
-    const inputs = document.querySelectorAll('.accountInput') as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => {
-      input.disabled = true;
-    });
-  }
-  
-  enableInputs() {
-    const inputs = document.querySelectorAll('.accountInput') as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => {
-      input.disabled = false;
-      input.focus();
-    });
+  themeSelect(t: string) {
+    if (t == "1") this.theme.setTheme(this.theme.theme_1);
+    if (t == "2") this.theme.setTheme(this.theme.theme_2);
+    if (t == "3") this.theme.setTheme(this.theme.theme_3);
   }
 }
