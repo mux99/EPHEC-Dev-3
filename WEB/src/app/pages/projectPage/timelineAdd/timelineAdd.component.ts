@@ -33,7 +33,7 @@ export class TimelineAdd {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/`, {}, this.auth.httpHeader );
     obs.subscribe(
       (obs_data: any) => {
-        this.router.navigate([`/t/${obs_data.id}`])
+        this.router.navigate([`/p/${this.project_id}/t/${obs_data.id}`])
       }
     )
   }
