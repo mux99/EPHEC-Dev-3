@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, Subject } from 'rxjs';
+import { ThemeService } from './theme.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
 
     constructor (
         private http: HttpClient,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private theme: ThemeService
         ) {}
 
     login(email: string, password: string): Observable<any> {
@@ -48,6 +50,8 @@ export class AuthService {
             obs.subscribe(
                 (obs_data: any) => {
                     this.triggerUserIcon$.next(obs_data.email);
+                    console.log(obs_data.theme);
+                    this.theme.setTheme(obs_data.theme);
                 }
             );
         }

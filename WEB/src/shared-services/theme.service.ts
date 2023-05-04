@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class ThemeService {
-    theme_1 = `{
+    theme_1 = JSON.parse(`{
         "background-1": "#413b47",
         "background-2": "#3d3a41",
         "background-3": "#3d3a41",
@@ -14,8 +14,8 @@ export class ThemeService {
         "accent-2-hover": "#",
         "text-color": "#f7f7f7",
         "text-color-2": "808080"
-      }`;
-    theme_2 = `{
+      }`);
+    theme_2 = JSON.parse(`{
         "background-1": "#413b47",
         "background-2": "#3d3a41",
         "background-3": "#3d3a41",
@@ -25,8 +25,8 @@ export class ThemeService {
         "accent-2-hover": "#010b1a",
         "text-color": "#f7f7f7",
         "text-color-2": "808080"
-      }`;
-    theme_3 = `{
+      }`);
+    theme_3 = JSON.parse(`{
         "background-1": "#413b47",
         "background-2": "#3d3a41",
         "background-3": "#3d3a41",
@@ -36,10 +36,9 @@ export class ThemeService {
         "accent-2-hover": "#",
         "text-color": "#f7f7f7",
         "text-color-2": "808080"
-      }`;
+      }`);
 
-    setTheme(j_theme: string) {
-        let theme = JSON.parse(j_theme);
+    setTheme(theme: any) {
         for(let key in theme){
           document.documentElement.style.setProperty(`--${key}`, theme[key]);
         }

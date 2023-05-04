@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
@@ -11,7 +12,7 @@ import { ThemeService } from 'src/shared-services/theme.service';
 export class ProfilePage {
 
   constructor(
-    private router: Router,
+    private http: HttpClient,
     private auth: AuthService,
     private theme: ThemeService
   ) {}  
@@ -30,10 +31,13 @@ export class ProfilePage {
       }
     }
   }
-
   themeSelect(t: string) {
-    if (t == "1") this.theme.setTheme(this.theme.theme_1);
-    if (t == "2") this.theme.setTheme(this.theme.theme_2);
-    if (t == "3") this.theme.setTheme(this.theme.theme_3);
+    let th;
+    if (t == "1") th = this.theme.theme_1;
+    if (t == "2") th = this.theme.theme_2;
+    if (t == "3") th = this.theme.theme_3;
+    this.theme.setTheme(th);
+    let obs = this.http.put("/api/me",{} ,{ "params": {"t": JSON.stringify(th)}, "headers": this.auth.httpHeader.headers});
+    obs.subscribe()
   }
 }
