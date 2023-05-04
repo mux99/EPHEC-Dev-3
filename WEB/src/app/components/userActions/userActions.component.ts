@@ -58,7 +58,7 @@ export class UserActions {
     let icon = document.getElementById("userIcon");
     let connect = document.getElementById("userConnect");
     icon?.classList.remove("hidden");
-    if (icon != null) icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}")`;
+    if (icon != null) icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}?d=retro")`;
     connect?.classList.add("hidden");
   }
 
