@@ -2,7 +2,11 @@ class ProjectsController < ApplicationController
     include UsersHelper
 
     def show_pub
-        public_projects = Project.joins(:images)
+        if params[:s].present?
+            public_projects = Project.where(visibility: false).where("name LIKE ? OR description LIKE ?", "%#{params[:s]}%", "%#{params[:s]}%")
+        else
+            public_projects = Project.where(visibility: false)
+        end
         res = {}
         public_projects.each do |p|
             tmp = Image.joins(:project).where(project_id: p.id, cover: true).first

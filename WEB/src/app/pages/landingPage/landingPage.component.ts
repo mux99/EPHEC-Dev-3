@@ -23,6 +23,9 @@ export class LandingPage {
   @ViewChild("addProject") add_ref!: ElementRef;
 
   load(querry: string, is_auth: boolean) {
+    while (this.projects.nativeElement.children.length > 1) {
+      this.renderer.removeChild(this.projects.nativeElement, this.projects.nativeElement.firstChild);
+    }
     let obs: any;
     if (is_auth) {
       //load only personal projects
@@ -66,7 +69,25 @@ export class LandingPage {
     if (this.auth.isUserLoggedIn) {
       this.load('/api/user_projects',true)
     } else {
-      this.load('/api/rojects',false)
+      this.load('/api/projects',false)
+    }
+  }
+  
+  onSearchSubmit(event: any, searchValue: string) {
+    if (this.auth.isUserLoggedIn) {
+      console.log("to do")
+    }
+    else {
+      if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
+        let i = searchValue;
+        this.load(`/api/projects/?s=${i}`,false);
+      }
+    }
+  }
+
+  onSearchInputChange(event: any) {
+    if (event.target.value.trim() === '') {
+      this.ngAfterViewInit();
     }
   }
 }

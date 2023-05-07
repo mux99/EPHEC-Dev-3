@@ -51,6 +51,7 @@ export class UserActions {
   userDisconnectClick() {
     this.auth.logout();
     this.router.navigate(['/']);
+    window.location.reload();
     this.disconnect();
   }
 
