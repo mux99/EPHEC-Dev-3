@@ -3,6 +3,7 @@ import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'project-page',
@@ -65,7 +66,7 @@ export class ProjectPage {
         }
       );
     }
-    if (action == 'edit') {
+    else if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");
       this.title_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
       this.description_ref.nativeElement.setAttribute("contenteditable","true");
@@ -75,15 +76,15 @@ export class ProjectPage {
       this.description_holder = this.markdownDesc;
       this.text_holder = this.markdownText;
     }
+    else if (action == 'cancel') {
+      this.title_ref.nativeElement.innerHTML = this.title_holder;
+      this.description_ref.nativeElement.innerHTM = this.description_holder;
+      this.text_ref.nativeElement.innerHTM = this.text_holder;
+    }
     else {
       this.title_ref.nativeElement.setAttribute("contenteditable","false");
       this.description_ref.nativeElement.setAttribute("contenteditable","false");
       this.text_ref.nativeElement.setAttribute("contenteditable","false");
-    }
-    if (action == 'cancel') {
-      this.title_ref.nativeElement.innerHTML = this.title_holder;
-      this.description_ref.nativeElement.innerHTM = this.description_holder;
-      this.text_ref.nativeElement.innerHTM = this.text_holder;
     }
   }
 
@@ -143,5 +144,21 @@ export class ProjectPage {
         }
       }
     )
+    let proj_query = this.http.get(`/api/projects/${this.project_id}/users`)
+    let logged_user = this.http.get("/api/me", this.auth.httpHeader)
+    forkJoin([proj_query, logged_user]).subscribe(results => {
+      if(!check_members(results[0], results[1])){
+        document.getElementById("switch")?.remove()
+        document.querySelector('label[for="switch"]')?.remove()
+        document.getElementById("edit")?.remove()
+        document.getElementById("del")?.remove()
+      }
+    })
   }
+}
+
+function check_members(project_members: any, logged_user: any): Boolean {
+  return project_members.members.indexOf(logged_user) != -1 ||
+  logged_user.id == project_members.owner ||
+  logged_user.error != undefined
 }

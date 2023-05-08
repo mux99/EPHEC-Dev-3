@@ -3,9 +3,9 @@ class ProjectsController < ApplicationController
 
     def show_pub
         if params[:s].present?
-            public_projects = Project.where(visibility: false).where("name LIKE ? OR description LIKE ?", "%#{params[:s]}%", "%#{params[:s]}%")
+            public_projects = Project.where(visibility: true).where("name LIKE ? OR description LIKE ?", "%#{params[:s]}%", "%#{params[:s]}%")
         else
-            public_projects = Project.where(visibility: false)
+            public_projects = Project.where(visibility: true)
         end
         res = {}
         public_projects.each do |p|
@@ -168,5 +168,11 @@ class ProjectsController < ApplicationController
             end
         end
         project.update(json: project_json)
+    end
+
+    def members
+        project = Project.find(params[:id])
+        members = ProjectsUser.where(project_id: project.id)
+        render json: {owner: project.owner, members: members.map {|x| x.id}}
     end
 end

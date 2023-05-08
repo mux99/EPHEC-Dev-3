@@ -4,8 +4,8 @@
         <span><span #owner id="owner"></span><span #tag id="tag"></span></span>
     </div>
     <div id="options">
-        <button #export (click)="exportProject()">Export Project</button>
-        <button (click)="clickDelete()">delete project</button>
+        <button #export id="export" (click)="exportProject()">Export Project</button>
+        <button #del id="del" (click)="clickDelete()">delete project</button>
         <input type="checkbox" #visibilityToggle (click)="clickPublic()" id="switch"><label for="switch"></label>
     </div>
 </div>

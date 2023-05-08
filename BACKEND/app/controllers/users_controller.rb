@@ -45,7 +45,7 @@ class UsersController < ApplicationController
         if session_token.nil? || user.nil?
             render json: {:error => ERR_USER_NOT_EXIST}
         else
-            render json: {:email => user.email, :name => user.name, :tag => user.tag, :creation_date => user.created_at, :theme => user.json["theme"]}
+            render json: {:email => user.email, :name => user.name, :tag => user.tag, :creation_date => user.created_at, :theme => user.json["theme"], :id => user.id}
         end
     end
 

@@ -24,10 +24,8 @@ export class SignUpPage {
       obs=this.http.post(`/api/users?n=${data.username}&e=${data.email}&p=${data.password}`, {});
       obs.subscribe(
         (sub_data: any) => {
-          if (sub_data.check) {
             this.uaction.connect(data.email);
             this.router.navigate(["/"]);
-          }
         }
       )
     }

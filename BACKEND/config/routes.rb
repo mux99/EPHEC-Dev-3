@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   put '/api/projects/:id/user', to: 'projects#add_user'
   delete '/api/projects/:id/user', to: 'projects#rm_user'
+  get '/api/projects/:id/users', to: 'projects#members'
 
   #events queries
   get '/api/projects/:id/event/:eid', to: 'projects#event_show'
