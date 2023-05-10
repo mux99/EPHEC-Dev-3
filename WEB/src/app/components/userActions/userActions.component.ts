@@ -53,8 +53,10 @@ export class UserActions {
     this.disconnect();
     setTimeout(() => {
       this.router.navigate(["/"]);
+    }, 10);
+    setTimeout(() => {
       window.location.reload();
-    }, 500);
+    }, 10);
   }
 
   connect(email: string) {
