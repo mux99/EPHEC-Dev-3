@@ -20,6 +20,7 @@ import { ProjectTimeline } from './pages/projectPage/projectTimeline/projectTime
 import { CookiePopup } from './components/cookiePopup/cookiePopup.component';
 import { EditButton } from './components/editButton/editButton.component';
 import { EventPopup } from './components/eventPopup/eventPopup.component';
+import { PasswordPopup } from './components/passwordPopup/passwordPopup.component';
 import { EditTimeline } from './components/editTimeline/editTimeline.component';
 import { ProjectAdd } from './pages/landingPage/projectAdd/projectAdd.component';
 import { TimelineAdd } from './pages/projectPage/timelineAdd/timelineAdd.component';
@@ -39,7 +40,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,
     SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,EditButton,ProjectAdd,EventPopup,
-    EditTimeline,TimelineAdd,ProfilePage],
+    EditTimeline,TimelineAdd,ProfilePage, PasswordPopup],
   imports: [
     BrowserModule,
     HttpClientModule,
