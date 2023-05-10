@@ -38,7 +38,7 @@ export class ProjectPage {
   @ViewChild('text') text_ref!: ElementRef;
   @ViewChild('timelines') timelines_ref!: ElementRef;
   @ViewChild('events') events_ref!: ElementRef;
-  @ViewChild('visibilityToggle') sliderButton!: ElementRef;
+  @ViewChild('visibilityToggle') visToggle!: ElementRef;
 
   exportProject(){
     let proj = this.http.get(`/api/projects_dl/${this.project_id}`);
@@ -98,12 +98,11 @@ export class ProjectPage {
   }
 
   clickPublic() {
+    console.log("test");
     let params = new HttpParams()
-    .set("v", this.sliderButton.nativeElement.checked)
-    let head = new HttpHeaders()
-    .append("Authorization", this.auth.httpHeader["headers"]["Authorization"])
+    .set("v", this.visToggle.nativeElement.checked)
     let obs = this.http.put(`/api/projects/${this.project_id}`,{} , {
-      headers: head,
+      headers: this.auth.httpHeader["headers"],
       params: params
     });
     obs.subscribe();
@@ -122,12 +121,13 @@ export class ProjectPage {
     obs.subscribe(
       (obs_data: any) => {
         //load project data
+        console.log(obs_data);
         this.title_ref.nativeElement.innerHTML = obs_data.name;
         this.owner_ref.nativeElement.innerHTML = obs_data.owner;
         this.tag_ref.nativeElement.innerHTML = "#"+obs_data.tag;
         this.description_ref.nativeElement.innerHTML = obs_data.description;
         this.text_ref.nativeElement.innerHTML = obs_data.text;
-        console.log(obs_data.timelines);
+        this.visToggle.nativeElement.checked = obs_data.visible;
         //load timelines instances
         for (let i = 0; i < obs_data.timelines.length; i++) {
           const tmp = this.renderer.createElement('div');

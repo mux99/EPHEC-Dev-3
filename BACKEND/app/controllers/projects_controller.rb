@@ -78,6 +78,7 @@ class ProjectsController < ApplicationController
             :description => project.description,
             :owner => owner.name,
             :tag => owner.tag,
+            :visible => project.visibility,
             :image => img,
             :text => project_json[:text],
             :timelines => timelines_ids
