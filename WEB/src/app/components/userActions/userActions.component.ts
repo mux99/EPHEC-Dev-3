@@ -50,9 +50,11 @@ export class UserActions {
 
   userDisconnectClick() {
     this.auth.logout();
-    this.router.navigate(['/']);
-    window.location.reload();
     this.disconnect();
+    setTimeout(() => {
+      this.router.navigate(["/"]);
+      window.location.reload();
+    }, 500);
   }
 
   connect(email: string) {
