@@ -23,11 +23,14 @@ export class ProjectTimeline {
   @ViewChild("description") description_ref!: ElementRef;
 
   ngAfterViewInit() {
-    let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.isUserLoggedIn ? this.auth.httpHeader : null);
-    obs.subscribe((obs_data: any) => {
-      this.name_ref.nativeElement.innerHTML = obs_data.name;
-      this.description_ref.nativeElement.innerHTML = obs_data.description;
-    })
+    if(this.project_id == "import"){}
+    else{
+      let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.isUserLoggedIn ? this.auth.httpHeader : null);
+      obs.subscribe((obs_data: any) => {
+        this.name_ref.nativeElement.innerHTML = obs_data.name;
+        this.description_ref.nativeElement.innerHTML = obs_data.description;
+      })
+    }
   }
 
   click() {

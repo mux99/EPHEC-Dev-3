@@ -27,16 +27,17 @@ class ProjectsController < ApplicationController
         project = Project.find(params[:id])
         owner = User.find(project.owner)
         timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
-        render json: {timelines: timelines.map{|x| {json: x.json, 
-            start: x.start, 
-            end: x.end, 
+        render json: {timelines: timelines.map{|x| {json: x.json,
+            start: x.start,
+            end: x.end,
             desc: x.description}},
             name: project.name,
             description: project.description,
+            text: project.json["text"],
             owner: owner.name,
-            owner_tag: owner.tag}
+            tag: owner.tag}
     end
-    
+
     def new
         session_token = request.headers['Authorization']&.split(' ')&.last
         owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
@@ -72,7 +73,6 @@ class ProjectsController < ApplicationController
         timelines.each do |t|
             timelines_ids += [t.timeline_id]
         end
-        project_json = JSON.parse(project.json)
         res = {
             :name => project.name,
             :description => project.description,
@@ -80,7 +80,7 @@ class ProjectsController < ApplicationController
             :tag => owner.tag,
             :visible => project.visibility,
             :image => img,
-            :text => project_json[:text],
+            :text => project.json["text"],
             :timelines => timelines_ids
         }
         render json: res
@@ -96,9 +96,9 @@ class ProjectsController < ApplicationController
             project.update(name: params[:n]) unless params[:n].nil?
             project.update(description: params[:d]) unless params[:d].nil?
             project.update(visibility: params[:v]) unless params[:v].nil?
-            tmp = JSON.parse(project.json)
+            tmp = project.json
             tmp["text"] = params[:t] unless params[:t].nil?
-            project.update(json: JSON.generate(tmp))
+            project.update(json: tmp)
         end
     end
 
@@ -143,7 +143,7 @@ class ProjectsController < ApplicationController
         index = 0
         project_events.each_with_index do |e, i|
             if e["ID"] == params[:eid]
-                index = i 
+                index = i
                 break
             end
         end
@@ -164,7 +164,7 @@ class ProjectsController < ApplicationController
         project_json = project.json
         project_json["events"].each do |e|
             if e["ID"] == params[:eid]
-                project_json["events"] -= e 
+                project_json["events"] -= e
                 break
             end
         end

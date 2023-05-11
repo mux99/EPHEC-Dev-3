@@ -7,7 +7,8 @@ import { AuthService } from 'src/shared-services/auth.service';
   selector: 'timeline-add',
   styleUrls: ['./timelineAdd.component.scss'],
   host: {
-    "class": "placeholder"
+    "class": "placeholder",
+    "id": "timelineAdd"
   },
   template: '<div><span>add timeline</span><button class="add_button" (click)="onClick()"></button><div>'
 })

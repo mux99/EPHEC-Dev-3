@@ -21,6 +21,7 @@ import { CookiePopup } from './components/cookiePopup/cookiePopup.component';
 import { EditButton } from './components/editButton/editButton.component';
 import { EventPopup } from './pages/timelinePage/eventPopup/eventPopup.component';
 import { ProjectAdd } from './pages/landingPage/projectAdd/projectAdd.component';
+import { ProjectImport } from './pages/landingPage/projectImport/projectImport.component'
 import { TimelineAdd } from './pages/projectPage/timelineAdd/timelineAdd.component';
 import { ProfilePage } from './pages/profilePage/profilePage.component';
 
@@ -31,13 +32,14 @@ const appRoutes: Routes = [
   { path: 'sign-in', component: SignInPage},
   { path: '', component: LandingPage},
   { path: 'p/:id', component: ProjectPage},
+  {path: 'p/:id/:data', component: ProjectPage},
   { path: 'p/:pid/t/:tid', component: TimelinePage},
   { path: 'profile', component: ProfilePage}
 ];
 
 @NgModule({
   declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,
-    SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,EditButton,ProjectAdd,EventPopup,TimelineAdd,ProfilePage],
+    SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,EditButton,ProjectAdd,EventPopup,TimelineAdd,ProfilePage,ProjectImport],
   imports: [
     BrowserModule,
     HttpClientModule,

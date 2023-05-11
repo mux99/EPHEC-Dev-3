@@ -46,33 +46,36 @@ export class TimelinePage {
     });
     
     //querry timeline data from api
-    let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.httpHeader);
-    obs.subscribe(
-      (data: any) => {
-        //load timeline data
-        this.d_year = data.d_year;
-        this.d_month = data.d_month;
+    if(this.project_id == "import"){}
+    else {
+      let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.httpHeader);
+      obs.subscribe(
+        (data: any) => {
+          //load timeline data
+          this.d_year = data.d_year;
+          this.d_month = data.d_month;
 
-        //load events
-        for (let i = 0; i < data.events; i++) {
-          //create host container
-          const tmp = this.renderer.createElement('div');
-          this.renderer.appendChild(this.events_ref.nativeElement, tmp);
+          //load events
+          for (let i = 0; i < data.events; i++) {
+            //create host container
+            const tmp = this.renderer.createElement('div');
+            this.renderer.appendChild(this.events_ref.nativeElement, tmp);
 
-          //create event instance
-          let elem = createComponent(TimelineEvent, {
-            environmentInjector: this.envinjector,
-            hostElement: tmp
-          })
-          //set elem inputs
-          elem.instance.data = data.events[i];
-          elem.instance.pos = (this.datetodays(data.events[i].date)/(this.datetodays(data.stop)-this.datetodays(data.start)))*100
+            //create event instance
+            let elem = createComponent(TimelineEvent, {
+              environmentInjector: this.envinjector,
+              hostElement: tmp
+            })
+            //set elem inputs
+            elem.instance.data = data.events[i];
+            elem.instance.pos = (this.datetodays(data.events[i].date)/(this.datetodays(data.stop)-this.datetodays(data.start)))*100
 
-          //add elem to view
-          this.applicationRef.attachView(elem.hostView);
+            //add elem to view
+            this.applicationRef.attachView(elem.hostView);
+          }
         }
-      }
     )
+    }
   }
 
   @HostListener('wheel', ['$event'])

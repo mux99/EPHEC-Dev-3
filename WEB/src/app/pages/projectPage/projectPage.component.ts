@@ -3,6 +3,7 @@ import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
+import { TimelineAdd } from './timelineAdd/timelineAdd.component';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -13,6 +14,7 @@ import { forkJoin } from 'rxjs';
 
 export class ProjectPage {
   project_id: any;
+  imported_data: string = "";
 
   title_holder: string | undefined;
   description_holder: string | undefined;
@@ -66,7 +68,7 @@ export class ProjectPage {
         }
       );
     }
-    else if (action == 'edit') {
+    if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");
       this.title_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
       this.description_ref.nativeElement.setAttribute("contenteditable","true");
@@ -76,15 +78,15 @@ export class ProjectPage {
       this.description_holder = this.markdownDesc;
       this.text_holder = this.markdownText;
     }
-    else if (action == 'cancel') {
-      this.title_ref.nativeElement.innerHTML = this.title_holder;
-      this.description_ref.nativeElement.innerHTM = this.description_holder;
-      this.text_ref.nativeElement.innerHTM = this.text_holder;
-    }
     else {
       this.title_ref.nativeElement.setAttribute("contenteditable","false");
       this.description_ref.nativeElement.setAttribute("contenteditable","false");
       this.text_ref.nativeElement.setAttribute("contenteditable","false");
+    }
+    if (action == 'cancel') {
+      this.title_ref.nativeElement.innerHTML = this.title_holder;
+      this.description_ref.nativeElement.innerHTM = this.description_holder;
+      this.text_ref.nativeElement.innerHTM = this.text_holder;
     }
   }
 
@@ -108,57 +110,74 @@ export class ProjectPage {
     obs.subscribe();
   }
 
+  render(json: any){
+    this.title_ref.nativeElement.innerHTML = json.name;
+    this.owner_ref.nativeElement.innerHTML = json.owner;
+    this.tag_ref.nativeElement.innerHTML = "#"+json.tag;
+    this.description_ref.nativeElement.innerHTML = json.description;
+    this.text_ref.nativeElement.innerHTML = json.text;
+    this.visToggle.nativeElement.checked = json.visible;
+    //load timelines instances
+    for (let i = 0; i < json.timelines.length; i++) {
+      const tmp = this.renderer.createElement('div');
+      this.renderer.appendChild(this.timelines_ref.nativeElement, tmp);
+      let elem = createComponent(ProjectTimeline, {
+        environmentInjector: this.envinjector,
+        hostElement: tmp
+      })
+      elem.instance.timeline_id = json.timelines[i];
+      elem.instance.project_id = this.project_id;
+      this.applicationRef.attachView(elem.hostView);
+    }
+  }
+
   ngOnInit() {
     //fetch id from url
-    this._Activatedroute.paramMap.subscribe(paramMap => { 
-      this.project_id = paramMap.get('id'); 
+    this._Activatedroute.paramMap.subscribe(paramMap => {
+      this.project_id = paramMap.get('id');
+      this.imported_data = paramMap.get('data') as string
     });
   }
 
   ngAfterViewInit() {
-    //querry project data from api
-    let obs = this.http.get(`/api/projects/${this.project_id}`, this.auth.httpHeader);
-    obs.subscribe(
-      (obs_data: any) => {
-        //load project data
-        console.log(obs_data);
-        this.title_ref.nativeElement.innerHTML = obs_data.name;
-        this.owner_ref.nativeElement.innerHTML = obs_data.owner;
-        this.tag_ref.nativeElement.innerHTML = "#"+obs_data.tag;
-        this.description_ref.nativeElement.innerHTML = obs_data.description;
-        this.text_ref.nativeElement.innerHTML = obs_data.text;
-        this.visToggle.nativeElement.checked = obs_data.visible;
-        //load timelines instances
-        for (let i = 0; i < obs_data.timelines.length; i++) {
-          const tmp = this.renderer.createElement('div');
-          this.renderer.appendChild(this.timelines_ref.nativeElement, tmp);
-          let elem = createComponent(ProjectTimeline, {
-            environmentInjector: this.envinjector,
-            hostElement: tmp
-          })
-          elem.instance.timeline_id = obs_data.timelines[i];
-          elem.instance.project_id = this.project_id;
-          this.applicationRef.attachView(elem.hostView);
-          let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
-          this.timelines_ref.nativeElement.appendChild(tmp2);
+    if(this.project_id == "import"){
+      document.getElementById("switch")?.remove()
+      document.querySelector('label[for="switch"]')?.remove()
+      document.getElementById("edit")?.remove()
+      document.getElementById("del")?.remove()
+      document.getElementById("export")?.remove()
+      document.getElementById("timelineAdd")?.remove()
+      let dataJSON = JSON.parse(this.imported_data)
+      this.render(dataJSON)
+    }
+    else{
+      //querry project data from api
+      let obs = this.http.get(`/api/projects/${this.project_id}`, this.auth.httpHeader);
+      obs.subscribe(
+        (obs_data: any) => {
+            this.render(obs_data)
+            let tmp2 = this.timelines_ref.nativeElement.children[this.timelines_ref.nativeElement.children.length - 2];
+            this.timelines_ref.nativeElement.appendChild(tmp2);
+          }
+      )
+      let projQuery = this.http.get(`/api/projects/${this.project_id}/users`)
+      let loggedUser = this.http.get("/api/me", this.auth.httpHeader)
+      forkJoin([projQuery, loggedUser]).subscribe(results => {
+        if(!checkMembers(results[0], results[1])){
+          document.getElementById("switch")?.remove()
+          document.querySelector('label[for="switch"]')?.remove()
+          document.getElementById("edit")?.remove()
+          document.getElementById("del")?.remove()
+          document.getElementById("export")?.remove()
+          document.getElementById("timelineAdd")?.remove()
         }
-      }
-    )
-    let proj_query = this.http.get(`/api/projects/${this.project_id}/users`)
-    let logged_user = this.http.get("/api/me", this.auth.httpHeader)
-    forkJoin([proj_query, logged_user]).subscribe(results => {
-      if(!check_members(results[0], results[1])){
-        document.getElementById("switch")?.remove()
-        document.querySelector('label[for="switch"]')?.remove()
-        document.getElementById("edit")?.remove()
-        document.getElementById("del")?.remove()
-      }
-    })
+      })
+    }
   }
 }
 
-function check_members(project_members: any, logged_user: any): Boolean {
-  return project_members.members.indexOf(logged_user) != -1 ||
-  logged_user.id == project_members.owner ||
-  logged_user.error != undefined
+function checkMembers(projectMembers: any, loggedUser: any): Boolean {
+  return projectMembers.members.indexOf(loggedUser) != -1 ||
+  loggedUser.id == projectMembers.owner ||
+  loggedUser.error != undefined
 }
