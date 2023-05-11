@@ -38,7 +38,7 @@
     background-repeat: no-repeat;
 }
 :host > ul > li:hover {
-    border: 1px solid white;
+    border: 1px solid var(--text-color);
     border-right: none;
     border-radius: 40px 0px 0px 40px;
     transition: all 300ms ease-in-out;

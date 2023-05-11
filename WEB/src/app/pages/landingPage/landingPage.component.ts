@@ -80,7 +80,7 @@ export class LandingPage {
     else {
       if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
         let i = searchValue;
-        this.load(`/api/projects/?s=${i}`,false);
+        this.load(`/api/projects/?search=${i}`,false);
       }
     }
   }

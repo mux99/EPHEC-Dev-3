@@ -2,8 +2,8 @@ class ProjectsController < ApplicationController
     include UsersHelper
 
     def show_pub
-        if params[:s].present?
-            public_projects = Project.where(visibility: true).where("name LIKE ? OR description LIKE ?", "%#{params[:s]}%", "%#{params[:s]}%")
+        if params[:search].present?
+            public_projects = Project.where(visibility: true).where("name LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
         else
             public_projects = Project.where(visibility: true)
         end
