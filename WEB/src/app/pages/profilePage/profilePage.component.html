@@ -1,8 +1,8 @@
 <ul #nav>
-  <li id="accountLink" (click)="showSection('account-section')">Account</li>
-  <li id="passwordLink" (click)="showSection('password-section')">Password</li>
-  <li id="appearanceLink" (click)="showSection('appearance-section')">Appearance</li>
-  <li id="premiumLink" (click)="showSection('premium-section')">Premium</li>
+  <li id="accountLink" (click)="showSection('account-section'); selectSection('account-section')" [ngClass]="{ 'selected': currentSection === 'account-section' }">Account</li>
+  <li id="passwordLink" (click)="showSection('password-section'); selectSection('password-section')" [ngClass]="{ 'selected': currentSection === 'password-section' }">Password</li>
+  <li id="appearanceLink" (click)="showSection('appearance-section'); selectSection('appearance-section')" [ngClass]="{ 'selected': currentSection === 'appearance-section' }">Appearance</li>
+  <li id="premiumLink" (click)="showSection('premium-section'); selectSection('premium-section')" [ngClass]="{ 'selected': currentSection === 'premium-section' }">Premium</li>
 </ul>
 
 

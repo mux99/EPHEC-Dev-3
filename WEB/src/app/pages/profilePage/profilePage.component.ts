@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { ThemeService } from 'src/shared-services/theme.service';
 
@@ -17,7 +16,13 @@ export class ProfilePage {
     private theme: ThemeService
   ) {}  
   activeSection = 'account-section';
-  
+
+  currentSection: string = 'account-section';
+
+  selectSection(section: string) {
+    this.currentSection = section;
+  }
+
   showSection(sectionId: string) {
     const sections = ['account-section', 'password-section', 'appearance-section', 'premium-section'];
     for (const section of sections) {
