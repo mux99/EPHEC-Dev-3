@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
 
 import { ProjectSmall } from './projectSmall/projectSmall.component';
+import { ProjectImport } from './projectImport/projectImport.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class LandingPage {
 
   @ViewChild("projects") projects!: ElementRef;
   @ViewChild("addProject") add_ref!: ElementRef;
+  @ViewChild("projectImport") import_ref!: ElementRef;
 
   load(querry: string, is_auth: boolean) {
     while (this.projects.nativeElement.children.length > 1) {
