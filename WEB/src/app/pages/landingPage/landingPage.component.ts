@@ -75,7 +75,10 @@ export class LandingPage {
   
   onSearchSubmit(event: any, searchValue: string) {
     if (this.auth.isUserLoggedIn) {
-      console.log("to do")
+      if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
+        let i = searchValue;
+        this.load(`/api/user_projects/?search=${i}`,true);
+      }
     }
     else {
       if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
