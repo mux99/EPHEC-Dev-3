@@ -179,5 +179,5 @@ export class ProjectPage {
 function checkMembers(projectMembers: any, loggedUser: any): Boolean {
   return projectMembers.members.indexOf(loggedUser) != -1 ||
   loggedUser.id == projectMembers.owner ||
-  loggedUser.error != undefined
+  loggedUser.error == undefined
 }
