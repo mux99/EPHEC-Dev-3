@@ -10,8 +10,8 @@ export class ThemeService {
         "background-3": "#3d3a41",
         "accent-1": "#5f2a87",
         "accent-2": "#17121f",
-        "accent-1-hover": "#",
-        "accent-2-hover": "#",
+        "accent-1-hover": "#8248ad",
+        "accent-2-hover": "#17121f",
         "text-color": "#f7f7f7",
         "text-color-2": "808080"
       }`);
@@ -32,7 +32,7 @@ export class ThemeService {
         "background-3": "#3d3a41",
         "accent-1": "#00b387",
         "accent-2": "#161b22",
-        "accent-1-hover": "#",
+        "accent-1-hover": "#129977",
         "accent-2-hover": "#",
         "text-color": "#f7f7f7",
         "text-color-2": "808080"

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/shared-services/auth.service';
 import { ThemeService } from 'src/shared-services/theme.service';
 
