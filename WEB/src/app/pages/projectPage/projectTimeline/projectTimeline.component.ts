@@ -8,7 +8,7 @@ import { AuthService } from 'src/shared-services/auth.service';
   styleUrls: ['./projectTimeline.component.scss'],
   host: {'class': 'hoverable'},
 
-  template: '<span #name></span><div id="button"><button class="timelineDelete">delete</button></div><div id="box" (click)="click()" #box></div><p #description></p>'
+  template: '<span #name></span><div id="button"><button class="timelineDelete" (click)="delete()">delete</button></div><div id="box" (click)="click()" #box></div><p #description></p>'
 })
 
 export class ProjectTimeline {
@@ -37,5 +37,10 @@ export class ProjectTimeline {
 
   click() {
     this.router.navigate([`/p/${this.project_id}/t/${this.timeline_id}`])
+  }
+
+  delete() {
+    let obs = this.http.delete(`/api/timelines/${this.timeline_id}`, this.auth.isUserLoggedIn ? this.auth.httpHeader : {});
+    obs.subscribe((obs_data: any) => {});
   }
 }

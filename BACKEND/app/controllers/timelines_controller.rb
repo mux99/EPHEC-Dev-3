@@ -7,7 +7,8 @@ class TimelinesController < ApplicationController
     end
 
     def destroy
-    	Timeline.destroy_by(id: params[:i])
+        ProjectsTimeline.destroy_by(timeline_id: params[:id])
+    	Timeline.destroy_by(id: params[:id])
     end
 
     def update
