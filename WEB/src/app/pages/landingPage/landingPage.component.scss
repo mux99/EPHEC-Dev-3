@@ -10,7 +10,8 @@
     display: flex;
     flex-direction: row;
 }
-#addProject{
+#addProject > * {margin-right: 15px;}
+#addProject {
     //funtionnal
     height: 100%;
 
