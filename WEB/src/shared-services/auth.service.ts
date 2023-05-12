@@ -25,7 +25,7 @@ export class AuthService {
             (obs_data: any) => {
                 this.isUserLoggedIn = obs_data.check;
                 if (obs_data.check) {
-                    this.cookieService.set("session",obs_data.token,60,undefined,undefined,true,"Strict");
+                    this.cookieService.set("session",obs_data.token,60,undefined,undefined,true,"Lax");
                     this.httpHeader = { headers: { Authorization: `Bearer ${obs_data.token}`} };
                     this.triggerUserIcon$.next(email);
                 }
