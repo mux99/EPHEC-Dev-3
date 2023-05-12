@@ -1,13 +1,24 @@
-.popup {
+:host {
+    left: 0; 
     padding: 20px;
-    background: #2b2e33;
-    border-radius: 10px;
-    width: 25%;
+    background-color: var(--accent-2);
+    border-radius: 20px;
+    width: 25vw;
     position: absolute;
+    display: flex;
+    flex-direction: column;
 }
 
+:host input {
+    cursor: text;
+    width: 90px;
+    margin-right: 10px;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+         appearance: textfield;
+}
 
-.popup .close {
+:host a {
     position: absolute;
     top: 20px;
     right: 30px;
@@ -15,39 +26,32 @@
     font-size: 30px;
     font-weight: bold;
     text-decoration: none;
-    color: white;
+    color: var(--text-color);
 }
 
-.popup .close:hover {
+:host a:hover {
     color: var(--accent-1);
 }
 
-.popup .content {
-    max-height: 30%;
-    overflow: auto;
-}
-
-.eventInput {
-    // width: 100%;
+:host #eventInput {
     padding-left: 5px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border: 2px solid #3a3d3f;
-    border-radius: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid var(--text-color-2);
+    border-radius: 5px;
     transition: max-height 0.5s;
-    overflow: hidden;
-    font-size: 18px;
+    height: auto;
+    max-height: 30vh;
+    min-height: 20vh;
+    overflow: auto;
+    word-wrap: break-word;
 }
 
-.eventInfo {
+:host #eventInfo {
     font-size: 14px;
-    color: #7A8495;
+    color: var(--text-color-2);
     margin-top: 20px;
     margin-bottom: -12px;
 }
 
-.contentEdit h2 {
-    max-height: 10px;
-    padding-bottom: 20px;
-    padding-left: 10px;
-}
+:host > div h2 {padding-bottom: 20px; padding-left: 10px;}
