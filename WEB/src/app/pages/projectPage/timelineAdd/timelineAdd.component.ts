@@ -10,7 +10,7 @@ import { AuthService } from 'src/shared-services/auth.service';
     "class": "placeholder",
     "id": "timelineAdd"
   },
-  template: '<div><span>add timeline</span><button class="add_button" (click)="onClick()"></button><div>'
+  template: '<div><span>add timeline</span><button class="add_button" (click)="onClick()"></button></div>'
 })
 
 export class TimelineAdd {

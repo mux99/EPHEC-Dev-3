@@ -77,11 +77,21 @@ export class ProjectPage {
       this.title_holder = this.title_ref.nativeElement.innerHTML;
       this.description_holder = this.markdownDesc;
       this.text_holder = this.markdownText;
+
+      let tmp = this.timelines_ref.nativeElement.querySelectorAll(".timelineDelete");
+      tmp.forEach((tmp: HTMLElement) => {
+        this.renderer.setStyle(tmp, 'display', 'block');
+      });
     }
     else {
       this.title_ref.nativeElement.setAttribute("contenteditable","false");
       this.description_ref.nativeElement.setAttribute("contenteditable","false");
       this.text_ref.nativeElement.setAttribute("contenteditable","false");
+
+      let tmp = this.timelines_ref.nativeElement.querySelectorAll(".timelineDelete");
+      tmp.forEach((tmp: HTMLElement) => {
+        this.renderer.setStyle(tmp, 'display', 'none');
+      });
     }
     if (action == 'cancel') {
       this.title_ref.nativeElement.innerHTML = this.title_holder;

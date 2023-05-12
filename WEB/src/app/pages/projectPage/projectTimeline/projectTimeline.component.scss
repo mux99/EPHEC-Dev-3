@@ -14,8 +14,8 @@
     font-weight: bolder;
 }
 
-:host:hover > div {height: 70px;transition: height 300ms;}
-:host > div {
+:host:hover > div#box {height: 70px;transition: height 300ms;}
+:host > div#box {
     background-color: var(--accent-1);
     height: 35px;
     border-radius: 17.5px;
@@ -30,4 +30,14 @@
     height: 0;
     transition: height 300ms;
     overflow: hidden;
+}
+
+:host > div#button {height: 0;overflow: visible;}
+:host > div#button > button {
+    background-color: var(--red);
+    box-sizing: border-box;
+    position: relative;
+    width: 80px;
+    left: calc(100% - 80px);
+    display: none;
 }
