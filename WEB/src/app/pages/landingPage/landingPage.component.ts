@@ -12,6 +12,8 @@ import { AuthService } from 'src/shared-services/auth.service';
 })
 
 export class LandingPage {
+  is_public = true;
+
   constructor(
     private http: HttpClient,
     private envinjector: EnvironmentInjector,
@@ -23,6 +25,8 @@ export class LandingPage {
   @ViewChild("projects") projects!: ElementRef;
   @ViewChild("addProject") add_ref!: ElementRef;
   @ViewChild("projectImport") import_ref!: ElementRef;
+  @ViewChild("goMine") gomine_ref!: ElementRef;
+  @ViewChild("goPublic") gopublic_ref!: ElementRef;
 
   load(querry: string, is_auth: boolean) {
     while (this.projects.nativeElement.children.length > 1) {
@@ -32,6 +36,7 @@ export class LandingPage {
     if (is_auth) {
       //load only personal projects
       obs = this.http.get(querry, this.auth.httpHeader );
+      this.add_ref.nativeElement.style.display = "flex";
     } else {
       //load public project
       obs = this.http.get(querry);
@@ -67,16 +72,35 @@ export class LandingPage {
     })
   }
 
-  ngAfterViewInit() {
+  goToMine() {
+    this.load('/api/user_projects',true)
+    this.is_public = !this.is_public;
+    this.gopublic_ref.nativeElement.style.display = "block";
+    this.gomine_ref.nativeElement.style.display = "none";
+  }
+
+  goToPublic() {
+    this.load('/api/projects',false);
+    this.is_public = !this.is_public;
+    this.gopublic_ref.nativeElement.style.display = "none";
     if (this.auth.isUserLoggedIn) {
+      this.gomine_ref.nativeElement.style.display = "block";
+    }
+  }
+
+  ngAfterViewInit() {
+    this.is_public = this.auth.isUserLoggedIn
+    if (this.is_public) {
       this.load('/api/user_projects',true)
+      this.gomine_ref.nativeElement.style.display = "none";
     } else {
       this.load('/api/projects',false)
+      this.gopublic_ref.nativeElement.style.display = "none";
     }
   }
   
   onSearchSubmit(event: any, searchValue: string) {
-    if (this.auth.isUserLoggedIn) {
+    if (this.is_public) {
       if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
         let i = searchValue;
         this.load(`/api/user_projects/?search=${i}`,true);
