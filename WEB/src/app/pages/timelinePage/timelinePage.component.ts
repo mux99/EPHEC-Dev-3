@@ -51,6 +51,7 @@ export class TimelinePage {
       let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.httpHeader);
       obs.subscribe(
         (data: any) => {
+          console.log(data);
           //load timeline data
           this.d_year = data.d_year;
           this.d_month = data.d_month;
@@ -114,7 +115,7 @@ export class TimelinePage {
   toggleOptions() {}
 
   addEvent() {
-    let obs = this.http.post(`/api/projects/${this.project_id}/events`, this.auth.httpHeader);
+    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
     obs.subscribe((data: any) => {});
   }
 }

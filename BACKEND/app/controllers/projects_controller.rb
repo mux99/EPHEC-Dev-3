@@ -44,7 +44,11 @@ class ProjectsController < ApplicationController
         if session_token.nil? || owner.nil?
             render json: {:error => ERR_USER_NOT_EXIST}
         else
-            new_project = Project.create(name: "project name", description: "project description", owner: owner.id, visibility: false)
+            tmp = {
+                :text => "text",
+                :events => []
+            }
+            new_project = Project.create(name: "project name", description: "project description", owner: owner.id, visibility: false, json: tmp)
             ProjectsUser.create(user_id: owner.id, project_id: new_project.id)
         end
         render json: { id: new_project.id }
@@ -153,9 +157,17 @@ class ProjectsController < ApplicationController
     end
 
     def event_add
-        project = Project.find(params[:id])
+        project = Project.find(params[:pid])
         project_json = project.json
-        project_json["events"] += [params[:event]]
+        tmp = {
+            :id => SecureRandom.hex,
+            :timelines => [params[:tid]],
+            :title => "event name",
+            :description => "event description",
+            :image => "",
+            :date => "0000/00/00"
+        }
+        project_json["events"] += [tmp]
         project.update(json: project_json)
     end
 

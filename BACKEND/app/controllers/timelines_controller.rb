@@ -1,7 +1,12 @@
 class TimelinesController < ApplicationController
     def new
         project = Project.find(params[:id])
-        new_timeline = Timeline.create(name: "Timeline name", description: "timeline description", start: "", end: "")
+        tmp = {
+            :d_year => 0,
+            :d_month => [],
+            :periods => []         
+        }
+        new_timeline = Timeline.create(name: "Timeline name", description: "timeline description", start: "0000/00/00", end: "0000/00/00", json: tmp)
         ProjectsTimeline.create(timeline_id: new_timeline.id, project_id: params[:id])
         render json: { id: new_timeline.id }
     end
@@ -23,6 +28,21 @@ class TimelinesController < ApplicationController
     def show
         timeline = Timeline.find(params[:tid])
         project = Project.find(params[:pid])
-        render json: { name: timeline.name, description: timeline.description, start: timeline.start, end: timeline.end }
+        tmp = []
+        project.json["events"].each do |e|
+            if e["timelines"].include? params[:tid]
+                tmp += [e]
+            end
+        end
+        render json: {
+            name: timeline.name,
+            description: timeline.description,
+            start: timeline.start,
+            end: timeline.end,
+            d_year: timeline.json["d_year"],
+            d_month: timeline.json["d_month"],
+            periods: timeline.json["periods"],
+            events: tmp
+        }
     end
 end
