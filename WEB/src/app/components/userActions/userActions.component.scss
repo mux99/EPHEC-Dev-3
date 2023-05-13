@@ -1,10 +1,17 @@
 $iconSize: 55px;
-$panelWidth: 25vw;
+$panelWidth: 15vw;
 
 :host {
-    position: fixed;
+    position: absolute;
     right: 20px;
     top: 20px;
+}
+
+hr {padding-top: 8px;visibility: hidden;}
+
+:host p {
+    border-bottom: 1px solid var(--text-color);
+    padding: 20px 0px 20px 45px;
 }
 
 :host > button {
@@ -14,29 +21,52 @@ $panelWidth: 25vw;
     cursor: pointer;
 }
 
-#userIcon {
-    background-image: url('https://placehold.co/400x400');
-    background-size: contain;
-}
+#userIcon {background-image: url('https://placehold.co/400x400');background-size: contain;}
+
 #userConnect {background-color: transparent;border: none;}
 #userConnect > img {height: 75%;}
-#userPanel > * { width: 90%;margin: 0 15px;}
+#userPanel > * { width: 100%;margin: 0 0px;}
 #userPanel {
-    position: fixed;
-    top: var(--topbar-height);
-    right: -$panelWidth;
-    background-color: var(--background-3);
-    width: $panelWidth;
-    height: fit-content;
-    animation-duration: 300ms;
-    animation-fill-mode: forwards;
-    border-radius: 0 0 0 25px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    padding: 15px 0;
+  position: fixed;
+  top: var(--topbar-height);
+  right: -$panelWidth;
+  background-color: var(--accent-2);
+  width: $panelWidth;
+  height: fit-content;
+  animation-duration: 200ms;
+  animation-fill-mode: forwards;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0px;
 }
 
+#userPanel::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  right: 30px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid var(--accent-2);
+}
+
+#home {background-image: url("/assets/homeIcon.svg");}
+#profile {background-image: url("/assets/editProfile.svg");}
+#premium {background-image: url("/assets/premiumIcon.svg"); padding-bottom: 20px;}
+
+:host a  {
+    position: relative;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 22px 0 22px 80px;
+    background-position: 45px center;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+}
+
+:host a:hover {background-color: var(--accent-1);}
 .panel_off {animation-name: 'actions-hidden';}
 @keyframes actions-hidden {
     from {right: 0;}

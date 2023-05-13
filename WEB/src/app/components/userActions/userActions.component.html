@@ -1,7 +1,10 @@
 <button id="userIcon" class="hidden" (click)="userIconClick()"></button>
 <button id="userConnect" (click)="userConnectClick()"><img src="/assets/connectIcon.svg"></button>
 <div #userPanel id="userPanel">
-    <a href="/">home</a>
-    <a href="/profile">my profile</a>
-    <button (click)="userDisconnectClick()">log out</button>
+    <p>username tag, premium</p>
+    <a href="/" id="home">Home</a>
+    <a href="/profile" id="profile">My profile</a>
+    <a href="#" id="premium">Upgrade to premium</a>
+    <hr>
+    <button (click)="userDisconnectClick()">Log out</button>
 </div>
