@@ -113,7 +113,7 @@ label:after {
     left: 2.5px;
     width: 25px;
     height: 25px;
-    background: #fff;
+    background: var(--text-color);
     border-radius: 50%;
     transition: 0.3s;
 }

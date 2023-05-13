@@ -1,57 +1,45 @@
 :host {
-    left: 0; 
     padding: 20px;
     background-color: var(--accent-2);
-    border-radius: 20px;
+    border-radius: 0 20px 20px 0;
     width: 25vw;
     position: absolute;
-    display: flex;
-    flex-direction: column;
+    left: 0;
+    bottom: 225px;
 }
 
+.container {height: 0;overflow: visible;}
+:host > .container > button > img {transform: rotate(45deg);margin-left: -9.5px;margin-bottom: -2px;}
+:host > .container > button {
+    position: relative;
+    left: calc(25vw - 35px);
+    width: 35px;
+}
+:host > edit-button {
+    position: relative;
+    left: calc(25vw - 85px);
+}
+
+.w4 {width: 6ch;}
+.w2 {width: 4ch;}
 :host input {
     cursor: text;
-    width: 90px;
-    margin-right: 10px;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
-         appearance: textfield;
-}
+    appearance: textfield;
 
-:host a {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    transition: all 200ms;
-    font-size: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    color: var(--text-color);
-}
-
-:host a:hover {
-    color: var(--accent-1);
-}
-
-:host #eventInput {
-    padding-left: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: 2px solid var(--text-color-2);
+    padding: 0;
+    background-color: var(--shadow-color-light);
     border-radius: 5px;
-    transition: max-height 0.5s;
-    height: auto;
-    max-height: 30vh;
-    min-height: 20vh;
-    overflow: auto;
-    word-wrap: break-word;
+    margin-right: 5px;
 }
 
-:host #eventInfo {
-    font-size: 14px;
-    color: var(--text-color-2);
-    margin-top: 20px;
-    margin-bottom: -12px;
+.container2 {
+    margin-top: 15px;
+    height: 150px;
+    overflow-x: scroll;
 }
-
-:host > div h2 {padding-bottom: 20px; padding-left: 10px;}
+#eventDesc {
+    min-height: 140px;
+    margin: 0;
+}

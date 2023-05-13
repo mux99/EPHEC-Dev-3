@@ -1,24 +1,25 @@
 :host {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     height: 0;
+    width: 45px;
     overflow: visible;
 }
 
-:host > #edit {width: 40px;}
+:host > #edit {width: 35px;height: 35px;}
 :host > button {
-    height: 40px;
+    height: 35px;
     width: fit-content;
     border-radius: 20px;
     background-size: 60%;
-    margin-left: 10px;
-    background-repeat: no-repeat;
-    background-position: center;
-    font-size: 13pt;
-    font-weight: bolder;
+    margin-left: 5px;
     padding: 0 15px;
 }
-#edit {background-image: url("/assets/editIcon.svg");}
+#edit {
+    background-image: url("/assets/editIcon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
 #save:hover {background-color: var(--green-hover);}
 #save {
     display: none;
