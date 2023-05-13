@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./eventPopup.component.scss']
 })
 
-export class EventPopup {}
+export class EventPopup {
+  edit(action: string) {
+    
+  }
+}
