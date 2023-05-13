@@ -80,7 +80,7 @@ export class TimelinePage {
 
   @HostListener('wheel', ['$event'])
   onWheelScroll(event: WheelEvent) {
-    if (event.clientX == 0) {
+    if (event.clientX == 0 || event.target != this.periods_ref.nativeElement) {
       return;
     }
     let old_width = parseInt(window.getComputedStyle(this.periods_ref.nativeElement).getPropertyValue("width"));
