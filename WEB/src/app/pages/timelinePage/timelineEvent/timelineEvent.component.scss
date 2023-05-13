@@ -1,20 +1,26 @@
 :host {
-    position: relative;
-    left: 33.6%;
-
+    position: absolute;
     display: flex;
     flex-direction: column-reverse;
+    overflow: visible;
+    height: 100%;
+    width: 300px;
+    bottom: 0;
 }
 
-:host > div {
+:host > div#img {
     background-color: var(--text-color);
     width: 20px;
     height: 20px;
     margin-top: 10px;
+    cursor: pointer;
 }
-
-:host > p {
-    margin: 0;
+:host span {
+    display: inline;
+    margin: 0 0 -20px 0;
+    transform-origin: 0 0;
     rotate: -45deg;
+    height: 25px;
     width: fit-content;
+    cursor: pointer;
 }

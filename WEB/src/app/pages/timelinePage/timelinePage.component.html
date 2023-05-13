@@ -1,7 +1,7 @@
-<div #container2 class="container">
+<div #container2 class="container" id="row2">
     <div #events id="events"></div>
 </div>
-<div #container class="container">
+<div #container class="container round" id="row3">
     <div #periods id="timelineBody"></div>
 </div>
 <div id="optionPanel">
@@ -11,6 +11,7 @@
         <option>major</option>
     </select>
 </div>
+<event-popup></event-popup>
 <div id="settings">
     <button #edit id="edit" class="bubble" (click)="toggleOptions()"></button>
     <button id="addEvent" class="bubble" (click)="addEvent()"></button>
