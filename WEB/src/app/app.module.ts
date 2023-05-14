@@ -36,7 +36,7 @@ const appRoutes: Routes = [
   { path: 'sign-in', component: SignInPage},
   { path: '', component: LandingPage},
   { path: 'p/:id', component: ProjectPage},
-  {path: 'p/:id/:data', component: ProjectPage},
+  { path: 'p/:id/:data', component: ProjectPage},
   { path: 'p/:pid/t/:tid', component: TimelinePage},
   { path: 'profile', component: ProfilePage}
 ];

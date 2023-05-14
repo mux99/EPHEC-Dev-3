@@ -105,14 +105,11 @@ export class TimelinePage {
   }
 
   datetodays(date: string) {
-    console.log(date);
     let date_array = date.split("/").map(function(n,_i,_a){return Number(n);},this);
-    console.log(date_array);
-    
-    // let days = date_array[0]+(date_array[2]*this.d_year);
-    // for (let i = 0; i < date_array[1]; i++) {
-    //   days += this.d_month[i];
-    // }
+    let days = date_array[0]+(date_array[2]*this.d_year);
+    for (let i = 0; i < date_array[1]; i++) {
+      days += this.d_month[i];
+    }
     return 0;
   }
 

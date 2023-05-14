@@ -1,10 +1,10 @@
-import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { EventEdit } from 'src/shared-services/eventEdit.service';
 
 @Component({
   selector: 'timeline-event',
   styleUrls: ['./timelineEvent.component.scss'],
-
-  template: '<div id="img"></div><span #text>text</span>'
+  template: '<div id="img" (click)="click()"></div><span #text (click)="click()">text</span>'
 })
 
 export class TimelineEvent {
@@ -12,11 +12,14 @@ export class TimelineEvent {
 
   @ViewChild("text") text!: ElementRef;
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef, private eventEdit: EventEdit) { }
 
   ngAfterViewInit() {
-    console.log(this.data);
     this.text.nativeElement.innerHTML = this.data.title;
     this.elementRef.nativeElement.style.left = `${this.pos}%`
+  }
+
+  click() {
+    this.eventEdit.click(this.data);
   }
 }

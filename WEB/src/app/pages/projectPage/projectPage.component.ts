@@ -3,7 +3,6 @@ import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { ProjectTimeline } from './projectTimeline/projectTimeline.component';
-import { TimelineAdd } from './timelineAdd/timelineAdd.component';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -62,11 +61,7 @@ export class ProjectPage {
       let d = this.description_ref.nativeElement.innerHTML.trim()
       let t = this.text_ref.nativeElement.innerHTML.trim()
       let obs = this.http.put(`/api/projects/${this.project_id}/?n=${n}&d=${d}&t=${t}`, {},this.auth.httpHeader);
-      obs.subscribe(
-        (obs_data: any) => {
-          console.log(obs_data);
-        }
-      );
+      obs.subscribe();
     }
     if (action == 'edit') {
       this.title_ref.nativeElement.setAttribute("contenteditable","true");

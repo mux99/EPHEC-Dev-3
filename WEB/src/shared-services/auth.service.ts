@@ -50,7 +50,6 @@ export class AuthService {
             obs.subscribe(
                 (obs_data: any) => {
                     this.triggerUserIcon$.next(obs_data.email);
-                    console.log(obs_data.theme);
                     this.theme.setTheme(obs_data.theme);
                 }
             );

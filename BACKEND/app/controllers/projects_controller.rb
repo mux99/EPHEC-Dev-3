@@ -135,13 +135,13 @@ class ProjectsController < ApplicationController
     end
 
     def event_show
-        project_events = Project.find(params[:id]).json["events"]
+        project_events = Project.find(params[:pid]).json["events"]
         event = project_events.select {|e| e["ID"] == params[:eid]}
         render json: event
     end
 
     def event_update
-        project = Project.find(params[:id])
+        project = Project.find(params[:pid])
         project_json = project.json
         project_events = project_json["events"]
         index = 0
@@ -151,7 +151,9 @@ class ProjectsController < ApplicationController
                 break
             end
         end
-        project_events[index] = params[:event]
+        project_events[index][:title] = params[:title] unless params[:title].nil?
+        project_events[index][:description] = params[:description] unless params[:description].nil?
+        project_events[index][:date] = params[:date] unless params[:date].nil?
         project_json["events"] = project_events
         project.update(json: project_json)
     end
