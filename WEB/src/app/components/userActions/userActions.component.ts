@@ -3,27 +3,29 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthService } from 'src/shared-services/auth.service';
 import { Md5 } from 'ts-md5';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-
 @Component({
   selector: 'user-actions',
   templateUrl: './userActions.component.html',
   styleUrls: ['./userActions.component.scss']
 })
-
 export class UserActions {
   panel_visible: boolean;
 
-  @ViewChild('userConnect')public connect_ref!: ElementRef;
+  @ViewChild('userConnect') public connect_ref!: ElementRef;
   @ViewChild('userIcon') icon_ref!: ElementRef;
   @ViewChild('userPanel') panel_ref!: ElementRef;
+  @ViewChild('name') name_ref!: ElementRef;
+  @ViewChild('tag') tag_ref!: ElementRef;
 
-  constructor(private router: Router, private auth: AuthService) {
+  constructor(private router: Router, private http: HttpClient, private auth: AuthService) {
     this.panel_visible = true;
   }
+
   public triggerUserIcon$: Subject<string> = this.auth.triggerUserIcon$;
 
   ngOnInit() {
@@ -35,12 +37,11 @@ export class UserActions {
   userIconClick() {
     this.panel_visible = !this.panel_visible;
     if (this.panel_visible) {
-      this.panel_ref.nativeElement.classList.add("panel_off");
-      this.panel_ref.nativeElement.classList.remove("panel_on");
-    }
-    else {
-      this.panel_ref.nativeElement.classList.remove("panel_off");
-      this.panel_ref.nativeElement.classList.add("panel_on");
+      this.panel_ref.nativeElement.classList.add('panel_off');
+      this.panel_ref.nativeElement.classList.remove('panel_on');
+    } else {
+      this.panel_ref.nativeElement.classList.remove('panel_off');
+      this.panel_ref.nativeElement.classList.add('panel_on');
     }
   }
 
@@ -52,7 +53,7 @@ export class UserActions {
     this.auth.logout();
     this.disconnect();
     setTimeout(() => {
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     }, 10);
     setTimeout(() => {
       window.location.reload();
@@ -60,22 +61,33 @@ export class UserActions {
   }
 
   connect(email: string) {
-    let icon = document.getElementById("userIcon");
-    let connect = document.getElementById("userConnect");
-    icon?.classList.remove("hidden");
-    if (icon != null) icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}?d=retro")`;
-    connect?.classList.add("hidden");
+    let icon = document.getElementById('userIcon');
+    let connect = document.getElementById('userConnect');
+    icon?.classList.remove('hidden');
+    if (icon != null)
+      icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}?d=retro")`;
+    connect?.classList.add('hidden');
   }
 
   disconnect() {
-    let icon = document.getElementById("userIcon");
-    let connect = document.getElementById("userConnect");
-    let panel = document.getElementById("userPanel");
-    icon?.classList.add("hidden");
+    let icon = document.getElementById('userIcon');
+    let connect = document.getElementById('userConnect');
+    let panel = document.getElementById('userPanel');
+    icon?.classList.add('hidden');
     if (icon != null) icon.style.backgroundImage = 'https://placehold.co/400x400")';
-    connect?.classList.remove("hidden");
+    connect?.classList.remove('hidden');
     this.panel_visible = true;
-    panel?.classList.add("panel_off");
-    panel?.classList.remove("panel_on");
+    panel?.classList.add('panel_off');
+    panel?.classList.remove('panel_on');
+  }
+
+  ngAfterViewInit() {
+    let obs = this.http.get(`/api/me/`, this.auth.httpHeader);
+    obs.subscribe(
+      (obs_data: any) => {
+        this.name_ref.nativeElement.innerHTML = obs_data.name;
+        this.tag_ref.nativeElement.innerHTML = obs_data.tag;
+      }
+    );
   }
 }

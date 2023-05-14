@@ -8,7 +8,7 @@ $panelWidth: 15vw;
 }
 
 hr {padding-top: 8px;visibility: hidden;}
-:host p {
+:host span {
     border-bottom: 1px solid var(--text-color);
     padding: 20px 0px 20px 0px;
     text-align: center;
@@ -81,3 +81,6 @@ hr {padding-top: 8px;visibility: hidden;}
     from {right: -$panelWidth;}
     to {right: 0;}
 }
+
+
+#tag {color: var(--text-color-2);}
