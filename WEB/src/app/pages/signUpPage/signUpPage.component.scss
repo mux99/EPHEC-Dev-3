@@ -1,64 +1,51 @@
 :host {
-    width: 90%;
-    max-width: 450px;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 20%);
-    background: #fff;
-    border-radius: 10px;
-    padding: 50px 60px 70px;
-    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-:host h1 {
-    font-size: 30px;
-    margin-bottom: 60px;
-    color: var(--accent-2);
-}
-
-:host .inpt {
-    width: 100%;
-    border: 0;
-    padding: 18px 15px;
-    background: #eaeaea;
-    margin: 15px -13px;
-    border-radius: 3px;
-    max-height: 65px;
-    overflow: hidden;
-    outline: none;
-}
-
-:host .inpt:focus {
-    border: 2px solid;
-    border-color: var(--accent-1);
-}
-
-:host form p {
-    text-align: center;
-    font-size: 18px;
-    color: var(--accent-1);
-}
-
-:host button {
-    width: 100%;
-    background: var(--accent-1);
-    color: #fff;
-    height: 40px;
+:host > h1 {text-align: center;}
+:host > div {
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--accent-2);
+    padding: 50px 45px;
     border-radius: 20px;
-    border: none;
-    outline: none;
+}
+
+:host form {display: flex;flex-direction: column;}
+:host form > * {margin-top: 25px;}
+:host form > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+:host form > span > * {margin-left: 15px;}
+:host form > p {text-align: center;}
+
+:host form > div > input {width: 100%;}
+:host form > div > div {width: 0;overflow: visible;}
+:host form > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.eye {
+    position: relative;
+    top: 2.5px;
+    left: -35px;
     cursor: pointer;
-    transition: background 1;
-    text-align: center;
+    width: 20px;
+    height: 20px;
+    background-image: url("/assets/eyeOpen.svg");
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
 }
-
-:host button:hover {
-    background: #fff;
-    color: var(--accent-1);
-    border: 2px solid var(--accent-1);
-}
-
-:host button.disable{
-    background: #eaeaea;
-    color: var(--accent-2);
+.eye-slash {
+    background-image: url("/assets/eyeClosed.svg");
 }

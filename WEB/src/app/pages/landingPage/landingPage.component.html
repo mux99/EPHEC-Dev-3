@@ -1,18 +1,20 @@
 <div id="topBar">
     <img src="assets/textLogo.svg">
-    <div id="searchbar">
-        <img src="assets/searchIcon.svg">
-        <input type="text" placeholder="Search...">
+    <div>
+        <input type="search" placeholder="Search..." #searchInput (keydown.enter)="onSearchSubmit($event, searchInput.value)" (input)="onSearchInputChange($event)">
+
+        <select class="input">
+            <option value="latest">latest</option>
+            <option value="popular">most popular</option>
+            <option value="oldest">oldest</option>
+        </select>
+
+        <button #goPublic (click)="goToPublic()">browse public projects</button>
+        <button #goMine (click)="goToMine()">my projects</button>
     </div>
 </div>
-<div id="projectsSelectors">
-    <span>Sort By:</span>
-    <select>
-        <option>Popularity</option>
-        <option>Newest</option>
-        <option>TBD</option>
-    </select>
-</div>
-<div id="projectGrid">
-    <router-outlet name="project-grid"></router-outlet>
+<div id="gridContainer">
+    <div #projects id="projectGrid">
+        <div #addProject id="addProject"><project-add></project-add><project-import></project-import></div>
+    </div>
 </div>

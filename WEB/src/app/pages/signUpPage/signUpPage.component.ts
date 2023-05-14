@@ -1,7 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
+import { UserActions } from 'src/app/components/userActions/userActions.component';
 
 @Component({
   selector: 'sign-up-page',
@@ -11,35 +12,25 @@ import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class SignUpPage {
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private uaction: UserActions
+  ) {}
 
-  ngOnInit() {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'sign-up-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
-  }
-
-  onClickSubmit(data: any) {
-    if(data.password != data.password2){
-        alert("passwords don't match")
-    } else {
-      const params = new HttpParams()
-        .set("n", data.username)
-        .set("e", data.email)
-        .set("p", data.password)
-      this.http.post(`/api/user`, null, {params: params}).subscribe(
-        () => this.router.navigate([''])
+  onClickSubmit(data: any) { 
+    let obs;
+    if (data.password == data.password2) {
+      obs=this.http.post(`/api/users?n=${data.username}&e=${data.email}&p=${data.password}`, {});
+      obs.subscribe(
+        (sub_data: any) => {
+            this.uaction.connect(data.email);
+            this.router.navigate(["/"]);
+        }
       )
+    }
+    else {
+      alert("passwords doesn't match");
     }
  } 
 }

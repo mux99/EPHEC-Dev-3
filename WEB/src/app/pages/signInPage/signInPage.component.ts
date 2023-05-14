@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
   selector: 'sign-in-page',
@@ -9,21 +9,35 @@ import { filter } from 'rxjs/operators';
 })
 
 export class SignInPage {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
-  ngOnInit() {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // remove this component from the DOM
-        document.querySelectorAll('[rel$="-page"]').forEach(item => {
-          let tag = false;
-          if (item.tagName != 'sign-in-page' || tag) {
-            item.parentNode?.removeChild(item);
-          } else {
-            tag = true;
-          }
-        });
-      });
+  onClickSubmit(data: any) {
+    let obs = this.auth.login(data.email, data.password);
+    obs.subscribe(
+      (obs_data: any) => {
+        if (obs_data.check) {
+          setTimeout(() => {
+            this.router.navigate(["/"]);
+          }, 500);
+        }
+      }
+    )
+  }
+
+  togglePassword() {
+    const passwordInput = document.querySelector("#password");
+    const eyeIcon = document.querySelector("#togglePassword");
+    if (passwordInput && eyeIcon) {
+      if (passwordInput.getAttribute("type") === "password") {
+        passwordInput.setAttribute("type", "text");
+        eyeIcon.classList.add("eye-slash");
+      } else {
+        passwordInput.setAttribute("type", "password");
+        eyeIcon.classList.remove("eye-slash");
+      }
+    }
   }
 }

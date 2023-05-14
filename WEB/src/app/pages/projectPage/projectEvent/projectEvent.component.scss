@@ -1,0 +1,17 @@
+:host {
+    display: block;
+    margin: 25px;
+    background-color: var(--accent-1);
+    border-radius: 13px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+
+:host p {
+    margin: 13px;
+}
+
+:host h2 {
+    margin: 13px;
+}

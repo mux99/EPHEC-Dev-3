@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    height: 40px;
+    width: 90%;
+    margin-top: -20px;
+    background-color: var(--shadow-color);
+    border-radius: 22.5px;
+}
+:host > * {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+}
+:host button {
+    margin: auto 10px;
+}

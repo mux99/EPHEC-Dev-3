@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+}
+
+:host > button {
+    //functionnal
+    align-self: center;
+    margin: auto;
+}
+
+:host > button > img {
+    //cosmetic
+    width: 90%;
+    height: 90%;
+    filter: invert(100%);
+}

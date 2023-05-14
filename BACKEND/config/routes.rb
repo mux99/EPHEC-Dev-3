@@ -1,28 +1,38 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  #status query (not really useful)
-  get '/api/status', to: 'application#status'
-
   #users queries
-  get '/api/user', to: 'users#auth'
-  post '/api/user', to: 'users#new'
-  put '/api/user', to: 'user#update'
-  get '/api/user/premium', to: 'users#ispremium'
-  put '/api/user/premium', to: 'users#changepremium'
+  post '/api/users', to: 'users#new'
+  post '/api/login', to: 'users#auth'
+  delete '/api/login', to: 'users#logoff'
+  get '/api/me', to: 'users#info'
+  put '/api/me', to: 'users#update'
+  delete '/api/me', to: 'users#destroy'
   get '/api/user_projects', to: 'users#projects'
-  delete '/api/user', to: 'users#destroy'
 
   #projects queries
+  get '/api/projects', to: 'projects#show_pub'
+  post '/api/projects', to: 'projects#new'
   get '/api/projects/:id', to: 'projects#show'
+  get '/api/projects_dl/:id', to: 'projects#download'
+  post '/api/projects', to: 'projects#new'
+  
   put '/api/projects/:id', to: 'projects#update'
   delete '/api/projects/:id', to: 'projects#destroy'
-  put '/api/project/:id/user', to: 'projects#add_user'
-  delete '/api/project/:id/user', to: 'projects#rm_user'
-  post '/api/project', to: 'projects#new'
+
+  put '/api/projects/:id/user', to: 'projects#add_user'
+  delete '/api/projects/:id/user', to: 'projects#rm_user'
+  get '/api/projects/:id/users', to: 'projects#members'
+
+  #events queries
+  get '/api/projects/:pid/events/:eid', to: 'projects#event_show'
+  put '/api/projects/:pid/events/:eid', to: 'projects#event_update'
+  post '/api/projects/:pid/timelines/:tid/events', to: 'projects#event_add'
+  delete '/api/projects/:pid/events/:eid', to: 'projects#event_rm'
 
   #timelines queries
-  post '/api/timelines/new', to: 'timelines#new'
+  post '/api/projects/:id/timelines', to: 'timelines#new'
   delete '/api/timelines/:id', to: 'timelines#destroy'
   put '/api/timelines/:id', to: 'timelines#update'
+  get '/api/projects/:pid/timelines/:tid', to: 'timelines#show'
 end

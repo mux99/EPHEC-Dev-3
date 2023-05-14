@@ -74,3 +74,5 @@ BACKEND/tmp/storage/*
 
 # Ignore master key for decrypting credentials and more.
 BACKEND/config/master.key
+
+.vscode/

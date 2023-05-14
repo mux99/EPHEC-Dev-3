@@ -1,0 +1,15 @@
+:host {
+    //functionnal
+    display: flex;
+}
+:host > button {
+    //functionnal
+    align-self: center;
+    margin: auto;
+}
+
+:host > button > img {
+    //cosmetic
+    width: 90%;
+    height: 90%;
+}
