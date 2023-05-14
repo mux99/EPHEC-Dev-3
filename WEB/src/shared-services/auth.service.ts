@@ -11,7 +11,7 @@ export class AuthService {
     isUserLoggedIn: boolean = false;
     httpHeader: any;
 
-    public triggerUserIcon$: Subject<string> = new Subject<string>();
+    public triggerUserIcon$: Subject<any> = new Subject<any>();
 
     constructor (
         private http: HttpClient,
@@ -49,7 +49,7 @@ export class AuthService {
             let obs = this.http.get("/api/me", this.httpHeader);
             obs.subscribe(
                 (obs_data: any) => {
-                    this.triggerUserIcon$.next(obs_data.email);
+                    this.triggerUserIcon$.next({email:obs_data.email, name:obs_data.name, tag:obs_data.tag});
                     this.theme.setTheme(obs_data.theme);
                 }
             );

@@ -29,8 +29,10 @@ export class UserActions {
   public triggerUserIcon$: Subject<string> = this.auth.triggerUserIcon$;
 
   ngOnInit() {
-    this.triggerUserIcon$.subscribe((email: string) => {
-      this.connect(email);
+    this.triggerUserIcon$.subscribe((data:any) => {
+      this.connect(data.email);
+      this.name_ref.nativeElement.innerHTML = data.name;
+      this.tag_ref.nativeElement.innerHTML = `#${data.tag}`;
     });
   }
 
@@ -79,15 +81,5 @@ export class UserActions {
     this.panel_visible = true;
     panel?.classList.add('panel_off');
     panel?.classList.remove('panel_on');
-  }
-
-  ngAfterViewInit() {
-    let obs = this.http.get(`/api/me/`, this.auth.httpHeader);
-    obs.subscribe(
-      (obs_data: any) => {
-        this.name_ref.nativeElement.innerHTML = obs_data.name;
-        this.tag_ref.nativeElement.innerHTML = obs_data.tag;
-      }
-    );
   }
 }
