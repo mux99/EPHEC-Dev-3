@@ -1,0 +1,58 @@
+:host {
+    padding: 20px;
+    background-color: var(--accent-2);
+    border-radius: 0 20px 20px 0;
+    width: 25vw;
+    position: absolute;
+    left: 0;
+    bottom: 225px;
+}
+
+.container {height: 0;overflow: visible;}
+:host p {padding: 0px; margin: 7px 0px 7px 0px;}
+:host > .container > button > img {transform: rotate(45deg);margin-left: -9.5px;margin-bottom: -2px;}
+:host > .container > button {
+    position: relative;
+    left: calc(25vw - 35px);
+    width: 35px;
+}
+:host > edit-button {
+    position: relative;
+    left: calc(25vw - 85px);
+}
+
+.w4 {width: 7ch;}
+.w2 {width: 5ch;}
+.container2 {
+    margin-top: 15px;
+    height: 150px;
+    overflow-x: scroll;
+}
+#periodDesc {
+    min-height: 140px;
+    margin: 0;
+}
+
+:host > div > input {
+    cursor: text;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    padding: 0;
+    background-color: var(--shadow-color-light);
+    border-radius: 5px;
+}
+
+.theme-colors{
+    display: flex;
+    flex-wrap: wrap;
+    gap:15px;
+}
+.theme-colors .color:hover{opacity: .5;}
+.theme-colors .color{
+    border-radius: 5px;
+    height:30px;
+    width:30px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
