@@ -8,10 +8,10 @@ $panelWidth: 15vw;
 }
 
 hr {padding-top: 8px;visibility: hidden;}
-
 :host p {
     border-bottom: 1px solid var(--text-color);
-    padding: 20px 0px 20px 45px;
+    padding: 20px 0px 20px 0px;
+    text-align: center;
 }
 
 :host > button {
@@ -22,7 +22,6 @@ hr {padding-top: 8px;visibility: hidden;}
 }
 
 #userIcon {background-image: url('https://placehold.co/400x400');background-size: contain;}
-
 #userConnect {background-color: transparent;border: none;}
 #userConnect > img {height: 75%;}
 #userPanel > * { width: 100%;margin: 0 0px;}
@@ -57,13 +56,17 @@ hr {padding-top: 8px;visibility: hidden;}
 #premium {background-image: url("/assets/premiumIcon.svg"); padding-bottom: 20px;}
 
 :host a  {
-    position: relative;
+    text-align: center;
     color: var(--text-color);
     text-decoration: none;
-    padding: 22px 0 22px 80px;
-    background-position: 45px center;
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
+    padding: 22px 0 22px 0px;
+}
+
+:host a img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 :host a:hover {background-color: var(--accent-1);}
@@ -72,6 +75,7 @@ hr {padding-top: 8px;visibility: hidden;}
     from {right: 0;}
     to {right: -$panelWidth;}
 }
+
 .panel_on {animation-name: 'actions-visible';}
 @keyframes actions-visible {
     from {right: -$panelWidth;}
