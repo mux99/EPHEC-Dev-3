@@ -52,3 +52,10 @@
   display: flex;
   flex-direction: row;
 }
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}

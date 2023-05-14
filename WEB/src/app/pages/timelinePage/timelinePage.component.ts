@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Renderer2, ViewChild, createComponent } from '@angular/core';
-import {  ActivatedRoute} from '@angular/router';
+import {  ActivatedRoute, Router} from '@angular/router';
 import { TimelineEvent } from './timelineEvent/timelineEvent.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -23,7 +23,8 @@ export class TimelinePage {
     private applicationRef: ApplicationRef,
     private _Activatedroute: ActivatedRoute,
     private auth: AuthService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) {
     this.timelineScale = 1;
     this.d_year = 0;
@@ -118,5 +119,10 @@ export class TimelinePage {
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
     obs.subscribe((data: any) => {});
+  }
+
+  goToProject() {
+    console.log("test");
+    this.router.navigate([`/p/${this.project_id}/`]);
   }
 }
