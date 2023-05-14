@@ -7,8 +7,7 @@
     box-sizing: border-box;
     position: absolute;
     bottom: 225px;
-    
-    display: none;
+    // display: none;
 }
 
 *[contenteditable="true"] {
@@ -57,3 +56,13 @@
     min-height: 140px;
     margin: 0;
 }
+
+.optionInput input {margin-left: 8px;}
+#endPeriod {margin-bottom:15px;}
+.optionInput {
+    display: flex;
+    align-items: center;
+    margin: 00px 0px 0px 0px;
+}
+
+  

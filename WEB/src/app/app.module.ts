@@ -31,6 +31,7 @@ import { TimelinePage } from './pages/timelinePage/timelinePage.component';
 import { TimelineEvent } from './pages/timelinePage/timelineEvent/timelineEvent.component';
 import { EventPopup } from './pages/timelinePage/eventPopup/eventPopup.component';
 import { PeriodPopup } from './pages/timelinePage/periodPopup/periodPopup.component';
+import { OptionPopup } from './pages/timelinePage/optionPopup/optionPopup.component';
 
 
 const appRoutes: Routes = [
@@ -46,7 +47,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [AppComponent,UserActions,LandingPage,ProjectSmall,LandingPage,TimelinePage,TimelineEvent,SignUpPage,
     SignInPage,ProjectPage,ProjectEvent,ProjectTimeline,CookiePopup,EditButton,ProjectAdd,TimelineAdd,ProfilePage,
-    PasswordPopup,ProjectImport,EventPopup,PeriodPopup],
+    PasswordPopup,ProjectImport,EventPopup,PeriodPopup,OptionPopup],
   imports: [
     BrowserModule,
     HttpClientModule,
