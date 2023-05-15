@@ -2,13 +2,13 @@
 <edit-button></edit-button>
 <h2>Timeline option</h2>
 <h2 #name>name</h2>
-<div id="startPeriod">
+<div class="optionInput">
     <P>From</P>
     <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
     <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
     <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
 </div>
-<div id="endPeriod">
+<div class="optionInput">
     <P>To</P>
     <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
     <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
@@ -17,6 +17,17 @@
 <div class="optionInput">
     <p>Day per year</p>
     <input type="number" min="1" placeholder="DDD" name="day" class="w4" readonly>
+</div>
+<span>
+    <span class="month">Month</span>
+    <button class="bubble month addMonth" (click)="addInput()"></button>
+</span>
+<div id="monthInput">
+    <div *ngFor="let value of values; let i = index">
+        <input class="monthName" placeholder="month name" type="text" [(ngModel)]="value.name">
+        <input class="monthDays" placeholder="days" type="text" [(ngModel)]="value.days" #name="ngModel">
+        <button class="bubble month addMonth" (click)="removeInput(i)"></button>
+    </div>
 </div>
 <div class="container2"><p id="periodDesc">description</p></div>
   

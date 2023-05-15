@@ -23,7 +23,7 @@
 
     //dimentions
     --topbar-height: 100px;
-    --buble-size: 60px;
+    --buble-size: 40px;
 }
 
 html {
@@ -74,7 +74,6 @@ input, button, select, label {
     border: none;
     color: var(--text-color);
     font-family: 'Tahoma', sans-serif;
-    text-align: center;
     padding: 0 15px;
     background-repeat: no-repeat;
     cursor: pointer;

@@ -5,5 +5,14 @@ import { Component } from '@angular/core';
   templateUrl: './optionPopup.component.html',
   styleUrls: ['./optionPopup.component.scss']
 })
+export class OptionPopup {
+  values: { name: string, days: string }[] = [];
 
-export class OptionPopup {}
+  removeInput(i: number) {
+    this.values.splice(i, 1);
+  }
+
+  addInput() {
+    this.values.push({ name: "", days: "" });
+  }
+}
