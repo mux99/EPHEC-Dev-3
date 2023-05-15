@@ -1,17 +1,15 @@
 :host {
+    //functionnal
     display: flex;
 }
 :host > button {
+    //functionnal
     align-self: center;
     margin: auto;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--accent-1);
 }
 
 :host > button > img {
+    //cosmetic
     width: 90%;
     height: 90%;
 }

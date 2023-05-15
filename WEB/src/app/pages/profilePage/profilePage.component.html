@@ -1,0 +1,63 @@
+<ul #nav>
+  <li id="accountLink" (click)="showSection('account-section'); selectSection('account-section')" [ngClass]="{ 'selected': currentSection === 'account-section' }">Account</li>
+  <li id="passwordLink" (click)="showSection('password-section'); selectSection('password-section')" [ngClass]="{ 'selected': currentSection === 'password-section' }">Password</li>
+  <li id="appearanceLink" (click)="showSection('appearance-section'); selectSection('appearance-section')" [ngClass]="{ 'selected': currentSection === 'appearance-section' }">Appearance</li>
+  <li id="premiumLink" (click)="showSection('premium-section'); selectSection('premium-section')" [ngClass]="{ 'selected': currentSection === 'premium-section' }">Premium</li>
+</ul>
+
+
+<div id="account-section" class="active rightColumn">
+  <h2>Account settings</h2>
+  <input type="text" name="text" placeholder="Name">
+  <input type="email" name="email" placeholder="Email">
+  <span class="underline"><button type="submit">update</button><button type="submit">cancel</button></span>
+  <button id="deleteAccount">delete your account</button>
+</div>
+
+
+<div id="password-section" class="disabled rightColumn">
+  <h2>Password settings</h2>
+    <input type="password" name="currentPassword" placeholder="Current password" required>
+    <input type="password" name="newPassword" placeholder="New password" required>
+    <input type="password" name="confirmPassword" placeholder="Confirm new password" required>
+    <span><button type="submit">update</button><button>cancel</button></span>
+</div>
+
+
+<div id="appearance-section" class="disabled rightColumn">
+  <h2>Appearance settings</h2>
+  <p>Choose your preferred theme:</p>
+  <div id="theme-container">
+    <div class="theme" (click)="themeSelect('1')">
+      <div class="theme-color" style="background: #5f2a87;"></div>
+      <div class="theme-color" style="background: #17121f;"></div>
+    </div>
+    <div class="theme" (click)="themeSelect('2')">
+      <div class="theme-color" style="background: #bc3855;"></div>
+      <div class="theme-color" style="background: #010b1a;"></div>
+    </div>
+    <div class="theme" (click)="themeSelect('3')">
+      <div class="theme-color" style="background: #00b387;"></div>
+      <div class="theme-color" style="background: #161b22;"></div>
+    </div>
+    <div class="theme" (click)="themeSelect('4')">
+      <div class="theme-color" style="background: #12b8c9;"></div>
+      <div class="theme-color" style="background: #f6f6f6;"></div>
+    </div>
+    <div class="theme" (click)="themeSelect('5')">
+      <div class="theme-color" style="background: #5ecd88;"></div>
+      <div class="theme-color" style="background: #ffffff;"></div>
+    </div>
+  </div>
+  <span class="underline"><button>update</button><button>cancel</button></span>
+  <p>Become a premium member to change appearance</p>
+  <button type="submit">Upgrade to Premium</button>
+</div>
+
+
+
+<div id="premium-section" class="disabled rightColumn">
+  <h2>Premium</h2>
+  <p>Become a premium member to access exclusive content and features!</p>
+  <button type="submit">Upgrade to Premium</button>
+</div>

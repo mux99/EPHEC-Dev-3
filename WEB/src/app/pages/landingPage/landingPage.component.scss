@@ -1,65 +1,34 @@
-:host {
-    top: 0;
-    left: 0;
-    position: fixed;
-    width: 100vw;
-    height: fit-content;
-}
-
 #topBar > img {
+    //cosmetic
     height: 85%;
     margin: auto 40px;
     width: 300px;
 }
-
+#topBar > div > * {margin: 0 5px;}
 #topBar > div {
+    //functionnal
     display: flex;
     flex-direction: row;
 }
+#addProject > * {margin-right: 15px;}
+#addProject {
+    //funtionnal
+    height: 100%;
 
-#topBar > div > * {
-    box-shadow: 0 2px var(--accent-shadow-3);
-}
-
-#topBar .input {
-    color: var(--text-color);
-    text-align: center;
-    margin-left: 10px;
-    height: 30px;
-    border: none;
-    background-color: var(--accent-1);
-    border-radius: 15px;
-    padding: 0 10px
-}
-
-#projectsSelectors {
-    width: 100%;
+    //cosmetic
+    background-color: var(--shadow-color);
+    align-content: center;
     display: flex;
-    justify-content: end;
-    align-items: center;
+    justify-content: center;
 }
 
-#projectsSelectors > * {
-    margin: 5px 25px;
-    
-}
-
-#projectsSelectors select {
-  background-color: #E6E6E6;
-  border-radius: 4px;
-  padding: 8px 24px 8px 10px;
-  font-weight: normal;
-  max-width: 100%;
-}
-
-.placeholder {
-    background-color: var(--background-shadow-1);
-    margin: 10px;
-    border-radius: 15px;
-    height: 25vh;
+#importProj > button > img {
+    width: 100%;
+    height: 100%;
 }
 
 #gridContainer {
+    //functionnal do not change
     width: 100vw;
     height: calc(100vh - var(--topbar-height));
     overflow: scroll;
@@ -71,4 +40,14 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     padding: 25px 15px 0 15px;
+}
+#projectGrid > * {
+    //functionnal
+    overflow: hidden;
+
+    //cosmetic
+    border-radius: 15px;
+    margin: 10px;
+    height: 25vh;
+    box-shadow: var(--shadow);
 }

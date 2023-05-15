@@ -1,9 +1,18 @@
-<div #container id="container">
-    <div #events id="timelineBody"></div>
+<div #container2 class="container" id="row2">
+    <div #events id="events"></div>
 </div>
-<div id="settingsButton">
-    <edit-timeline></edit-timeline>
+<div #container class="container round" id="row3">
+    <div #periods id="timelineBody"></div>
 </div>
-<div id="modifyEvent" class="overlayPopup">
-    <event-popup></event-popup>
+<div id="optionPanel">
+    <input type="search" placeholder="Search...">
+    <select>
+        <option>all</option>
+        <option>major</option>
+    </select>
+</div>
+<event-popup></event-popup>
+<div id="settings">
+    <button #edit id="edit" class="bubble" (click)="toggleOptions()"></button>
+    <button id="addEvent" class="bubble" (click)="addEvent()"></button>
 </div>

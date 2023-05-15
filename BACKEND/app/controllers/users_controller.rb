@@ -45,7 +45,7 @@ class UsersController < ApplicationController
         if session_token.nil? || user.nil?
             render json: {:error => ERR_USER_NOT_EXIST}
         else
-            render json: {:email => user.email, :name => user.name, :tag => user.tag, :creation_date => user.created_at}
+            render json: {:email => user.email, :name => user.name, :tag => user.tag, :creation_date => user.created_at, :theme => user.json["theme"], :id => user.id}
         end
     end
 
@@ -59,6 +59,9 @@ class UsersController < ApplicationController
             if user.authenticate(params[:op])
                 user.update(password: params[:p]) unless params[:p].nil?
             end
+            user_json = user.json
+            user_json["theme"] = JSON.parse(params[:t]) unless params[:t].nil?
+            user.update(json: user_json) 
         end
     end
 
@@ -79,9 +82,13 @@ class UsersController < ApplicationController
             render json: {:error => ERR_USER_NOT_EXIST}
         else
             user_projects = ProjectsUser.joins(:project).where(user_id: user.id)
+            if params[:search].present?
+                user_projects = user_projects.where("projects.name LIKE ? OR projects.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+            end
             res = {}
             user_projects.each do |p|
                 project = Project.find_by(id: p.project_id)
+                # next unless project.name.include?(params[:search]) || project.description.include?(params[:search])
                 owner = User.find_by(id: project.owner)
                 tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
                 img = tmp.img unless tmp.nil?

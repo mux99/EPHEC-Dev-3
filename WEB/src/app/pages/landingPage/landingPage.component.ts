@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, Renderer2, ViewChild, createComponent } from '@angular/core';
 
 import { ProjectSmall } from './projectSmall/projectSmall.component';
+import { ProjectImport } from './projectImport/projectImport.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -11,6 +12,8 @@ import { AuthService } from 'src/shared-services/auth.service';
 })
 
 export class LandingPage {
+  is_public = true;
+
   constructor(
     private http: HttpClient,
     private envinjector: EnvironmentInjector,
@@ -21,15 +24,22 @@ export class LandingPage {
 
   @ViewChild("projects") projects!: ElementRef;
   @ViewChild("addProject") add_ref!: ElementRef;
+  @ViewChild("projectImport") import_ref!: ElementRef;
+  @ViewChild("goMine") gomine_ref!: ElementRef;
+  @ViewChild("goPublic") gopublic_ref!: ElementRef;
 
-  ngAfterViewInit() {
+  load(querry: string, is_auth: boolean) {
+    while (this.projects.nativeElement.children.length > 1) {
+      this.renderer.removeChild(this.projects.nativeElement, this.projects.nativeElement.firstChild);
+    }
     let obs: any;
-    if (this.auth.isUserLoggedIn) {
+    if (is_auth) {
       //load only personal projects
-      obs = this.http.get('/api/user_projects', this.auth.httpHeader );
+      obs = this.http.get(querry, this.auth.httpHeader );
+      this.add_ref.nativeElement.style.display = "flex";
     } else {
       //load public project
-      obs = this.http.get('/api/projects/');
+      obs = this.http.get(querry);
       this.add_ref.nativeElement.style.display = "none";
     }
     obs.subscribe((obs_data: any) => {
@@ -60,5 +70,53 @@ export class LandingPage {
         this.projects.nativeElement.appendChild(tmp2);
       }
     })
+  }
+
+  goToMine() {
+    this.load('/api/user_projects',true)
+    this.is_public = !this.is_public;
+    this.gopublic_ref.nativeElement.style.display = "block";
+    this.gomine_ref.nativeElement.style.display = "none";
+  }
+
+  goToPublic() {
+    this.load('/api/projects',false);
+    this.is_public = !this.is_public;
+    this.gopublic_ref.nativeElement.style.display = "none";
+    if (this.auth.isUserLoggedIn) {
+      this.gomine_ref.nativeElement.style.display = "block";
+    }
+  }
+
+  ngAfterViewInit() {
+    this.is_public = this.auth.isUserLoggedIn
+    if (this.is_public) {
+      this.load('/api/user_projects',true)
+      this.gomine_ref.nativeElement.style.display = "none";
+    } else {
+      this.load('/api/projects',false)
+      this.gopublic_ref.nativeElement.style.display = "none";
+    }
+  }
+  
+  onSearchSubmit(event: any, searchValue: string) {
+    if (this.is_public) {
+      if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
+        let i = searchValue;
+        this.load(`/api/user_projects/?search=${i}`,true);
+      }
+    }
+    else {
+      if ((event.keyCode === 13 || event.key === 'Enter') && searchValue.trim() !== '') {
+        let i = searchValue;
+        this.load(`/api/projects/?search=${i}`,false);
+      }
+    }
+  }
+
+  onSearchInputChange(event: any) {
+    if (event.target.value.trim() === '') {
+      this.ngAfterViewInit();
+    }
   }
 }

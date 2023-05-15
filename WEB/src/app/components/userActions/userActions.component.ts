@@ -1,5 +1,7 @@
 import { Component, ElementRef, Injectable, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { AuthService } from 'src/shared-services/auth.service';
 import { Md5 } from 'ts-md5';
 
 @Injectable({
@@ -19,8 +21,15 @@ export class UserActions {
   @ViewChild('userIcon') icon_ref!: ElementRef;
   @ViewChild('userPanel') panel_ref!: ElementRef;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthService) {
     this.panel_visible = true;
+  }
+  public triggerUserIcon$: Subject<string> = this.auth.triggerUserIcon$;
+
+  ngOnInit() {
+    this.triggerUserIcon$.subscribe((email: string) => {
+      this.connect(email);
+    });
   }
 
   userIconClick() {
@@ -40,14 +49,21 @@ export class UserActions {
   }
 
   userDisconnectClick() {
-    this.router.navigate(['/sign-out']);
+    this.auth.logout();
+    this.disconnect();
+    setTimeout(() => {
+      this.router.navigate(["/"]);
+    }, 10);
+    setTimeout(() => {
+      window.location.reload();
+    }, 10);
   }
 
   connect(email: string) {
     let icon = document.getElementById("userIcon");
     let connect = document.getElementById("userConnect");
     icon?.classList.remove("hidden");
-    if (icon != null) icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}")`;
+    if (icon != null) icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}?d=retro")`;
     connect?.classList.add("hidden");
   }
 

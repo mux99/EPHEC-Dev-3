@@ -2,7 +2,11 @@ class ProjectsController < ApplicationController
     include UsersHelper
 
     def show_pub
-        public_projects = Project.joins(:images)
+        if params[:search].present?
+            public_projects = Project.where(visibility: true).where("name LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+        else
+            public_projects = Project.where(visibility: true)
+        end
         res = {}
         public_projects.each do |p|
             tmp = Image.joins(:project).where(project_id: p.id, cover: true).first
@@ -23,23 +27,28 @@ class ProjectsController < ApplicationController
         project = Project.find(params[:id])
         owner = User.find(project.owner)
         timelines = Timeline.joins(:projects_timeline).where("projects_timelines.project_id = '#{project.id}'")
-        render json: {timelines: timelines.map{|x| {json: x.json, 
-            start: x.start, 
-            end: x.end, 
+        render json: {timelines: timelines.map{|x| {json: x.json,
+            start: x.start,
+            end: x.end,
             desc: x.description}},
             name: project.name,
             description: project.description,
+            text: project.json["text"],
             owner: owner.name,
-            owner_tag: owner.tag}
+            tag: owner.tag}
     end
-    
+
     def new
         session_token = request.headers['Authorization']&.split(' ')&.last
         owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
         if session_token.nil? || owner.nil?
             render json: {:error => ERR_USER_NOT_EXIST}
         else
-            new_project = Project.create(name: "project name", description: "project description", owner: owner.id, visibility: false)
+            tmp = {
+                :text => "text",
+                :events => []
+            }
+            new_project = Project.create(name: "project name", description: "project description", owner: owner.id, visibility: false, json: tmp)
             ProjectsUser.create(user_id: owner.id, project_id: new_project.id)
         end
         render json: { id: new_project.id }
@@ -68,14 +77,14 @@ class ProjectsController < ApplicationController
         timelines.each do |t|
             timelines_ids += [t.timeline_id]
         end
-        project_json = JSON.parse(project.json)
         res = {
             :name => project.name,
             :description => project.description,
             :owner => owner.name,
             :tag => owner.tag,
+            :visible => project.visibility,
             :image => img,
-            :text => project_json[:text],
+            :text => project.json["text"],
             :timelines => timelines_ids
         }
         render json: res
@@ -91,9 +100,9 @@ class ProjectsController < ApplicationController
             project.update(name: params[:n]) unless params[:n].nil?
             project.update(description: params[:d]) unless params[:d].nil?
             project.update(visibility: params[:v]) unless params[:v].nil?
-            tmp = JSON.parse(project.json)
+            tmp = project.json
             tmp["text"] = params[:t] unless params[:t].nil?
-            project.update(json: JSON.generate(tmp))
+            project.update(json: tmp)
         end
     end
 
@@ -126,31 +135,41 @@ class ProjectsController < ApplicationController
     end
 
     def event_show
-        project_events = Project.find(params[:id]).json["events"]
+        project_events = Project.find(params[:pid]).json["events"]
         event = project_events.select {|e| e["ID"] == params[:eid]}
         render json: event
     end
 
     def event_update
-        project = Project.find(params[:id])
+        project = Project.find(params[:pid])
         project_json = project.json
         project_events = project_json["events"]
         index = 0
         project_events.each_with_index do |e, i|
             if e["ID"] == params[:eid]
-                index = i 
+                index = i
                 break
             end
         end
-        project_events[index] = params[:event]
+        project_events[index][:title] = params[:title] unless params[:title].nil?
+        project_events[index][:description] = params[:description] unless params[:description].nil?
+        project_events[index][:date] = params[:date] unless params[:date].nil?
         project_json["events"] = project_events
         project.update(json: project_json)
     end
 
     def event_add
-        project = Project.find(params[:id])
+        project = Project.find(params[:pid])
         project_json = project.json
-        project_json["events"] += [params[:event]]
+        tmp = {
+            :id => SecureRandom.hex,
+            :timelines => [params[:tid]],
+            :title => "event name",
+            :description => "event description",
+            :image => "",
+            :date => "0000/00/00"
+        }
+        project_json["events"] += [tmp]
         project.update(json: project_json)
     end
 
@@ -159,10 +178,16 @@ class ProjectsController < ApplicationController
         project_json = project.json
         project_json["events"].each do |e|
             if e["ID"] == params[:eid]
-                project_json["events"] -= e 
+                project_json["events"] -= e
                 break
             end
         end
         project.update(json: project_json)
+    end
+
+    def members
+        project = Project.find(params[:id])
+        members = ProjectsUser.where(project_id: project.id)
+        render json: {owner: project.owner, members: members.map {|x| x.id}}
     end
 end

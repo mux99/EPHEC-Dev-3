@@ -7,9 +7,10 @@ import { AuthService } from 'src/shared-services/auth.service';
   selector: 'timeline-add',
   styleUrls: ['./timelineAdd.component.scss'],
   host: {
-    "class": "placeholder"
+    "class": "placeholder",
+    "id": "timelineAdd"
   },
-  template: '<div><span>add timeline</span><button (click)="onClick()"><img src="/assets/plusIcon.svg"></button><div>'
+  template: '<div><span>add timeline</span><button class="add_button" (click)="onClick()"></button></div>'
 })
 
 export class TimelineAdd {
@@ -33,7 +34,7 @@ export class TimelineAdd {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/`, {}, this.auth.httpHeader );
     obs.subscribe(
       (obs_data: any) => {
-        this.router.navigate([`/t/${obs_data.id}`])
+        this.router.navigate([`/p/${this.project_id}/t/${obs_data.id}`])
       }
     )
   }
