@@ -8,16 +8,16 @@ jean_valjean:
   name: Jean Valjean
   tag: 6969
   email: jean.valjean@hotmail.net
-  password: password
+  password_digest: <%= BCrypt::Password.create('password') %>
 
 laure_emipsum:
   name: Laure Emipsum
   tag: 4064
   email: l.emipsum@caramail.com
-  password: 12345
+  password_digest: <%= BCrypt::Password.create('12345') %>
 
 david_goodenough:
   name: David Goodenough
   tag: 1756
   email: d.goodenough@professional.michaelsoft
-  password: secure_password69
+  password_digest: <%= BCrypt::Password.create('secure_password69') %>
