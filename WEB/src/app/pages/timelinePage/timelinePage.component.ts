@@ -114,7 +114,16 @@ export class TimelinePage {
     return 0;
   }
 
-  toggleOptions() {}
+  toggleOptions() {
+    let options = document.getElementById("options")
+    console.log(options);
+    if (options?.style.display == "none") {
+      options.style.display = "block";
+    }
+    else if (options != undefined) {
+      options.style.display = "none";
+    }
+  }
 
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
