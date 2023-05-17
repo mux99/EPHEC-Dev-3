@@ -14,7 +14,7 @@
 #titleContainer > * {margin: 0;cursor: default;}
 #titleContainer > h1 {min-width: 300px;}
 #titleContainer {
-  margin: 10px 25px;
+  margin: 10px 15px;
 }
 #options > * {margin-left: 10px;}
 #options {
@@ -71,3 +71,11 @@
   height: fit-content;
   padding: 10px;
 } 
+
+:host #topBar > a > img {
+  height: 55px;
+  width: 55px;
+  margin-right: 10px;
+}
+
+:host a {margin-left: 20px; display: flex; align-items: center;}

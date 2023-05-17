@@ -43,9 +43,37 @@
 #addEvent {background-image: url("/assets/plusIcon.svg");}
 
 nav > * {cursor: pointer;}
+nav > a {color: var(--text-color); text-decoration: none; font-size: 24px;}
+nav > a:hover {text-decoration: underline;}
 nav {
   position: fixed;
+  display: flex;
+  align-items: center;
   top: 0;
   left: 0;
   z-index: 100;
+  padding: 10px 0px 0px 10px;
 }
+
+:host > nav > a img {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+:host #returnIcon {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+:host #TwIcon {
+  height: 55px;
+  width: 55px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+
+:host > nav > a {margin-left: 10px; display: flex; align-items: center;}
