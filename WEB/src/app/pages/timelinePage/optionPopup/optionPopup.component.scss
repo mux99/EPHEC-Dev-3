@@ -6,7 +6,8 @@
     width: var(--popup-width);
     box-sizing: border-box;
     position: absolute;
-    bottom: 225px;
+    bottom: 200px;
+    // display: none;
 }
 
 *[contenteditable="true"] {
@@ -38,7 +39,6 @@
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     appearance: textfield;
-
     padding: 0;
     background-color: var(--shadow-color-light);
     border-radius: 5px;
@@ -46,7 +46,6 @@
 }
 
 .container2 {
-    margin-top: 15px;
     height: 150px;
     overflow-x: scroll;
     word-wrap: break-word;
@@ -56,12 +55,26 @@
     margin: 0;
 }
 
-.optionInput input {margin-left: 8px;}
-#endPeriod {margin-bottom:15px;}
+.optionInput input {margin-left: 8px; text-align: center;}
 .optionInput {
     display: flex;
     align-items: center;
     margin: 00px 0px 0px 0px;
 }
+/////////add months/////////
+.addMonth {background-image: url("/assets/plusIcon.svg");}
+.bubble {
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
-  
+.month {display: inline-block; vertical-align: middle; margin-right: 10px; margin-left: 5px;}
+#monthInput {
+    margin-top: 10px;
+    max-height: 130px;
+    overflow-y: auto;
+}
+#monthInput input {padding-left: 10px;}
+.monthName {width: 150px; margin: 3px 10px 5px 5px;}
+.monthDays {width: 50px}
+#monthInput button {transform: rotate(45deg);}
