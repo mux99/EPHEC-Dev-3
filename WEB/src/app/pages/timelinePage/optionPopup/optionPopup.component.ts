@@ -13,6 +13,13 @@ export class OptionPopup {
   }
 
   addInput() {
+    console.log(this.values)
     this.values.push({ name: "", days: "" });
   }
+  numericOnly(event: KeyboardEvent): boolean {
+    let patt = /^([0-9])$/;
+    let result = patt.test(event.key);
+    return result;
+  }
+  
 }

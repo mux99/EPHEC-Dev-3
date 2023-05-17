@@ -43,6 +43,7 @@
     background-color: var(--shadow-color-light);
     border-radius: 5px;
     margin-right: 5px;
+    height: 35px;
 }
 
 .container2 {
@@ -62,7 +63,10 @@
     margin: 00px 0px 0px 0px;
 }
 /////////add months/////////
-.addMonth {background-image: url("/assets/plusIcon.svg");}
+#addMonth {width: 35px; position: relative;}
+#addMonth > img {margin-left: -9.5px;margin-bottom: -2px;}
+#deleteMonth {width: 35px; position: relative;}
+#deleteMonth > img {margin-left: -9.5px;margin-bottom: -2px; transform: rotate(45deg)}
 .bubble {
     background-repeat: no-repeat;
     background-position: center;
@@ -72,9 +76,9 @@
 #monthInput {
     margin-top: 10px;
     max-height: 130px;
-    overflow-y: auto;
+    height: fit-content;
 }
+
 #monthInput input {padding-left: 10px;}
 .monthName {width: 150px; margin: 3px 10px 5px 5px;}
 .monthDays {width: 50px}
-#monthInput button {transform: rotate(45deg);}

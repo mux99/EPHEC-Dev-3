@@ -20,13 +20,13 @@
 </div>
 <span>
     <span class="month">Month</span>
-    <button class="bubble month addMonth" (click)="addInput()"></button>
+    <button id="addMonth" class="month" (click)="addInput()"><img src="assets/plusIcon.svg"></button>
 </span>
 <div id="monthInput">
     <div *ngFor="let value of values; let i = index">
         <input class="monthName" placeholder="month name" type="text" [(ngModel)]="value.name">
-        <input class="monthDays" placeholder="days" type="text" [(ngModel)]="value.days" #name="ngModel">
-        <button class="bubble month addMonth" (click)="removeInput(i)"></button>
+        <input class="monthDays" placeholder="days" (keypress)="numericOnly($event)" type="text" [(ngModel)]="value.days" #name="ngModel">
+        <button id="deleteMonth" class="month" (click)="removeInput(i)"><img src="assets/plusIcon.svg"></button>
     </div>
 </div>
 <div class="container2"><p id="periodDesc">description</p></div>
