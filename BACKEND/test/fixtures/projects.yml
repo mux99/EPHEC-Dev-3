@@ -4,8 +4,19 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+proj:
+  name: test project
+  owner: laure_emipsum
+  description: this is a placeholder
+
+proj2:
+  name: Les Misérables
+  owner: jean_valjean
+  description: the true story written by the real Jean Valjean
+  visibility: true
+
+proj3:
+  name: Michaelsoft Binbows
+  owner: david_goodenough
+  description: the forgotten Windows competitor
+  visibility: true

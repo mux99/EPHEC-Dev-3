@@ -11,4 +11,7 @@ class Token < ApplicationRecord
             t.update(ttl: new_ttl)
         end
     end
+
+    validates :token, presence: true
+    validates :user_id, presence: true
 end

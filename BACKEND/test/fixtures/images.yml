@@ -4,8 +4,11 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+img1:
+  url: https://cdn.discordapp.com/attachments/1045329788295983137/1084102518734323722/po94j5skc17a1.webp
+  project: proj
+
+img2:
+  url: https://cdn.discordapp.com/attachments/1045329788295983137/1107607580223737876/20230507_142602.png
+  project: proj3
+  cover: true

@@ -4,8 +4,20 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+first_step:
+  name: 'initializing'
+  description: 'somewhere in time'
+  start: -750
+  end: -442
+
+second_step:
+  name: 'development'
+  description: 'after the init'
+  start: -442
+  end: 0
+
+third_step:
+  name: 'pain and suffering'
+  description: 'nothing but that'
+  start: 0
+  end: 86
