@@ -1,5 +1,5 @@
 $iconSize: 55px;
-$panelWidth: 15vw;
+$panelWidth: 250px;
 
 :host {
     position: absolute;
@@ -25,6 +25,7 @@ hr {padding-top: 8px;visibility: hidden;}
 #userConnect {background-color: transparent;border: none;}
 #userConnect > img {height: 75%;}
 #userPanel > * { width: 100%;margin: 0 0px;}
+#userPanel > button { width: fit-content; align-self: center;}
 #userPanel {
   position: fixed;
   top: var(--topbar-height);
@@ -34,7 +35,7 @@ hr {padding-top: 8px;visibility: hidden;}
   height: fit-content;
   animation-duration: 200ms;
   animation-fill-mode: forwards;
-  border-radius: 15px;
+  border-radius: 20px 0 0 20px;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
@@ -56,10 +57,10 @@ hr {padding-top: 8px;visibility: hidden;}
 #premium {background-image: url("/assets/premiumIcon.svg"); padding-bottom: 20px;}
 
 :host a  {
-    text-align: center;
+    text-align: start;
     color: var(--text-color);
     text-decoration: none;
-    padding: 22px 0 22px 0px;
+    padding: 22px 0 22px 20px;
 }
 
 :host a img {

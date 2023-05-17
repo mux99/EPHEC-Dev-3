@@ -1,22 +1,22 @@
-<div class="container"><button><img src="assets/plusIcon.svg"></button></div>
-<edit-button></edit-button>
-<h2>Timeline option</h2>
+<div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
+<edit-button (childEvent)="edit($event)"></edit-button>
+<h2>Timeline options</h2>
 <h2 #name>name</h2>
 <div class="optionInput">
     <P>From</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
+    <input #syear type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
+    <input #smonth type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
+    <input #sday type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
 </div>
 <div class="optionInput">
     <P>To</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
+    <input #eyear type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
+    <input #emonth type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
+    <input #eday type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
 </div>
 <div class="optionInput">
     <p>Day per year</p>
-    <input type="number" min="1" placeholder="DDD" name="day" class="w4" readonly>
+    <input type="number" min="1" placeholder="DDD" name="day" class="w4" [readonly]="isReadOnly">
 </div>
 <span>
     <span class="month">Month</span>

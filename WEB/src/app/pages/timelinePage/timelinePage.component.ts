@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Renderer2, ViewChild, createComponent } from '@angular/core';
 import {  ActivatedRoute, Router} from '@angular/router';
 import { TimelineEvent } from './timelineEvent/timelineEvent.component';
+import { TimelinePeriod } from './timelinePeriod/timelinePeriod.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -76,8 +77,30 @@ export class TimelinePage {
             //add elem to view
             this.applicationRef.attachView(elem.hostView);
           }
+
+          //load periods
+          for (let i = 0; i < data.periods.length; i++) {
+            //create host container
+            const tmp = this.renderer.createElement('div');
+            this.renderer.appendChild(this.periods_ref.nativeElement, tmp);
+
+            //create event instance
+            let elem = createComponent(TimelinePeriod, {
+              environmentInjector: this.envinjector,
+              hostElement: tmp
+            })
+            //set elem inputs
+            // elem.instance.left = ;
+            // elem.instance.width = ;
+            elem.instance.name = data[i].name;
+            elem.instance.color = data[i].color;
+
+            elem.instance.top = 0;
+
+            //add elem to view
+            this.applicationRef.attachView(elem.hostView);
         }
-    )
+      });
     }
   }
 
@@ -114,7 +137,16 @@ export class TimelinePage {
     return 0;
   }
 
-  toggleOptions() {}
+  toggleOptions() {
+    let options = document.getElementById("options")
+    console.log(options);
+    if (options?.style.display == "none") {
+      options.style.display = "block";
+    }
+    else if (options != undefined) {
+      options.style.display = "none";
+    }
+  }
 
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);

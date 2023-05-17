@@ -3,17 +3,13 @@
     <div #events id="events"></div>
 </div>
 <div #container class="container round" id="row3">
-    <div #periods id="timelineBody"></div>
-</div>
-<div id="optionPanel">
-    <input type="search" placeholder="Search...">
-    <select>
-        <option>all</option>
-        <option>major</option>
-    </select>
+    <div #periods id="timelineBody">
+        <timeline-period></timeline-period>
+    </div>
 </div>
 <event-popup></event-popup>
+<option-popup id="options"></option-popup>
 <div id="settings">
-    <button #edit id="edit" class="bubble" (click)="toggleOptions()"></button>
+    <button id="edit" class="bubble" (click)="toggleOptions()"></button>
     <button id="addEvent" class="bubble" (click)="addEvent()"></button>
 </div>
