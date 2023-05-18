@@ -25,6 +25,7 @@ export class TimelinePage {
     private _Activatedroute: ActivatedRoute,
     private auth: AuthService,
     private renderer: Renderer2,
+    private elementRef: ElementRef,
     private router: Router
   ) {
     this.timelineScale = 1;
@@ -156,5 +157,15 @@ export class TimelinePage {
   goToProject() {
     console.log("test");
     this.router.navigate([`/p/${this.project_id}/`]);
+  }
+  showButtons() {
+    const addEventButton = this.elementRef.nativeElement.querySelector('#addEvent');
+    const additionalButtons = this.elementRef.nativeElement.querySelector('#additionalButtons');
+    additionalButtons.classList.toggle('show');
+    if (additionalButtons.classList.contains('show')) {
+      addEventButton.style.transform = 'rotate(45deg)';
+    } else {
+      addEventButton.style.transform = 'none';
+    }
   }
 }

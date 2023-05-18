@@ -1,28 +1,47 @@
 :host {
   height: 100vh;
   width: 100vw;
-  --timeline-height: calc( 3 * var(--buble-size));
+  --timeline-height: calc(3 * var(--buble-size));
   display: grid;
   grid-template-rows: 1fr var(--timeline-height) 25vh;
 }
-#row2 {grid-row: 1;height: 100%;}
-#row3 {grid-row: 2;}
-.container::-webkit-scrollbar {display: none;} //chrome, safari
+
+#row2 {
+  grid-row: 1;
+  height: 100%;
+}
+
+#row3 {
+  grid-row: 2;
+}
+
+.container::-webkit-scrollbar {
+  display: none; /*chrome, safari*/
+}
+
 .container {
   margin: auto;
   width: 95vw;
   overflow-x: scroll;
-  scrollbar-width: none; //firefox
+  scrollbar-width: none; /*firefox*/
 }
-.round {border-radius: calc(var(--buble-size) / 2);}
 
-#events {width: 95vw;position: relative;height: 100%;}
+.round {
+  border-radius: calc(var(--buble-size) / 2);
+}
+
+#events {
+  width: 95vw;
+  position: relative;
+  height: 100%;
+}
+
 #timelineBody {
   min-height: var(--timeline-height);
   height: fit-content;
   position: relative;
 
-  //to be replaced
+  /*to be replaced*/
   background-image: url("https://appcodelabs.com/wp-content/uploads/2017/12/horiz-gradient-rainbow-1.png");
   background-size: cover;
 }
@@ -39,12 +58,30 @@
   background-position: center;
   margin: 20px 0 20px 20px;
 }
-#edit {background-image: url("/assets/optionIcon.svg");}
-#addEvent {background-image: url("/assets/plusIcon.svg");}
 
-nav > * {cursor: pointer;}
-nav > a {color: var(--text-color); text-decoration: none; font-size: 24px;}
-nav > a:hover {text-decoration: underline;}
+#edit {
+  background-image: url("/assets/optionIcon.svg");
+}
+
+#addEvent {
+  background-image: url("/assets/plusIcon.svg");
+  transition: transform 0.3s ease-in-out;
+}
+
+nav > * {
+  cursor: pointer;
+}
+
+nav > a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 24px;
+}
+
+nav > a:hover {
+  text-decoration: underline;
+}
+
 nav {
   position: fixed;
   display: flex;
@@ -76,4 +113,34 @@ nav {
   vertical-align: middle;
 }
 
-:host > nav > a {margin-left: 10px; display: flex; align-items: center;}
+:host > nav > a {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+
+#additionalButtons {
+  position: absolute;
+  display: flex;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  transition: left 0.3s ease-in-out;
+}
+
+#additionalButtons.show {
+  left: 100%;
+  display: flex;
+}
+
+#additionalButtons > button {
+  margin-left: 10px;
+  width: 90px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#additionalButtons.show > button {
+  opacity: 1;
+}
