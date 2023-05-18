@@ -139,15 +139,66 @@ export class TimelinePage {
   }
 
   toggleOptions() {
-    let options = document.getElementById("options")
+    let options = document.getElementById("options");
     console.log(options);
-    if (options?.style.display == "none") {
-      options.style.display = "block";
-    }
-    else if (options != undefined) {
-      options.style.display = "none";
+    if (options) {
+      if (options.style.display === "none") {
+        options.style.display = "block";
+        this.hidePopupsExcept("options");
+      } else if (typeof options.style.display === "undefined" || options.style.display === "") {
+        options.style.display = "block";
+        this.hidePopupsExcept("options");
+      } else {
+        options.style.display = "none";
+      }
     }
   }
+  
+  toggleEvents() {
+    let events = document.getElementById("eventsPopup");
+    console.log(events);
+    if (events) {
+      if (events.style.display === "none") {
+        events.style.display = "block";
+        this.hidePopupsExcept("eventsPopup");
+      } else if (typeof events.style.display === "undefined" || events.style.display === "") {
+        events.style.display = "block";
+        this.hidePopupsExcept("eventsPopup");
+      } else {
+        events.style.display = "none";
+      }
+    }
+  }
+  
+  togglePeriods() {
+    let periods = document.getElementById("periods");
+    console.log(periods);
+    if (periods) {
+      if (periods.style.display === "none") {
+        periods.style.display = "block";
+        this.hidePopupsExcept("periods");
+      } else if (typeof periods.style.display === "undefined" || periods.style.display === "") {
+        periods.style.display = "block";
+        this.hidePopupsExcept("periods");
+      } else {
+        periods.style.display = "none";
+      }
+    }
+  }
+  
+  
+  hidePopupsExcept(exceptId: string) {
+    const popupIds = ["options", "eventsPopup", "periods"];
+    popupIds.forEach((popupId) => {
+      if (popupId !== exceptId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+          popup.style.display = "none";
+        }
+      }
+    });
+  }
+  
 
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
