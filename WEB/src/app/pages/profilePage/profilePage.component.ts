@@ -38,7 +38,7 @@ export class ProfilePage {
   }
   themeSelect(t: string) {
     let th;
-    if (t == "1") th = this.theme.theme_1;
+    if (t == "1") th = this.theme.default;
     if (t == "2") th = this.theme.theme_2;
     if (t == "3") th = this.theme.theme_3;
     this.theme.setTheme(th);

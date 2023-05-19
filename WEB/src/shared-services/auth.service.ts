@@ -54,5 +54,8 @@ export class AuthService {
                 }
             );
         }
+        else {
+            this.theme.setTheme(this.theme.default);
+        }
     }
 }

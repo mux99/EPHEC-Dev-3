@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class ThemeService {
-    theme_1 = JSON.parse(`{
+    default = JSON.parse(`{
         "background-1": "#413b47",
         "background-2": "#3d3a41",
         "background-3": "#3d3a41",
