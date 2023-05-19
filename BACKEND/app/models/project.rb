@@ -5,4 +5,8 @@ class Project < ApplicationRecord
     has_many :timelines, :through => :projects_timelines
     has_many :projects_users 
     has_many :users, :through => :projects_users
+
+    validates :name, presence: true
+    validates :owner, presence: true
+    validates :visibility, presence: true
 end
