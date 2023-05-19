@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -41,6 +41,10 @@ export class OptionPopup {
   @ViewChild("eyear") e_year_ref!: ElementRef;
   @ViewChild("emonth") e_month_ref!: ElementRef;
   @ViewChild("eday") e_day_ref!: ElementRef;
+
+  //close popup
+  @Output() hide = new EventEmitter();
+  quit() {this.hide.emit()}
 
   ngAfterViewInit() {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
@@ -92,10 +96,6 @@ export class OptionPopup {
       days += this.d_month[i];
     }
     return 0;
-  }
-
-  quit() {
-    this.host.nativeElement.style.display = "none";
   }
 
   removeInput(i: number) {

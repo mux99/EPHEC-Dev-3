@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { EventEdit } from 'src/shared-services/eventEdit.service';
@@ -36,6 +36,10 @@ export class EventPopup {
   @ViewChild("month") month_ref!: ElementRef;
   @ViewChild("day") day_ref!: ElementRef;
   @ViewChild("desc") desc_ref!: ElementRef;
+
+  //close popup
+  @Output() hide = new EventEmitter();
+  quit() {this.hide.emit()}
 
   ngAfterViewInit() {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
@@ -87,10 +91,5 @@ export class EventPopup {
   init(data: any) {
     this.eventId = data.id;
     this.name_ref.nativeElement.innerHTML = data.title;
-    this.host.nativeElement.style.display = "block";
-  }
-
-  quit() {
-    this.host.nativeElement.style.display = "none";
   }
 }

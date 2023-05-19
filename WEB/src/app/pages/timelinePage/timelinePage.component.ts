@@ -17,6 +17,9 @@ export class TimelinePage {
   d_month: Array<number>;
   timeline_id: any;
   project_id: any;
+  option_visible = false;
+  event_visible = false;
+  period_visible = false;
 
   constructor(
     private http: HttpClient,
@@ -41,7 +44,12 @@ export class TimelinePage {
 
   @ViewChild("altScroll") scroll_ref!: ElementRef;
 
-  ngOnInit() {
+  @ViewChild("options") options_ref!: ElementRef;
+
+  goToProject() {this.router.navigate([`/p/${this.project_id}/`])}
+  toggleOptions() {this.option_visible = !this.option_visible}
+
+  ngAfterViewInit() {
     //fetch id from url
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.timeline_id = paramMap.get('tid'); 
@@ -137,78 +145,23 @@ export class TimelinePage {
     }
     return 0;
   }
-
-  toggleOptions() {
-    let options = document.getElementById("options");
-    console.log(options);
-    if (options) {
-      if (options.style.display === "none") {
-        options.style.display = "block";
-        this.hidePopupsExcept("options");
-      } else if (typeof options.style.display === "undefined" || options.style.display === "") {
-        options.style.display = "block";
-        this.hidePopupsExcept("options");
-      } else {
-        options.style.display = "none";
-      }
-    }
-  }
   
-  toggleEvents() {
-    let events = document.getElementById("eventsPopup");
-    console.log(events);
-    if (events) {
-      if (events.style.display === "none") {
-        events.style.display = "block";
-        this.hidePopupsExcept("eventsPopup");
-      } else if (typeof events.style.display === "undefined" || events.style.display === "") {
-        events.style.display = "block";
-        this.hidePopupsExcept("eventsPopup");
-      } else {
-        events.style.display = "none";
-      }
-    }
-  }
-  
-  togglePeriods() {
-    let periods = document.getElementById("periods");
-    console.log(periods);
-    if (periods) {
-      if (periods.style.display === "none") {
-        periods.style.display = "block";
-        this.hidePopupsExcept("periods");
-      } else if (typeof periods.style.display === "undefined" || periods.style.display === "") {
-        periods.style.display = "block";
-        this.hidePopupsExcept("periods");
-      } else {
-        periods.style.display = "none";
-      }
-    }
-  }
-  
-  
-  hidePopupsExcept(exceptId: string) {
-    const popupIds = ["options", "eventsPopup", "periods"];
-    popupIds.forEach((popupId) => {
-      if (popupId !== exceptId) {
-        const popup = document.getElementById(popupId);
-        if (popup) {
-          popup.style.display = "none";
-        }
-      }
-    });
-  }
-  
-
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
     obs.subscribe((data: any) => {});
+    this.option_visible = false;
+    this.period_visible = false;
+    this.event_visible = true;
+  }
+  
+  addPeriod() {
+    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/periods`, this.auth.httpHeader);
+    obs.subscribe((data: any) => {});
+    this.option_visible = false;
+    this.event_visible = false;
+    this.period_visible = true;
   }
 
-  goToProject() {
-    console.log("test");
-    this.router.navigate([`/p/${this.project_id}/`]);
-  }
   showButtons() {
     const addEventButton = this.elementRef.nativeElement.querySelector('#addEvent');
     const additionalButtons = this.elementRef.nativeElement.querySelector('#additionalButtons');

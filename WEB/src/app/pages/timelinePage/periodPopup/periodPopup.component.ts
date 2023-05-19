@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'period-popup',
@@ -7,6 +7,10 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 })
 export class PeriodPopup implements AfterViewInit {
   @ViewChild('colorDivs') colorDivsRef!: ElementRef;
+
+  //close popup
+  @Output() hide = new EventEmitter();
+  quit() {this.hide.emit()}
 
   ngAfterViewInit() {
     const colorDivs = this.colorDivsRef.nativeElement.querySelectorAll('.color');

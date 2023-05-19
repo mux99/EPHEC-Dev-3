@@ -7,14 +7,14 @@
         <timeline-period></timeline-period>
     </div>
 </div>
-<event-popup id="eventsPopup"></event-popup>
-<period-popup id="periods"></period-popup>
-<option-popup id="options"></option-popup>
+<event-popup *ngIf="event_visible" (hide)="this.event_visible = false"></event-popup>
+<period-popup *ngIf="period_visible" (hide)="this.period_visible = false"></period-popup>
+<option-popup *ngIf="option_visible" (hide)="this.option_visible = false"></option-popup>
 <div id="settings">
     <button id="edit" class="bubble" (click)="toggleOptions()"></button>
-    <button id="addEvent" class="bubble" (click)="showButtons()"></button>
+    <button id="add" class="bubble" (click)="showButtons()"></button>
     <div id="additionalButtons">
-        <button id="eventButton" (click)="toggleEvents()">add event</button>
-        <button id="periodButton" (click)="togglePeriods()">add period</button>
+        <button id="eventButton" (click)="addEvent()">add event</button>
+        <button id="periodButton" (click)="addPeriod()">add period</button>
     </div>
 </div>
