@@ -7,18 +7,19 @@ class ProjectsController < ApplicationController
         else
             public_projects = Project.where(visibility: true)
         end
-        res = {}
+        res = []
         public_projects.each do |p|
             tmp = Image.joins(:project).where(project_id: p.id, cover: true).first
             img = tmp.url unless tmp.nil?
             owner = User.find_by(id: p.owner)
-            res[p.id] = {
+            res += [{
+                :id => p.id,
                 :name => p.name,
                 :description => p.description,
                 :owner => owner.name,
                 :tag => owner.tag,
                 :img => img
-            }
+            }]
         end
         render json: res
     end

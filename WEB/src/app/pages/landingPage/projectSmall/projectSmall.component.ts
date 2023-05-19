@@ -8,23 +8,16 @@ import { Router } from '@angular/router';
     "(click)": "onClick()"
   },
 
-  template: '<div class="projectText"><div #name class="projectName"></div><div #description class="projectDesc"></div></div><div #image class="projectImage"></div>'
+  template: '<div class="projectText"><div class="projectName">{{ name_text }}</div><div class="projectDesc">{{ description_text }}</div></div><img [src]="url_image" class="projectImage">'
 })
 
 export class ProjectSmall { 
   constructor(private router: Router) {}
 
-  @Input() project_id!: string; data_name!: string; data_description!: string; url_image!: string;
-
-  @ViewChild("name") name!: ElementRef;
-  @ViewChild("description") description!: ElementRef;
-  @ViewChild("image") image!: ElementRef;
-
-  ngAfterViewInit() {
-    this.name.nativeElement.innerHTML = this.data_name;
-    this.description.nativeElement.innerHTML = this.data_description;
-    this.image.nativeElement.style.backgroudImage = `url('${this.url_image}')`
-  }
+  @Input() project_id!: string;
+  @Input() name_text!: string;
+  @Input() description_text!: string;
+  @Input() url_image!: string;
 
   onClick() {
     this.router.navigate([`/p/${this.project_id}`])

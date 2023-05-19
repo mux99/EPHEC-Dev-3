@@ -85,20 +85,21 @@ class UsersController < ApplicationController
             if params[:search].present?
                 user_projects = user_projects.where("projects.name LIKE ? OR projects.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
             end
-            res = {}
+            res = []
             user_projects.each do |p|
                 project = Project.find_by(id: p.project_id)
                 # next unless project.name.include?(params[:search]) || project.description.include?(params[:search])
                 owner = User.find_by(id: project.owner)
                 tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
                 img = tmp.img unless tmp.nil?
-                res[project.id] = {
+                res += [{
+                    :id => project.id,
                     :name => project.name,
                     :description => project.description,
                     :owner => owner.name,
                     :tag => owner.tag,
                     :img => img
-                }
+                }]
             end
             render json: res
         end
