@@ -25,28 +25,27 @@ class UsersController < ApplicationController
     def logoff
         session_token = request.headers['Authorization']&.split(' ')&.last
         user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if user.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            if params[:a] != true
-                tokens = Token.where(user_id: user.id)
-                tokens.each do |t|
-                    t.destroy
-                end
-            else
-                Token.find_by(token: session_token).first.destroy
+        if params[:a] != true
+            tokens = Token.where(user_id: user.id)
+            tokens.each do |t|
+                t.destroy
             end
+        else
+            Token.find_by(token: session_token).first.destroy
         end
     end
 
     def info
         session_token = request.headers['Authorization']&.split(' ')&.last
         user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if session_token.nil? || user.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            render json: {:email => user.email, :name => user.name, :tag => user.tag, :creation_date => user.created_at, :theme => user.json["theme"], :id => user.id}
-        end
+        render json: {
+            :email => user.email,
+            :name => user.name,
+            :tag => user.tag,
+            :creation_date => user.created_at,
+            :theme => user.json["theme"],
+            :id => user.id
+        }
     end
 
     def update 
@@ -78,30 +77,26 @@ class UsersController < ApplicationController
     def projects 
         session_token = request.headers['Authorization']&.split(' ')&.last
         user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if user.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            user_projects = ProjectsUser.joins(:project).where(user_id: user.id)
-            if params[:search].present?
-                user_projects = user_projects.where("projects.name LIKE ? OR projects.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
-            end
-            res = []
-            user_projects.each do |p|
-                project = Project.find_by(id: p.project_id)
-                # next unless project.name.include?(params[:search]) || project.description.include?(params[:search])
-                owner = User.find_by(id: project.owner)
-                tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
-                img = tmp.img unless tmp.nil?
-                res += [{
-                    :id => project.id,
-                    :name => project.name,
-                    :description => project.description,
-                    :owner => owner.name,
-                    :tag => owner.tag,
-                    :img => img
-                }]
-            end
-            render json: res
+        user_projects = ProjectsUser.joins(:project).where(user_id: user.id)
+        if params[:search].present?
+            user_projects = user_projects.where("projects.name LIKE ? OR projects.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
         end
+        res = []
+        user_projects.each do |p|
+            project = Project.find_by(id: p.project_id)
+            # next unless project.name.include?(params[:search]) || project.description.include?(params[:search])
+            owner = User.find_by(id: project.owner)
+            tmp = Image.joins(:project).where(project_id: project.id, cover: true).first
+            img = tmp.img unless tmp.nil?
+            res += [{
+                :id => project.id,
+                :name => project.name,
+                :description => project.description,
+                :owner => owner.name,
+                :tag => owner.tag,
+                :img => img
+            }]
+        end
+        render json: res
     end
 end

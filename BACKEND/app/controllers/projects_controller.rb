@@ -41,33 +41,22 @@ class ProjectsController < ApplicationController
 
     def new
         session_token = request.headers['Authorization']&.split(' ')&.last
-        owner = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if session_token.nil? || owner.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            tmp = {
-                :text => "text",
-                :events => []
-            }
-            new_project = Project.create(name: "project name", description: "project description", owner: owner.id, visibility: false, json: tmp)
-            ProjectsUser.create(user_id: owner.id, project_id: new_project.id)
-        end
+        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+        tmp = {
+            :text => "text",
+            :events => []
+        }
+        new_project = Project.create(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
+        ProjectsUser.create(user_id: user.id, project_id: new_project.id)
         render json: { id: new_project.id }
     end
 
     def show
         project = Project.find(params[:id])
         if not project.visibility
-            session_token = request.headers['Authorization']&.split(' ')&.last
-            user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-            if session_token.nil? || user.nil?
-                render json: {:error => ERR_USER_NOT_EXIST}
+            if project.nil? || ProjectsUser.find_by(user_id: user.id, project_id: params[:id]).nil?
+                render json: {}
                 return
-            else
-                if project.nil? || ProjectsUser.find_by(user_id: user.id, project_id: params[:id]).nil?
-                    render json: {}
-                    return
-                end
             end
         end
         owner = User.find(project.owner)
@@ -92,38 +81,26 @@ class ProjectsController < ApplicationController
     end
 
     def update
-        session_token = request.headers['Authorization']&.split(' ')&.last
-        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if session_token.nil? || user.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            project = Project.find(params[:id])
-            project.update(name: params[:n]) unless params[:n].nil?
-            project.update(description: params[:d]) unless params[:d].nil?
-            project.update(visibility: params[:v]) unless params[:v].nil?
-            tmp = project.json
-            tmp["text"] = params[:t] unless params[:t].nil?
-            project.update(json: tmp)
-        end
+        project = Project.find(params[:id])
+        project.update(name: params[:n]) unless params[:n].nil?
+        project.update(description: params[:d]) unless params[:d].nil?
+        project.update(visibility: params[:v]) unless params[:v].nil?
+        tmp = project.json
+        tmp["text"] = params[:t] unless params[:t].nil?
+        project.update(json: tmp)
     end
 
     def destroy
-        session_token = request.headers['Authorization']&.split(' ')&.last
-        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        if session_token.nil? || user.nil?
-            render json: {:error => ERR_USER_NOT_EXIST}
-        else
-            Image.destroy_by(project_id: params[:id])
-            ProjectsUser.destroy_by(project_id: params[:id])
-            timelines = ProjectsTimeline.find_by(project_id: params[:id])
-            if not timelines.nil?
-                timelines.each do |t|
-                    Timeline.find(t.timeline_id).destroy
-                    t.destroy
-                end
+        Image.destroy_by(project_id: params[:id])
+        ProjectsUser.destroy_by(project_id: params[:id])
+        timelines = ProjectsTimeline.find_by(project_id: params[:id])
+        if not timelines.nil?
+            timelines.each do |t|
+                Timeline.find(t.timeline_id).destroy
+                t.destroy
             end
-            Project.destroy_by(id: params[:id])
         end
+        Project.destroy_by(id: params[:id])
     end
 
     def add_user
