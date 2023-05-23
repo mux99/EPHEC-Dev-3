@@ -76,7 +76,7 @@ export class EventPopup {
       let m = this.month_ref.nativeElement.value;
       let d = this.day_ref.nativeElement.value;
       let date = y + "/" + m + "/" + d;
-      let obs = this.http.put(`/api/projects/${this.project_id}/events/${this.eventId}?title=${n}&description=${t}&date=${date}`, {},this.auth.httpHeader);
+      let obs = this.http.put(`/api/projects/${this.project_id}/events/${this.eventId}?title=${n}&description=${t}&date=${date}`, {},this.auth.get_header());
       obs.subscribe();
     }
     else if (action == "cancel") {

@@ -26,8 +26,8 @@ export class LandingPage {
   }
 
   load(search: string = "") {
-    let s = search != "" ? "?search="+search : "";
-    let obs = this.http.get(this.is_public ? `/api/projects${s}` : `/api/user_projects${s}`, this.auth.httpHeader );
+    let tmp = search != "" ? "?search="+search : "";
+    let obs = this.http.get(this.is_public ? `/api/projects${tmp}` : `/api/user_projects${tmp}`, this.auth.get_header() );
     obs.subscribe((obs_data: any) => {this.projects_list = obs_data})
   }
 

@@ -42,7 +42,7 @@ export class ProfilePage {
     if (t == "2") th = this.theme.theme_2;
     if (t == "3") th = this.theme.theme_3;
     this.theme.setTheme(th);
-    let obs = this.http.put("/api/me",{} ,{ "params": {"t": JSON.stringify(th)}, "headers": this.auth.httpHeader.headers});
+    let obs = this.http.put(`/api/me?t=${JSON.stringify(th)}`,{} ,this.auth.get_header());
     obs.subscribe()
   }
 }

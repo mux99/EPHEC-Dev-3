@@ -84,7 +84,7 @@ export class OptionPopup {
       let d = this.desc_ref.nativeElement.innerHTML;
       let s = this.datetodays(`${this.s_year_ref.nativeElement.value}/${this.s_month_ref.nativeElement.value}/${this.s_day_ref.nativeElement.value}`);
       let e = this.datetodays(`${this.e_year_ref.nativeElement.value}/${this.e_month_ref.nativeElement.value}/${this.e_day_ref.nativeElement.value}`);
-      let obs = this.http.put(`/api/timelines/${this.timeline_id}?n=${n}&d=${d}&s=${s}&e=${e}`, {},this.auth.httpHeader);
+      let obs = this.http.put(`/api/timelines/${this.timeline_id}?n=${n}&d=${d}&s=${s}&e=${e}`, {},this.auth.get_header());
       obs.subscribe();
     }
   }

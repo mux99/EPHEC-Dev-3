@@ -59,7 +59,7 @@ export class TimelinePage {
     //querry timeline data from api
     if(this.project_id == "import"){}
     else {
-      let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.httpHeader);
+      let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.get_header());
       obs.subscribe(
         (data: any) => {
           //load timeline data
@@ -147,7 +147,7 @@ export class TimelinePage {
   }
   
   addEvent() {
-    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
+    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.get_header());
     obs.subscribe((data: any) => {});
     this.option_visible = false;
     this.period_visible = false;
@@ -155,7 +155,7 @@ export class TimelinePage {
   }
   
   addPeriod() {
-    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/periods`, this.auth.httpHeader);
+    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/periods`, this.auth.get_header());
     obs.subscribe((data: any) => {});
     this.option_visible = false;
     this.event_visible = false;
