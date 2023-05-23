@@ -4,13 +4,9 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
   selector: 'project-event',
   styleUrls: ['./projectEvent.component.scss'],
 
-  template: '<h2>event name</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lobortis quis purus ac volutpat. In lectus velit, lacinia vitae felis eget, tristique vehicula lacus.</p>'
+  template: '<h2>{{ event.name }}</h2><p>{{ event.description }}</p>'
 })
 
 export class ProjectEvent {
-  
   @Input() event!: any;
-
-  ngOnInit() {
-  }
 }

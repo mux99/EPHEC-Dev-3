@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
             :text => "text",
             :events => []
         }
-        new_project = Project.create(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
+        new_project = Project.create!(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
         ProjectsUser.create(user_id: user.id, project_id: new_project.id)
         render json: { id: new_project.id }
     end
@@ -54,10 +54,9 @@ class ProjectsController < ApplicationController
     def show
         project = Project.find(params[:id])
         if not project.visibility
-            if project.nil? || ProjectsUser.find_by(user_id: user.id, project_id: params[:id]).nil?
-                render json: {}
-                return
-            end
+            session_token = request.headers['Authorization']&.split(' ')&.last
+            user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+            perms = ProjectsUser.find_by(user_id: user.id).perms
         end
         owner = User.find(project.owner)
         tmp = Image.joins(:project).where(project_id: params[:id], cover: true).first
@@ -75,19 +74,25 @@ class ProjectsController < ApplicationController
             :visible => project.visibility,
             :image => img,
             :text => project.json["text"],
-            :timelines => timelines_ids
+            :timelines => timelines_ids,
+            :events => project.json["events"]
         }
+        res["perms"] = perms unless perms.nil?
         render json: res
     end
 
     def update
         project = Project.find(params[:id])
-        project.update(name: params[:n]) unless params[:n].nil?
-        project.update(description: params[:d]) unless params[:d].nil?
-        project.update(visibility: params[:v]) unless params[:v].nil?
-        tmp = project.json
-        tmp["text"] = params[:t] unless params[:t].nil?
-        project.update(json: tmp)
+        tmp = {}
+        tmp[:name] = params[:n] unless params[:n].nil?
+        tmp[:description] = params[:d] unless params[:d].nil?
+        tmp[:visibility] = params[:v] unless params[:v].nil?
+        if !params[:t].nil?
+            tmp2 = project.json
+            tmp2["text"] = params[:t] unless params[:t].nil?
+            tmp[:json] = tmp2
+        end
+        project.update(tmp)
     end
 
     def destroy

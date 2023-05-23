@@ -15,13 +15,16 @@
     //dimentions
     --topbar-height: 100px;
     --buble-size: 60px;
+
+    --text-size: 13pt;
+    --text-font: 'Tahoma', sans-serif;
 }
 
 html {
     //general text
     color: var(--text-color);
-    font-family: 'Tahoma', sans-serif;
-    font-size: 13pt;
+    font-family: var(--text-font);
+    font-size: var(--text-size);
 }
 
 body {

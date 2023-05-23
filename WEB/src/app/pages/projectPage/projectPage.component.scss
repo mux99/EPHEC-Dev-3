@@ -11,6 +11,25 @@
   justify-content: flex-start;
 }
 #tag {color: var(--text-color-2);}
+#title {
+  background-color: transparent;
+  font-size: x-large;
+  font-weight: bold;
+  padding: 0;
+}
+textarea {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  width: 85%;
+  max-width: 85%;
+  font-size: large;
+  height: fit-content;
+  resize: none;
+  margin-top: 25px;
+  font-size: var(--text-size);
+  font-family: var(--text-font);
+}
 #titleContainer > * {margin: 0;cursor: default;}
 #titleContainer > h1 {min-width: 300px;}
 #titleContainer {
@@ -57,7 +76,7 @@
   margin-top: 25px;
 }
 
-*[contenteditable="true"] {
+.editing {
   background-color: var(--background-2);
   border-radius: 20px;
   outline: 0;
@@ -66,7 +85,7 @@
   border-color: var(--accent-1);
   padding: 0 10px;
 }
-#main [contenteditable="true"] {
+#main .editing {
   min-height: 100px;
   height: fit-content;
   padding: 10px;
