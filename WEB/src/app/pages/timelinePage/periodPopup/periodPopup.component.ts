@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter, SimpleChanges, Input } from '@angular/core';
 
 @Component({
   selector: 'period-popup',
@@ -6,6 +6,8 @@ import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter }
   styleUrls: ['./periodPopup.component.scss']
 })
 export class PeriodPopup implements AfterViewInit {
+  @Input() data: any;
+
   @ViewChild('colorDivs') colorDivsRef!: ElementRef;
 
   //close popup
@@ -27,5 +29,14 @@ export class PeriodPopup implements AfterViewInit {
         colorDiv.style.border = '2px solid var(--text-color)';
       });
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.init();
+    }
+  }
+
+  init() {
   }
 }

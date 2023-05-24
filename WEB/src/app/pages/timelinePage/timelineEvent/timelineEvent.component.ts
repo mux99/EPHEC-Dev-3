@@ -1,5 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { EventEdit } from 'src/shared-services/eventEdit.service';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'timeline-event',
@@ -8,18 +7,18 @@ import { EventEdit } from 'src/shared-services/eventEdit.service';
 })
 
 export class TimelineEvent {
-  @Input() data!: any; pos!: number;
+  @Input() data!: any;
 
   @ViewChild("text") text!: ElementRef;
 
-  constructor(private elementRef: ElementRef, private eventEdit: EventEdit) { }
+  @Output() clicked: EventEmitter<any> = new EventEmitter<any>();
 
   ngAfterViewInit() {
     this.text.nativeElement.innerHTML = this.data.title;
-    this.elementRef.nativeElement.style.left = `${this.pos}%`
+    //this.elementRef.nativeElement.style.left = `${this.pos}%`
   }
 
   click() {
-    this.eventEdit.click(this.data);
+    this.clicked.emit(this.data);
   }
 }

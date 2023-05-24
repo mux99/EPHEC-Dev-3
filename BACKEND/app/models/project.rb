@@ -8,5 +8,4 @@ class Project < ApplicationRecord
 
     validates :name, presence: true
     validates :owner, presence: true
-    validates :visibility, presence: true
 end

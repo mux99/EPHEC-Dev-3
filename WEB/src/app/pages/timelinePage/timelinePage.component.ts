@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Renderer2, ViewChild, createComponent } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import {  ActivatedRoute, Router} from '@angular/router';
-import { TimelineEvent } from './timelineEvent/timelineEvent.component';
-import { TimelinePeriod } from './timelinePeriod/timelinePeriod.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -20,15 +18,19 @@ export class TimelinePage {
   option_visible = false;
   event_visible = false;
   period_visible = false;
+  new_choice_visible = false;
+
+  tmp: any[] = [];
+  events = this.tmp;
+  periods = this.tmp;
+
+  event_data: any;
+  period_data: any;
 
   constructor(
     private http: HttpClient,
-    private envinjector: EnvironmentInjector,
-    private applicationRef: ApplicationRef,
     private _Activatedroute: ActivatedRoute,
     private auth: AuthService,
-    private renderer: Renderer2,
-    private elementRef: ElementRef,
     private router: Router
   ) {
     this.timelineScale = 1;
@@ -36,8 +38,8 @@ export class TimelinePage {
     this.d_month = [];
   }
 
-  @ViewChild("periods") periods_ref!: ElementRef;
-  @ViewChild("events") events_ref!: ElementRef;
+  @ViewChild("periods_ref") periods_ref!: ElementRef;
+  @ViewChild("events_ref") events_ref!: ElementRef;
 
   @ViewChild("container") container_ref!: ElementRef;
   @ViewChild("container2") container2_ref!: ElementRef;
@@ -61,55 +63,14 @@ export class TimelinePage {
     else {
       let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.get_header());
       obs.subscribe(
-        (data: any) => {
+        (obs_data: any) => {
           //load timeline data
-          this.d_year = data.d_year;
-          this.d_month = data.d_month;
-
-          //load events
-          for (let i = 0; i < data.events.length; i++) {
-            //create host container
-            const tmp = this.renderer.createElement('div');
-            this.renderer.appendChild(this.events_ref.nativeElement, tmp);
-
-            //create event instance
-            let elem = createComponent(TimelineEvent, {
-              environmentInjector: this.envinjector,
-              hostElement: tmp
-            })
-            //set elem inputs
-            elem.instance.data = data.events[i];
-
-            let tmp2 = this.datetodays(data.events[i].date === undefined ? "0000/00/00" : data.events[i].date);
-            elem.instance.pos = (tmp2/(data.end-data.start))*100;
-
-            //add elem to view
-            this.applicationRef.attachView(elem.hostView);
-          }
-
-          //load periods
-          for (let i = 0; i < data.periods.length; i++) {
-            //create host container
-            const tmp = this.renderer.createElement('div');
-            this.renderer.appendChild(this.periods_ref.nativeElement, tmp);
-
-            //create event instance
-            let elem = createComponent(TimelinePeriod, {
-              environmentInjector: this.envinjector,
-              hostElement: tmp
-            })
-            //set elem inputs
-            // elem.instance.left = ;
-            // elem.instance.width = ;
-            elem.instance.name = data[i].name;
-            elem.instance.color = data[i].color;
-
-            elem.instance.top = 0;
-
-            //add elem to view
-            this.applicationRef.attachView(elem.hostView);
-        }
-      });
+          this.d_year = obs_data.d_year;
+          this.d_month = obs_data.d_month;
+          this.events = obs_data.events;
+          this.periods = obs_data.periods;
+          console.log(this.events);
+        });
     }
   }
 
@@ -163,13 +124,20 @@ export class TimelinePage {
   }
 
   showButtons() {
-    const addEventButton = this.elementRef.nativeElement.querySelector('#addEvent');
-    const additionalButtons = this.elementRef.nativeElement.querySelector('#additionalButtons');
-    additionalButtons.classList.toggle('show');
-    if (additionalButtons.classList.contains('show')) {
-      addEventButton.style.transform = 'rotate(45deg)';
-    } else {
-      addEventButton.style.transform = 'none';
-    }
+    this.new_choice_visible = !this.new_choice_visible;
+  }
+
+  editEvent(data: any) {
+    this.option_visible = false;
+    this.period_visible = false;
+    this.event_data = data;
+    this.event_visible = true;
+  }
+
+  editPeriod(data: any) {
+    this.event_visible = false;
+    this.option_visible = false;
+    this.period_data = data;
+    this.period_visible = true;
   }
 }

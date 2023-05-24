@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
-import { EventEdit } from 'src/shared-services/eventEdit.service';
 
 @Component({
   selector: 'event-popup',
@@ -24,12 +23,12 @@ export class EventPopup {
   project_id: any;
 
   constructor(
-    private eventEdit: EventEdit,
-    private host: ElementRef,
     private _Activatedroute: ActivatedRoute,
     private http: HttpClient,
     private auth: AuthService
   ){}
+
+  @Input() data: any;
 
   @ViewChild("name") name_ref!: ElementRef;
   @ViewChild("year") year_ref!: ElementRef;
@@ -46,9 +45,6 @@ export class EventPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
-    this.eventEdit.makeEditable$.subscribe(
-      (data: any) => this.init(data)
-    );
   }
 
   edit(action: string) {
@@ -88,8 +84,14 @@ export class EventPopup {
     }
   }
 
-  init(data: any) {
-    this.eventId = data.id;
-    this.name_ref.nativeElement.innerHTML = data.title;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.init();
+    }
+  }
+
+  init() {
+    this.eventId = this.data.id;
+    this.name_ref.nativeElement.innerHTML = this.data.title;
   }
 }

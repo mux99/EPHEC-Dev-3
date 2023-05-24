@@ -1,6 +1,6 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
 <edit-button (childEvent)="edit($event)"></edit-button>
-<h2 #name>Event name</h2>
+<h2 #name></h2>
 <input #year type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
 <input #month type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
 <input #day type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
