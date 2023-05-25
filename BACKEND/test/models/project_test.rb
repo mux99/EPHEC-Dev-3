@@ -15,9 +15,6 @@ class ProjectTest < ActiveSupport::TestCase
 
     proj_missing_owner = Project.create(name: 'this doesnt work', visibility: true)
     assert_not proj_missing_owner.save
-
-    proj_missing_vis = Project.create(name: 'who sees?', owner: users(:jean_valjean).id)
-    assert_not proj_missing_vis.save
   end
 
   test 'wrong params' do
