@@ -10,11 +10,11 @@ import { AuthService } from 'src/shared-services/auth.service';
 })
 export class OptionPopup {
   values: { name: string, days: string }[] = [];
-  isReadOnly = true;
-  name_holder: string | undefined;
-  desc_holder: string | undefined;
-  start_holder: any;
-  end_holder: any;
+  can_edit = false;
+  name_holder = "";
+  desc_holder = "";
+  start_holder = {y: 0, m: 0, d: 0};
+  end_holder = {y: 0, m: 0, d: 0};
 
   d_year: number;
   d_month: Array<number>;
@@ -22,25 +22,24 @@ export class OptionPopup {
   timeline_id: any;
   project_id: any;
 
+  s_year = 0;
+  s_month = 0;
+  s_day = 0;
+
+  e_year = 0;
+  e_month = 0;
+  e_day = 0;
+
+  name = "";
+  description = "";
+
   constructor(
     private http: HttpClient,
     private _Activatedroute: ActivatedRoute,
-    private host: ElementRef,
     private auth: AuthService) {
     this.d_year = 356.25;
     this.d_month = [31,28,31,30,31,30,31,31,30,31,30,31];
   }
-
-  @ViewChild("name") name_ref!: ElementRef;
-  @ViewChild("desc") desc_ref!: ElementRef;
-
-  @ViewChild("syear") s_year_ref!: ElementRef;
-  @ViewChild("smonth") s_month_ref!: ElementRef;
-  @ViewChild("sday") s_day_ref!: ElementRef;
-
-  @ViewChild("eyear") e_year_ref!: ElementRef;
-  @ViewChild("emonth") e_month_ref!: ElementRef;
-  @ViewChild("eday") e_day_ref!: ElementRef;
 
   //close popup
   @Output() hide = new EventEmitter();
@@ -55,35 +54,30 @@ export class OptionPopup {
 
   edit(action: string) {
     if (action == "edit") {
-      this.name_holder = this.name_ref.nativeElement.innerHTML;
-      this.desc_holder = this.desc_ref.nativeElement.innerHTML;
-      this.start_holder = {y: this.s_year_ref.nativeElement.value, m: this.s_month_ref.nativeElement.value, d: this.s_day_ref.nativeElement.value}
-      this.end_holder = {y: this.e_year_ref.nativeElement.value, m: this.e_month_ref.nativeElement.value, d: this.e_day_ref.nativeElement.value}
-
-      this.name_ref.nativeElement.setAttribute("contenteditable","true");
-      this.desc_ref.nativeElement.setAttribute("contenteditable","true");
-      this.isReadOnly = false;
+      this.name_holder = this.name;
+      this.desc_holder = this.description;
+      this.start_holder = {y: this.s_year, m: this.s_month, d: this.s_day}
+      this.end_holder = {y: this.e_year, m: this.e_month, d: this.e_day}
+      this.can_edit = true;
     }
     else {
-      this.name_ref.nativeElement.setAttribute("contenteditable","false");
-      this.desc_ref.nativeElement.setAttribute("contenteditable","false");
-      this.isReadOnly = true;
+      this.can_edit = false;
     }
     if (action == "cancel") {
-      this.name_ref.nativeElement.innerHTML = this.name_holder;
-      this.desc_ref.nativeElement.innerHTML = this.desc_holder;
-      this.s_year_ref.nativeElement.value = this.start_holder.y;
-      this.s_month_ref.nativeElement.value = this.start_holder.m;
-      this.s_day_ref.nativeElement.value = this.start_holder.d;
-      this.e_year_ref.nativeElement.value = this.end_holder.y;
-      this.e_month_ref.nativeElement.value = this.end_holder.m;
-      this.e_day_ref.nativeElement.value = this.end_holder.d;
+      this.name = this.name_holder;
+      this.description = this.desc_holder;
+      this.s_year = this.start_holder.y;
+      this.s_month= this.start_holder.m;
+      this.s_day = this.start_holder.d;
+      this.e_year = this.end_holder.y;
+      this.e_month = this.end_holder.m;
+      this.e_day = this.end_holder.d;
     }
     else if (action == "save") {
-      let n = this.name_ref.nativeElement.innerHTML;
-      let d = this.desc_ref.nativeElement.innerHTML;
-      let s = this.datetodays(`${this.s_year_ref.nativeElement.value}/${this.s_month_ref.nativeElement.value}/${this.s_day_ref.nativeElement.value}`);
-      let e = this.datetodays(`${this.e_year_ref.nativeElement.value}/${this.e_month_ref.nativeElement.value}/${this.e_day_ref.nativeElement.value}`);
+      let n = this.name;
+      let d = this.description;
+      let s = this.datetodays(`${this.s_year}/${this.s_month}/${this.s_day}`);
+      let e = this.datetodays(`${this.e_year}/${this.e_month}/${this.e_day}`);
       let obs = this.http.put(`/api/timelines/${this.timeline_id}?n=${n}&d=${d}&s=${s}&e=${e}`, {},this.auth.get_header());
       obs.subscribe();
     }

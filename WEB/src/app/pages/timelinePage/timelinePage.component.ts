@@ -109,18 +109,17 @@ export class TimelinePage {
   
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.get_header());
-    obs.subscribe((data: any) => {});
-    this.option_visible = false;
-    this.period_visible = false;
-    this.event_visible = true;
+    obs.subscribe((data: any) => {
+      console.log(data);
+      this.editEvent(data);
+    });
   }
   
   addPeriod() {
-    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/periods`, this.auth.get_header());
-    obs.subscribe((data: any) => {});
-    this.option_visible = false;
-    this.event_visible = false;
-    this.period_visible = true;
+    let obs = this.http.post(`/api/timelines/${this.timeline_id}/periods`, this.auth.get_header());
+    obs.subscribe((data: any) => {
+      this.editPeriod(data);
+    });
   }
 
   showButtons() {

@@ -125,22 +125,4 @@ nav {
   display: flex;
   left: calc(100% + 10px);
   top: 50%;
-  transform: translateY(-50%);
-  transition: left 0.3s ease-in-out;
-}
-
-#additionalButtons.show {
-  left: 100%;
-  display: flex;
-}
-
-#additionalButtons > button {
-  margin-left: 10px;
-  width: 90px;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-#additionalButtons.show > button {
-  opacity: 1;
 }

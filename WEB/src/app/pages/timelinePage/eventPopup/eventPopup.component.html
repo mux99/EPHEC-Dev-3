@@ -1,7 +1,7 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
 <edit-button (childEvent)="edit($event)"></edit-button>
-<h2 #name></h2>
-<input #year type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
-<input #month type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
-<input #day type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
-<div class="container2"><p #desc id="eventDesc">event description</p></div>
+<input [(ngModel)]="title" type="text"><br>
+<input [(ngModel)]="year" type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
+<input [(ngModel)]="month" type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
+<input [(ngModel)]="day" type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
+<div class="container2"><textarea [(ngModel)]="description" id="eventDesc"></textarea></div>

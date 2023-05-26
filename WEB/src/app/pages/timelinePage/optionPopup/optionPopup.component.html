@@ -1,22 +1,22 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
 <edit-button (childEvent)="edit($event)"></edit-button>
 <h2>Timeline options</h2>
-<h2 #name>name</h2>
+<input type="text" [class.editing]="can_edit" [(ngModel)]="name">
 <div class="optionInput">
     <P>From</P>
-    <input #syear type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
-    <input #smonth type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
-    <input #sday type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
+    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="s_year">/
+    <input type="number" min="1" placeholder="MM" name="month" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="s_month">/
+    <input type="number" min="1" placeholder="DD" name="day" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="s_day">
 </div>
 <div class="optionInput">
     <P>To</P>
-    <input #eyear type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
-    <input #emonth type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
-    <input #eday type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
+    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="e_year">/
+    <input type="number" min="1" placeholder="MM" name="month" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="e_month">/
+    <input type="number" min="1" placeholder="DD" name="day" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="e_day">
 </div>
 <div class="optionInput">
     <p>Day per year</p>
-    <input type="number" min="1" placeholder="DDD" name="day" class="w4" [readonly]="isReadOnly">
+    <input type="number" min="1" placeholder="DDD" name="day" class="w4" [disabled]="!can_edit">
 </div>
 <span>
     <span class="month">Month</span>
@@ -29,5 +29,5 @@
         <button id="deleteMonth" class="month" (click)="removeInput(i)"><img src="assets/plusIcon.svg"></button>
     </div>
 </div>
-<div class="container2"><p id="periodDesc">description</p></div>
+<div class="container2"><textarea id="periodDesc" [(ngModel)]="description"></textarea></div>
   

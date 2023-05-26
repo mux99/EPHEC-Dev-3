@@ -13,11 +13,17 @@ export class EventPopup {
   eventId = "";
   isReadOnly = true;
 
-  name_holder: string | undefined;
-  desc_holder: string | undefined;
-  year_holder: string | undefined;
-  month_holder: string | undefined;
-  day_holder: string | undefined;
+  title = "";
+  description = "";
+  year = 0;
+  month = 0;
+  day = 0;
+
+  name_holder = "";
+  desc_holder = "";
+  year_holder = 0;
+  month_holder = 0;
+  day_holder = 0;
 
   timeline_id: any;
   project_id: any;
@@ -29,13 +35,6 @@ export class EventPopup {
   ){}
 
   @Input() data: any;
-
-  @ViewChild("name") name_ref!: ElementRef;
-  @ViewChild("year") year_ref!: ElementRef;
-  @ViewChild("month") month_ref!: ElementRef;
-  @ViewChild("day") day_ref!: ElementRef;
-  @ViewChild("desc") desc_ref!: ElementRef;
-
   //close popup
   @Output() hide = new EventEmitter();
   quit() {this.hide.emit()}
@@ -49,38 +48,32 @@ export class EventPopup {
 
   edit(action: string) {
     if (action == "edit") {
-      this.name_holder = this.name_ref.nativeElement.innerHTML;
-      this.desc_holder = this.desc_ref.nativeElement.innerHTML;
-      this.year_holder = this.year_ref.nativeElement.value;
-      this.month_holder = this.month_ref.nativeElement.value;
-      this.day_holder = this.day_ref.nativeElement.value;
-
-      this.name_ref.nativeElement.setAttribute("contenteditable","true");
-      this.name_ref.nativeElement.addEventListener("keydown", function(event: any) {if (event.key === "Enter") {event.preventDefault();}});
+      this.name_holder = this.title;
+      this.desc_holder = this.description;
+      this.year_holder = this.year;
+      this.month_holder = this.month;
+      this.day_holder = this.day;
       this.isReadOnly = false;
-      this.desc_ref.nativeElement.setAttribute("contenteditable","true");
     }
     else {
-      this.name_ref.nativeElement.setAttribute("contenteditable","false");
-      this.isReadOnly = true
-      this.desc_ref.nativeElement.setAttribute("contenteditable","false");
+      this.isReadOnly = true;
     }
     if (action == "save") {
-      let n = this.name_ref.nativeElement.innerHTML;
-      let t = this.desc_ref.nativeElement.innerHTML;
-      let y = this.year_ref.nativeElement.value;
-      let m = this.month_ref.nativeElement.value;
-      let d = this.day_ref.nativeElement.value;
+      let n = this.title;
+      let t = this.description;
+      let y = this.year;
+      let m = this.month;
+      let d = this.day;
       let date = y + "/" + m + "/" + d;
       let obs = this.http.put(`/api/projects/${this.project_id}/events/${this.eventId}?title=${n}&description=${t}&date=${date}`, {},this.auth.get_header());
       obs.subscribe();
     }
     else if (action == "cancel") {
-      this.name_ref.nativeElement.innerHTML = this.name_holder;
-      this.desc_ref.nativeElement.innerHTML = this.desc_holder;
-      this.year_ref.nativeElement.value = this.year_holder;
-      this.month_ref.nativeElement.value = this.month_holder;
-      this.day_ref.nativeElement.value = this.day_holder;
+      this.title = this.name_holder;
+      this.description = this.desc_holder;
+      this.year = this.year_holder;
+      this.month = this.month_holder;
+      this.day = this.day_holder;
     }
   }
 
@@ -92,6 +85,7 @@ export class EventPopup {
 
   init() {
     this.eventId = this.data.id;
-    this.name_ref.nativeElement.innerHTML = this.data.title;
+    this.title = this.data.title;
+    this.description = this.data.description;
   }
 }
