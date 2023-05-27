@@ -3,6 +3,8 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import {  ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 import { DateService } from 'src/shared-services/date.service';
+import { EventPopup } from './eventPopup/eventPopup.component';
+import { PeriodPopup } from './periodPopup/periodPopup.component';
 
 @Component({
   selector: 'timeline-page',
@@ -39,11 +41,12 @@ export class TimelinePage {
 
   @ViewChild("periods_ref") periods_ref!: ElementRef;
   @ViewChild("events_ref") events_ref!: ElementRef;
-
   @ViewChild("container") container_ref!: ElementRef;
   @ViewChild("container2") container2_ref!: ElementRef;
-
   @ViewChild("altScroll") scroll_ref!: ElementRef;
+
+  @ViewChild('event_popup') event_popup!: EventPopup;
+  @ViewChild('period_popup') period_popup!: PeriodPopup;
 
   @ViewChild("options") options_ref!: ElementRef;
 
@@ -99,14 +102,24 @@ export class TimelinePage {
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.get_header());
     obs.subscribe((data: any) => {
-      this.editEvent(data);
+      this.event_visible = true;
+      this.option_visible = false;
+      this.period_visible = false;
+      setTimeout(() => {
+        this.event_popup.set_data(data,true);
+      }, 10);
     });
   }
   
   addPeriod() {
     let obs = this.http.post(`/api/timelines/${this.timeline_id}/periods`, this.auth.get_header());
     obs.subscribe((data: any) => {
-      this.editPeriod(data);
+      this.period_visible = true;
+      this.event_visible = false;
+      this.option_visible = false;
+      setTimeout(() => {
+        this.period_popup.set_data(data,true);
+      }, 10);
     });
   }
 
@@ -115,16 +128,20 @@ export class TimelinePage {
   }
 
   editEvent(data: any) {
+    this.event_visible = true;
     this.option_visible = false;
     this.period_visible = false;
-    this.event_data = data;
-    this.event_visible = true;
+    setTimeout(() => {
+      this.event_popup.set_data(data);
+    }, 10);
   }
 
   editPeriod(data: any) {
+    this.period_visible = true;
     this.event_visible = false;
     this.option_visible = false;
-    this.period_data = data;
-    this.period_visible = true;
+    setTimeout(() => {
+      this.period_popup.set_data(data);
+    }, 10);
   }
 }

@@ -13,6 +13,7 @@ import { AuthService } from 'src/shared-services/auth.service';
 export class EventPopup {
   eventId = "";
   can_edit = false;
+  write = false;
 
   title = "";
   description = "";
@@ -35,7 +36,6 @@ export class EventPopup {
     private auth: AuthService
   ){}
 
-  @Input() data: any;
   @ViewChild('edit_button') edit_button!: EditButton;
   //close popup
   @Output() hide = new EventEmitter();
@@ -48,17 +48,20 @@ export class EventPopup {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
-      this.eventId = this.data.id;
-      this.title = this.data.title;
-      let tmp = this.data.date.split("/");
-      this.year = tmp[0];
-      this.month = tmp[1];
-      this.day = tmp[2];
-      this.description = this.data.description;
-      this.can_edit = false;
-      this.edit_button.close();
+  set_data(data: any, write: boolean = false) {
+    this.eventId = data.id;
+    this.title = data.title;
+    let tmp = data.date.split("/");
+    this.year = tmp[0];
+    this.month = tmp[1];
+    this.day = tmp[2];
+    this.description = data.description;
+    this.can_edit = false;
+    this.edit_button.close();
+
+    if (write) {
+      this.write = true;
+      this.can_edit = true;
     }
   }
 

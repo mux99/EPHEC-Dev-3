@@ -46,20 +46,16 @@ export class OptionPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
-      this.name = this.data.name;
-      this.description = this.data.description;
-      this.months = this.data.d_month;
-      this.d_year = this.data.d_year;
-      let tmp = this.data.start.split("/");
-      this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
-      let tmp2 = this.data.end.split("/");
-      this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
-      this.edit_button.close()
-    }
+    this.name = this.data.name;
+    this.description = this.data.description;
+    this.months = this.data.d_month;
+    this.d_year = this.data.d_year;
+    let tmp = this.data.start.split("/");
+    this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
+    let tmp2 = this.data.end.split("/");
+    this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+    this.edit_button.close()
   }
 
   edit(action: string) {
