@@ -2,8 +2,8 @@ class TimelinesController < ApplicationController
     def new
         project = Project.find(params[:id])
         tmp = {
-            :d_year => 0,
-            :d_month => [],
+            :d_year => 365.25,
+            :d_month => [{n: "Jan", d: 31},{n: "Fev", d: 28.25},{n: "Mar", d: 31},{n: "Avr", d: 30},{n: "May", d: 31},{n: "Jun", d: 30},{n: "Jul", d: 31},{n: "Aug", d: 31},{n: "Sep", d: 30},{n: "Oct", d: 31},{n: "Nov", d: 30},{n: "Dec", d: 31}],
             :periods => []         
         }
         new_timeline = Timeline.create(name: "Timeline name", description: "timeline description", start: "0000/00/00", end: "0000/00/00", json: tmp)
