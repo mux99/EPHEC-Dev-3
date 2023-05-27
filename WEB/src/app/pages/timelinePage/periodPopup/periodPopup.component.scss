@@ -33,14 +33,12 @@
     min-height: 140px;
     margin: 0;
 }
-
 :host > div > input {
     cursor: text;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     appearance: textfield;
     padding: 0;
-    background-color: var(--shadow-color-light);
     border-radius: 5px;
 }
 
@@ -57,3 +55,13 @@
     cursor: pointer;
     border: 2px solid transparent;
 }
+
+.editing {
+    background-color: var(--background-2);
+    border-radius: 20px;
+    outline: 0;
+    word-wrap: break-word;
+    border: 2px solid;
+    border-color: var(--accent-1);
+    padding: 0 10px;
+  }

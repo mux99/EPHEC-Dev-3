@@ -1,17 +1,17 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
-<edit-button></edit-button>
-<h2>Period name</h2>
+<edit-button (childEvent)="edit($event)"></edit-button>
+<input type="text" [class.editing]="can_edit" [(ngModel)]="name">
 <div id="startPeriod">
     <P>From</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
+    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" [class.editing]="can_edit">/
+    <input type="number" min="1" placeholder="MM" name="month" class="w2" [class.editing]="can_edit">/
+    <input type="number" min="1" placeholder="DD" name="day" class="w2" [class.editing]="can_edit">
 </div>
 <div id="endPeriod">
     <P>To</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
+    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" [class.editing]="can_edit">/
+    <input type="number" min="1" placeholder="MM" name="month" class="w2" [class.editing]="can_edit">/
+    <input type="number" min="1" placeholder="DD" name="day" class="w2" [class.editing]="can_edit">
 </div>
 <p>Period color:</p>
 <div class="theme-colors" #colorDivs>
@@ -28,5 +28,5 @@
     <div class="color" style="background-color:#bccdde;"></div>
     <div class="color" style="background-color:#222831;"></div>
 </div>
-<div class="container2"><p id="periodDesc">period description</p></div>
+<div class="container2"><textarea id="periodDesc" type="text" [class.editing]="can_edit" [(ngModel)]="description"></textarea></div>
   

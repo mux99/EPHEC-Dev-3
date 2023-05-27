@@ -3,7 +3,10 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 @Component({
   selector: 'timeline-period',
   styleUrls: ['./timelinePeriod.component.scss'],
-  template: '<p #name (click)="click()">Period Name</p>'
+  template: '<p #name>Period Name</p>',
+  host: {
+    "(click)": "click()"
+ }
 })
 
 export class TimelinePeriod {
