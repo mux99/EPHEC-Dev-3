@@ -63,10 +63,12 @@ export class PeriodPopup implements AfterViewInit {
 
   quit() {
     this.hide.emit()
-    if (this.write) {
-      let obs = this.http.delete(`/api/timelines/${this.timeline_id}/periods/${this.period_id}`, this.auth.get_header());
+    if (this.write) this.delete();
+  }
+
+  delete() {
+    let obs = this.http.delete(`/api/timelines/${this.timeline_id}/periods/${this.period_id}`, this.auth.get_header());
       obs.subscribe();
-    }
   }
 
   edit(action: string) {

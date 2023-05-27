@@ -42,10 +42,7 @@ export class EventPopup {
 
   quit() {
     this.hide.emit()
-    if (this.write) {
-      let obs = this.http.delete(`/api/projects/${this.project_id}/events/${this.eventId}`, this.auth.get_header());
-      obs.subscribe();
-    }
+    if (this.write) this.delete();
   }
 
   ngAfterViewInit() {
@@ -70,6 +67,11 @@ export class EventPopup {
       this.write = true;
       this.can_edit = true;
     }
+  }
+
+  delete() {
+    let obs = this.http.delete(`/api/projects/${this.project_id}/events/${this.eventId}`, this.auth.get_header());
+      obs.subscribe();
   }
 
   edit(action: string) {
