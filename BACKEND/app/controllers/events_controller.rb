@@ -23,14 +23,9 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    project = Project.find(params[:id])
+    project = Project.find(params[:pid])
     project_json = project.json
-    project_json["events"].each do |e|
-        if e["id"] == params[:eid]
-            project_json["events"] -= e
-            break
-        end
-    end
+    project_json["events"].reject! { |p| p["id"] == params[:eid] }
     project.update(json: project_json)
   end
 

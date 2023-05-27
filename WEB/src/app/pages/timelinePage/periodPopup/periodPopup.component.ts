@@ -30,7 +30,6 @@ export class PeriodPopup implements AfterViewInit {
   @ViewChild('colorDivs') colorDivsRef!: ElementRef;
   @ViewChild('edit_button') edit_button!: EditButton;
   @Output() hide = new EventEmitter();
-  quit() {this.hide.emit()}
 
   constructor(
     private _Activatedroute: ActivatedRoute,
@@ -59,6 +58,14 @@ export class PeriodPopup implements AfterViewInit {
     if (write) {
       this.write = true;
       this.can_edit = true;
+    }
+  }
+
+  quit() {
+    this.hide.emit()
+    if (this.write) {
+      let obs = this.http.delete(`/api/timelines/${this.timeline_id}/periods/${this.period_id}`, this.auth.get_header());
+      obs.subscribe();
     }
   }
 

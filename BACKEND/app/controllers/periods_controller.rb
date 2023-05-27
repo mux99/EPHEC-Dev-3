@@ -24,12 +24,7 @@ class PeriodsController < ApplicationController
   def destroy
     timeline = Timeline.find(params[:tid])
     timeline_json = timeline.json
-    timeline_json["periods"].each do |e|
-        if e["id"] == params[:id]
-          timeline_json["periods"] -= e
-            break
-        end
-    end
+    timeline_json["periods"].reject! { |p| p["id"] == params[:id] }
     timeline.update(json: timeline_json)
   end
 
