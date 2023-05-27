@@ -22,9 +22,10 @@ export class TimelinePeriod {
     ) { }
 
   ngAfterViewInit() {
-    this.elementRef.nativeElement.style.left = `${this.date.get_pos(this.data.start)}%`;
-    this.elementRef.nativeElement.style.width = `${this.date.get_len(this.data.start, this.data.end)}%`;
-    // this.elementRef.nativeElement.style.top = `${this.top}%`;
+    let tmp = this.date.get_period(this.data.start, this.data.end);
+    this.elementRef.nativeElement.style.left = `${tmp.pos}%`;
+    this.elementRef.nativeElement.style.width = `${tmp.width}%`;
+    this.elementRef.nativeElement.style.top = `calc(${tmp.top} * var(--buble-size))`;
     this.elementRef.nativeElement.style.backgroundColor = `${this.data.color}`;
   }
 

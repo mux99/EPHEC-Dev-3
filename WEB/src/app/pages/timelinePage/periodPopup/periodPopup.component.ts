@@ -40,19 +40,23 @@ export class PeriodPopup implements AfterViewInit {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.timeline_id = paramMap.get('tid');
     });
-    console.log(this.data)
-    this.period_id = this.data.id;
-    this.name = this.data.title;
-    this.color = this.data.color;
-    this.description = this.data.description;
-    let tmp = this.data.start.split("/");
-    this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
-    let tmp2 = this.data.end.split("/");
-    this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      console.log(this.data.id)
+      this.period_id = this.data.id;
+      this.name = this.data.title;
+      this.color = this.data.color;
+      this.description = this.data.description;
+      let tmp = this.data.start.split("/");
+      this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
+      let tmp2 = this.data.end.split("/");
+      this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+    }
   }
 
   edit(action: string) {
-    console.log(this.color);
     if (action == "edit") {
       this.start_holder = this.start;
       this.end_holder = this.end;

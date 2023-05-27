@@ -20,7 +20,7 @@ export class TimelineEvent {
 
   ngAfterViewInit() {
     this.text.nativeElement.innerHTML = this.data.title;
-    let tmp = this.date.get_pos(this.data.date);
+    let tmp = this.date.get_event(this.data.date);
     this.elementRef.nativeElement.style.left = `${tmp}%`
   }
 

@@ -25,7 +25,7 @@ class PeriodsController < ApplicationController
     timeline = Timeline.find(params[:tid])
     timeline_json = timeline.json
     timeline_json["periods"].each do |e|
-        if e["ID"] == params[:id]
+        if e["id"] == params[:id]
           timeline_json["periods"] -= e
             break
         end
@@ -39,7 +39,7 @@ class PeriodsController < ApplicationController
     timeline_events = timeline_json["periods"]
     index = 0
     timeline_events.each_with_index do |e, i|
-        if e["ID"] == params[:id]
+        if e["id"] == params[:id]
             index = i
             break
         end

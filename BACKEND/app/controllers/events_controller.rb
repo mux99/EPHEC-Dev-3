@@ -26,7 +26,7 @@ class EventsController < ApplicationController
     project = Project.find(params[:id])
     project_json = project.json
     project_json["events"].each do |e|
-        if e["ID"] == params[:eid]
+        if e["id"] == params[:eid]
             project_json["events"] -= e
             break
         end
@@ -40,7 +40,7 @@ class EventsController < ApplicationController
     project_events = project_json["events"]
     index = 0
     project_events.each_with_index do |e, i|
-        if e["ID"] == params[:eid]
+        if e["id"] == params[:eid]
             index = i
             break
         end

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -44,15 +44,19 @@ export class OptionPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
-    console.log(this.data);
-    this.name = this.data.name;
-    this.description = this.data.description;
-    this.months = this.data.d_month;
-    this.d_year = this.data.d_year;
-    let tmp = this.data.start.split("/");
-    this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
-    let tmp2 = this.data.end.split("/");
-    this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.name = this.data.name;
+      this.description = this.data.description;
+      this.months = this.data.d_month;
+      this.d_year = this.data.d_year;
+      let tmp = this.data.start.split("/");
+      this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
+      let tmp2 = this.data.end.split("/");
+      this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+    }
   }
 
   edit(action: string) {

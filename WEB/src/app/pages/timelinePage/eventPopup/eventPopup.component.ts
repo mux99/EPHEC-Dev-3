@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -44,14 +44,18 @@ export class EventPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
+  }
 
-    this.eventId = this.data.id;
-    this.title = this.data.title;
-    let tmp = this.data.date.split("/");
-    this.year = tmp[0];
-    this.month = tmp[1];
-    this.day = tmp[2];
-    this.description = this.data.description;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.eventId = this.data.id;
+      this.title = this.data.title;
+      let tmp = this.data.date.split("/");
+      this.year = tmp[0];
+      this.month = tmp[1];
+      this.day = tmp[2];
+      this.description = this.data.description;
+    }
   }
 
   edit(action: string) {
