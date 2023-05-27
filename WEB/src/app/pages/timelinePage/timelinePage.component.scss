@@ -40,10 +40,7 @@
   min-height: var(--timeline-height);
   height: fit-content;
   position: relative;
-
-  /*to be replaced*/
-  background-image: url("https://appcodelabs.com/wp-content/uploads/2017/12/horiz-gradient-rainbow-1.png");
-  background-size: cover;
+  background-color: var(--accent-1);
 }
 
 #settings {

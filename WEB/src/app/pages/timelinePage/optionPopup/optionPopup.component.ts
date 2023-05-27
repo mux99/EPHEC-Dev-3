@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -9,26 +9,20 @@ import { AuthService } from 'src/shared-services/auth.service';
   styleUrls: ['./optionPopup.component.scss']
 })
 export class OptionPopup {
-  values: { name: string, days: string }[] = [];
+  months: { n: string, d: number }[] = [];
   can_edit = false;
   name_holder = "";
   desc_holder = "";
   start_holder = {y: 0, m: 0, d: 0};
   end_holder = {y: 0, m: 0, d: 0};
 
-  d_year: number;
-  d_month: Array<number>;
+  d_year = 0;
 
   timeline_id: any;
   project_id: any;
 
-  s_year = 0;
-  s_month = 0;
-  s_day = 0;
-
-  e_year = 0;
-  e_month = 0;
-  e_day = 0;
+  start = {y: 0, m: 0, d: 0};
+  end = {y: 0, m: 0, d: 0};
 
   name = "";
   description = "";
@@ -37,9 +31,9 @@ export class OptionPopup {
     private http: HttpClient,
     private _Activatedroute: ActivatedRoute,
     private auth: AuthService) {
-    this.d_year = 356.25;
-    this.d_month = [31,28,31,30,31,30,31,31,30,31,30,31];
   }
+
+  @Input() data!: any;
 
   //close popup
   @Output() hide = new EventEmitter();
@@ -50,14 +44,23 @@ export class OptionPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
+    console.log(this.data);
+    this.name = this.data.name;
+    this.description = this.data.description;
+    this.months = this.data.d_month;
+    this.d_year = this.data.d_year;
+    let tmp = this.data.start.split("/");
+    this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
+    let tmp2 = this.data.end.split("/");
+    this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
   }
 
   edit(action: string) {
     if (action == "edit") {
       this.name_holder = this.name;
       this.desc_holder = this.description;
-      this.start_holder = {y: this.s_year, m: this.s_month, d: this.s_day}
-      this.end_holder = {y: this.e_year, m: this.e_month, d: this.e_day}
+      this.start_holder = this.start;
+      this.end_holder = this.end;
       this.can_edit = true;
     }
     else {
@@ -66,19 +69,17 @@ export class OptionPopup {
     if (action == "cancel") {
       this.name = this.name_holder;
       this.description = this.desc_holder;
-      this.s_year = this.start_holder.y;
-      this.s_month= this.start_holder.m;
-      this.s_day = this.start_holder.d;
-      this.e_year = this.end_holder.y;
-      this.e_month = this.end_holder.m;
-      this.e_day = this.end_holder.d;
+      this.start = this.start_holder;
+      this.end = this.end_holder;
     }
     else if (action == "save") {
-      let n = this.name;
-      let d = this.description;
-      let s = this.datetodays(`${this.s_year}/${this.s_month}/${this.s_day}`);
-      let e = this.datetodays(`${this.e_year}/${this.e_month}/${this.e_day}`);
-      let obs = this.http.put(`/api/timelines/${this.timeline_id}?n=${n}&d=${d}&s=${s}&e=${e}`, {},this.auth.get_header());
+      let params = ""
+      params += `n=${this.name}&`;
+      params += `d=${this.description}&`;
+      params += `s=${this.start.y}/${this.start.m}/${this.start.d}&`;
+      params += `e=${this.end.y}/${this.end.m}/${this.end.d}&`;
+      params += `j=${{d_year: this.d_year, d_month: this.months}}`
+      let obs = this.http.put(`/api/timelines/${this.timeline_id}?${params}`, {},this.auth.get_header());
       obs.subscribe();
     }
   }
@@ -87,18 +88,17 @@ export class OptionPopup {
     let date_array = date.split("/").map(function(n,_i,_a){return Number(n);},this);
     let days = date_array[0]+(date_array[2]*this.d_year);
     for (let i = 0; i < date_array[1]; i++) {
-      days += this.d_month[i];
+      days += this.months[i].d;
     }
-    return 0;
+    return days;
   }
 
   removeInput(i: number) {
-    this.values.splice(i, 1);
+    this.months.splice(i, 1);
   }
 
   addInput() {
-    console.log(this.values)
-    this.values.push({ name: "", days: "" });
+    this.months.push({ n: "", d: 0 });
   }
   numericOnly(event: KeyboardEvent): boolean {
     let patt = /^([0-9])$/;

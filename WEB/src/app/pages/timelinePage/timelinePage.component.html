@@ -11,7 +11,7 @@
 </div>
 <event-popup *ngIf="event_visible" (hide)="this.event_visible = false" [data]="event_data"></event-popup>
 <period-popup *ngIf="period_visible" (hide)="this.period_visible = false" [data]="period_data"></period-popup>
-<option-popup *ngIf="option_visible" (hide)="this.option_visible = false"></option-popup>
+<option-popup *ngIf="option_visible" (hide)="this.option_visible = false" [data]="option_data"></option-popup>
 <div id="settings">
     <button id="edit" class="bubble" (click)="toggleOptions()"></button>
     <button id="add" class="bubble" (click)="new_choice_visible = !this.new_choice_visible"></button>

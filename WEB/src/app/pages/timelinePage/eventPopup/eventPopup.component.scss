@@ -40,7 +40,7 @@
     appearance: textfield;
 
     padding: 0;
-    background-color: var(--shadow-color-light);
+    background-color: transparent;
     border-radius: 5px;
     margin-right: 5px;
 }
@@ -55,3 +55,11 @@
     min-height: 140px;
     margin: 0;
 }
+.editing {
+    border-radius: 20px;
+    outline: 0;
+    word-wrap: break-word;
+    border: 2px solid;
+    border-color: var(--accent-1);
+    padding: 0 10px;
+  }

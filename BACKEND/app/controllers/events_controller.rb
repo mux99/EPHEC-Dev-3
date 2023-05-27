@@ -12,6 +12,7 @@ class EventsController < ApplicationController
     }
     project_json["events"] += [tmp]
     project.update(json: project_json)
+    render json: tmp
   end
 
   def show

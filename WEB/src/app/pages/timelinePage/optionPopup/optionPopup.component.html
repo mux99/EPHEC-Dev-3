@@ -4,30 +4,30 @@
 <input type="text" [class.editing]="can_edit" [(ngModel)]="name">
 <div class="optionInput">
     <P>From</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="s_year">/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="s_month">/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="s_day">
+    <input type="number" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="start.y">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="start.m">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="start.d">
 </div>
 <div class="optionInput">
     <P>To</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="e_year">/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="e_month">/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="e_day">
+    <input type="number" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.y">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.m">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.d">
 </div>
 <div class="optionInput">
     <p>Day per year</p>
-    <input type="number" min="1" placeholder="DDD" name="day" class="w4" [disabled]="!can_edit">
+    <input type="number" min="1" placeholder="DDD" name="day" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="d_year">
 </div>
 <span>
     <span class="month">Month</span>
-    <button id="addMonth" class="month" (click)="addInput()"><img src="assets/plusIcon.svg"></button>
+    <button id="addMonth" class="month" (click)="addInput()" *ngIf="can_edit"><img src="assets/plusIcon.svg"></button>
 </span>
 <div id="monthInput">
-    <div *ngFor="let value of values; let i = index">
-        <input class="monthName" placeholder="month name" type="text" [(ngModel)]="value.name">
-        <input class="monthDays" placeholder="days" (keypress)="numericOnly($event)" type="text" [(ngModel)]="value.days" #name="ngModel">
-        <button id="deleteMonth" class="month" (click)="removeInput(i)"><img src="assets/plusIcon.svg"></button>
+    <div *ngFor="let m of months; let i = index">
+        <input class="monthName" placeholder="month name" type="text" [(ngModel)]="m.n" [class.editing]="can_edit">
+        <input class="monthDays" placeholder="days" type="number" [(ngModel)]="m.d" #name="ngModel" [class.editing]="can_edit">
+        <button id="deleteMonth" class="month" (click)="removeInput(i)" *ngIf="can_edit"><img src="assets/plusIcon.svg"></button>
     </div>
 </div>
-<div class="container2"><textarea id="periodDesc" [(ngModel)]="description"></textarea></div>
+<div class="container2"><textarea id="periodDesc" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="description"></textarea></div>
   

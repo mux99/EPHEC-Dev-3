@@ -133,3 +133,17 @@ input[type=email]:focus, input[type=password]:focus, input[type=text]:focus { bo
 a {color: var(--accent-1);}
 a:hover {color: var(--accent-1-hover);}
 ul {list-style: none;}
+
+textarea {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    width: 85%;
+    max-width: 85%;
+    font-size: large;
+    height: fit-content;
+    resize: none;
+    margin-top: 25px;
+    font-size: var(--text-size);
+    font-family: var(--text-font);
+  }

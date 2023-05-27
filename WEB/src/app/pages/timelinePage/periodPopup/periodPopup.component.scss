@@ -33,6 +33,7 @@
     min-height: 140px;
     margin: 0;
 }
+:host input {background-color: transparent;}
 :host > div > input {
     cursor: text;
     -webkit-appearance: textfield;
@@ -57,7 +58,6 @@
 }
 
 .editing {
-    background-color: var(--background-2);
     border-radius: 20px;
     outline: 0;
     word-wrap: break-word;

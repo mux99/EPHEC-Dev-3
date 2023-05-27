@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -11,7 +11,7 @@ import { AuthService } from 'src/shared-services/auth.service';
 
 export class EventPopup {
   eventId = "";
-  isReadOnly = true;
+  can_edit = false;
 
   title = "";
   description = "";
@@ -44,6 +44,14 @@ export class EventPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
+
+    this.eventId = this.data.id;
+    this.title = this.data.title;
+    let tmp = this.data.date.split("/");
+    this.year = tmp[0];
+    this.month = tmp[1];
+    this.day = tmp[2];
+    this.description = this.data.description;
   }
 
   edit(action: string) {
@@ -53,10 +61,10 @@ export class EventPopup {
       this.year_holder = this.year;
       this.month_holder = this.month;
       this.day_holder = this.day;
-      this.isReadOnly = false;
+      this.can_edit = true;
     }
     else {
-      this.isReadOnly = true;
+      this.can_edit = false;
     }
     if (action == "save") {
       let n = this.title;
@@ -75,17 +83,5 @@ export class EventPopup {
       this.month = this.month_holder;
       this.day = this.day_holder;
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
-      this.init();
-    }
-  }
-
-  init() {
-    this.eventId = this.data.id;
-    this.title = this.data.title;
-    this.description = this.data.description;
   }
 }

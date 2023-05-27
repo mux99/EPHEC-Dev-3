@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import {  ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
+import { DateService } from 'src/shared-services/date.service';
 
 @Component({
   selector: 'timeline-page',
@@ -11,8 +12,6 @@ import { AuthService } from 'src/shared-services/auth.service';
 
 export class TimelinePage {
   timelineScale: number;
-  d_year: number;
-  d_month: Array<number>;
   timeline_id: any;
   project_id: any;
   option_visible = false;
@@ -26,16 +25,16 @@ export class TimelinePage {
 
   event_data: any;
   period_data: any;
+  option_data: any;
 
   constructor(
     private http: HttpClient,
     private _Activatedroute: ActivatedRoute,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private date: DateService
   ) {
     this.timelineScale = 1;
-    this.d_year = 0;
-    this.d_month = [];
   }
 
   @ViewChild("periods_ref") periods_ref!: ElementRef;
@@ -65,11 +64,10 @@ export class TimelinePage {
       obs.subscribe(
         (obs_data: any) => {
           //load timeline data
-          this.d_year = obs_data.d_year;
-          this.d_month = obs_data.d_month;
           this.events = obs_data.events;
           this.periods = obs_data.periods;
-          console.log(this.events);
+          this.option_data = obs_data;
+          this.date.init(obs_data.d_year, obs_data.d_month, obs_data.start, obs_data.end);
         });
     }
   }
@@ -97,20 +95,10 @@ export class TimelinePage {
     this.container_ref.nativeElement.scrollLeft = tmp;
     this.container2_ref.nativeElement.scrollLeft = tmp;
   }
-
-  datetodays(date: string) {
-    let date_array = date.split("/").map(function(n,_i,_a){return Number(n);},this);
-    let days = date_array[0]+(date_array[2]*this.d_year);
-    for (let i = 0; i < date_array[1]; i++) {
-      days += this.d_month[i];
-    }
-    return 0;
-  }
   
   addEvent() {
     let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.get_header());
     obs.subscribe((data: any) => {
-      console.log(data);
       this.editEvent(data);
     });
   }

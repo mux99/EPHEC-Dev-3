@@ -35,10 +35,10 @@ Rails.application.routes.draw do
   delete '/api/projects/:pid/events/:eid', to: 'events#destroy'
 
   #periods queries
-  get '/api/timelines/:tid/period/:id', to: 'periods#show'
-  put '/api/timelines/:tid/period/:id', to: 'periods#update'
-  post '/api/timelines/:tid/period/:id', to: 'periods#new'
-  delete '/api/timelines/:tid/period/:id', to: 'periods#destroy'
+  get '/api/timelines/:tid/periods/:id', to: 'periods#show'
+  put '/api/timelines/:tid/periods/:id', to: 'periods#update'
+  post '/api/timelines/:tid/periods', to: 'periods#new'
+  delete '/api/timelines/:tid/periods/:id', to: 'periods#destroy'
 
   #timelines queries
   post '/api/projects/:id/timelines', to: 'timelines#new'

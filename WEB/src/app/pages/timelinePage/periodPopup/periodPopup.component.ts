@@ -9,12 +9,21 @@ import { AuthService } from 'src/shared-services/auth.service';
   styleUrls: ['./periodPopup.component.scss']
 })
 export class PeriodPopup implements AfterViewInit {
+  colors = ["#ff3737","#ff8337","#c29867","#ffe272","#9de16f","#36d8b7","#53afff","#212e4a","#de6fff","#ff74bc","#bccdde","#222831"];
   name = "";
   description = "";
+  start = {y: 0, m: 0, d: 0};
+  end = {y: 0, m: 0, d: 0};
+  color = "";
+
+  name_holder = "";
+  description_holder = "";
+  start_holder = {y: 0, m: 0, d: 0};
+  end_holder = {y: 0, m: 0, d: 0};
 
   can_edit = false;
   timeline_id: any;
-  project_id: any;
+  period_id: any;
 
   @Input() data: any;
   @ViewChild('colorDivs') colorDivsRef!: ElementRef;
@@ -29,47 +38,45 @@ export class PeriodPopup implements AfterViewInit {
 
   ngAfterViewInit() {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
-      this.timeline_id = paramMap.get('tid'); 
-      this.project_id = paramMap.get('pid');
+      this.timeline_id = paramMap.get('tid');
     });
-
-    const colorDivs = this.colorDivsRef.nativeElement.querySelectorAll('.color');
-
-    colorDivs.forEach((colorDiv: HTMLElement) => {
-      colorDiv.addEventListener('click', () => {
-        const color = colorDiv.style.backgroundColor;
-        console.log('Selected color:', color);
-    
-        colorDivs.forEach((div: HTMLElement) => {
-          div.style.border = '2px solid transparent';
-        });
-    
-        colorDiv.style.border = '2px solid var(--text-color)';
-      });
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
-      this.init();
-    }
-  }
-
-  init() {
+    console.log(this.data)
+    this.period_id = this.data.id;
+    this.name = this.data.title;
+    this.color = this.data.color;
+    this.description = this.data.description;
+    let tmp = this.data.start.split("/");
+    this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
+    let tmp2 = this.data.end.split("/");
+    this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
   }
 
   edit(action: string) {
+    console.log(this.color);
     if (action == "edit") {
+      this.start_holder = this.start;
+      this.end_holder = this.end;
+      this.name_holder = this.name;
+      this.description_holder = this.description;
       this.can_edit = true;
     }
     else {
       this.can_edit = false;
     }
     if (action == "save") {
-      let obs = this.http.put(`/api/timeline/${this.timeline_id}/periods`, {},this.auth.get_header());
+      let params = ""
+      params += `n=${this.name}&`;
+      params += `s=${this.start.y}/${this.start.m}/${this.start.d}&`;
+      params += `e=${this.end.y}/${this.end.m}/${this.end.d}&`;
+      params += `c=${encodeURIComponent(this.color)}`;
+      let obs = this.http.put(`/api/timelines/${this.timeline_id}/periods/${this.period_id}?${params}`, {},this.auth.get_header());
       obs.subscribe();
     }
     else if (action == "cancel") {
+      this.start = this.start_holder;
+      this.end = this.end_holder;
+      this.name = this.name_holder;
+      this.description = this.description_holder;
     }
   }
 }

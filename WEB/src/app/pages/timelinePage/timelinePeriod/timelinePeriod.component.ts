@@ -1,9 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { DateService } from 'src/shared-services/date.service';
 
 @Component({
   selector: 'timeline-period',
   styleUrls: ['./timelinePeriod.component.scss'],
-  template: '<p #name>Period Name</p>',
+  template: '<p>{{ data.title }}</p>',
   host: {
     "(click)": "click()"
  }
@@ -15,14 +16,16 @@ export class TimelinePeriod {
 
   @Output() clicked: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    private elementRef: ElementRef,
+    private date: DateService
+    ) { }
 
   ngAfterViewInit() {
-    // this.elementRef.nativeElement.style.left = `${this.left}%`;
-    // this.elementRef.nativeElement.style.width = `${this.width}%`;
+    this.elementRef.nativeElement.style.left = `${this.date.get_pos(this.data.start)}%`;
+    this.elementRef.nativeElement.style.width = `${this.date.get_len(this.data.start, this.data.end)}%`;
     // this.elementRef.nativeElement.style.top = `${this.top}%`;
-    // this.elementRef.nativeElement.style.backgroundColor = `${this.color}`;
-    // this.name_ref.nativeElement.innerHTML = this.name;
+    this.elementRef.nativeElement.style.backgroundColor = `${this.data.color}`;
   }
 
   click() {
