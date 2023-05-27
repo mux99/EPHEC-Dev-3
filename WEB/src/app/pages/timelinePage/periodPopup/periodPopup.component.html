@@ -1,5 +1,5 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
-<edit-button (childEvent)="edit($event)"></edit-button>
+<edit-button #edit_button (childEvent)="edit($event)"></edit-button>
 <input type="text" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="name">
 <div id="startPeriod">
     <P>From</P>

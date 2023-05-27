@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EditButton } from 'src/app/components/editButton/editButton.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -34,6 +35,7 @@ export class OptionPopup {
   }
 
   @Input() data!: any;
+  @ViewChild('edit_button') edit_button!: EditButton;
 
   //close popup
   @Output() hide = new EventEmitter();
@@ -56,6 +58,7 @@ export class OptionPopup {
       this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
       let tmp2 = this.data.end.split("/");
       this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+      this.edit_button.close()
     }
   }
 

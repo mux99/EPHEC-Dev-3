@@ -1,5 +1,5 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
-<edit-button (childEvent)="edit($event)"></edit-button>
+<edit-button #edit_button (childEvent)="edit($event)"></edit-button>
 <input [(ngModel)]="title" type="text" [disabled]="!can_edit" [class.editing]="can_edit"><br>
 <input [(ngModel)]="year" type="number" class="w4" [disabled]="!can_edit" [class.editing]="can_edit">/
 <input [(ngModel)]="month" type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit">/

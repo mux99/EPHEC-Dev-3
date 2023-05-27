@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter, SimpleChanges, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EditButton } from 'src/app/components/editButton/editButton.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class PeriodPopup implements AfterViewInit {
 
   @Input() data: any;
   @ViewChild('colorDivs') colorDivsRef!: ElementRef;
+  @ViewChild('edit_button') edit_button!: EditButton;
   @Output() hide = new EventEmitter();
   quit() {this.hide.emit()}
 
@@ -53,6 +55,8 @@ export class PeriodPopup implements AfterViewInit {
       this.start = {y: tmp[0], m: tmp[1], d: tmp[2]};
       let tmp2 = this.data.end.split("/");
       this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
+      this.can_edit = false;
+      this.edit_button.close()
     }
   }
 

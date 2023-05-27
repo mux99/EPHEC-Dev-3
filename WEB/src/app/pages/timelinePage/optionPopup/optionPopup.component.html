@@ -1,5 +1,5 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
-<edit-button (childEvent)="edit($event)"></edit-button>
+<edit-button #edit_button (childEvent)="edit($event)"></edit-button>
 <h2>Timeline options</h2>
 <input type="text" [class.editing]="can_edit" [(ngModel)]="name">
 <div class="optionInput">
