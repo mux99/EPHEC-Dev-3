@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   def new
     project = Project.find(params[:pid])
+    timeline = Timeline.find(params[:tid])
     project_json = project.json
     tmp = {
         :id => SecureRandom.hex,
@@ -8,7 +9,7 @@ class EventsController < ApplicationController
         :title => "event name",
         :description => "event description",
         :image => "",
-        :date => "0000/00/00"
+        :date => timeline.start
     }
     project_json["events"] += [tmp]
     project.update(json: project_json)

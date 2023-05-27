@@ -7,8 +7,8 @@ class PeriodsController < ApplicationController
         :title => "period name",
         :description => "description",
         :color => "#252525",
-        :start => "0000/00/00",
-        :end => "0000/00/00"
+        :start => timeline.start,
+        :end => timeline.end
     }
     timeline_json["periods"] += [tmp]
     timeline.update(json: timeline_json)
