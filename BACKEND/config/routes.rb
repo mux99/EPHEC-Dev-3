@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'period/new'
-  get 'period/show'
-  get 'period/update'
-  get 'period/destroy'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   #users queries
