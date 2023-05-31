@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
         end
         res = []
         public_projects.each do |p|
-            tmp = Image.joins(:project).where(project_id: p.id, cover: true).first
+            tmp = Image.find_by(project_id: p.id)
             img = tmp.url unless tmp.nil?
             owner = User.find_by(id: p.owner)
             res += [{
@@ -48,6 +48,7 @@ class ProjectsController < ApplicationController
         }
         new_project = Project.create!(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
         ProjectsUser.create(user_id: user.id, project_id: new_project.id)
+        Image.create(project_id: new_project.id, cover: true, url: "https://placehold.co/1280x720/")
         render json: { id: new_project.id }
     end
 
@@ -59,7 +60,7 @@ class ProjectsController < ApplicationController
             perms = ProjectsUser.find_by(user_id: user.id).perms
         end
         owner = User.find(project.owner)
-        tmp = Image.joins(:project).where(project_id: params[:id], cover: true).first
+        tmp = Image.find_by(project_id: project.id)
         img = tmp.url unless tmp.nil?
         timelines = ProjectsTimeline.where(project_id: params[:id])
         timelines_ids = []
@@ -92,6 +93,7 @@ class ProjectsController < ApplicationController
             tmp2["text"] = params[:t] unless params[:t].nil?
             tmp[:json] = tmp2
         end
+        image = Image.find_by(project_id: params[:id]).update(url: params[:i]) unless params[:i].nil?
         project.update(tmp)
     end
 

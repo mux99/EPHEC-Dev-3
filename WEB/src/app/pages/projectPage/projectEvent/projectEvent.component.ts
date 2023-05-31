@@ -4,7 +4,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
   selector: 'project-event',
   styleUrls: ['./projectEvent.component.scss'],
 
-  template: '<h2>{{ event.name }}</h2><p>{{ event.description }}</p>'
+  template: '<h4>{{ event.title }}</h4><p>{{ event.description }}</p>'
 })
 
 export class ProjectEvent {

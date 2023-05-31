@@ -15,7 +15,7 @@
 </div>
 <div id="gridContainer">
     <div #projects id="projectGrid">
-        <project-small *ngFor="let p of projects_list" [name_text]="p.name" [description_text]="p.description" [project_id]="p.id"></project-small>
+        <project-small *ngFor="let p of projects_list" [name_text]="p.name" [description_text]="p.description" [project_id]="p.id" [url_image]="p.img"></project-small>
         <div #addProject id="addProject" *ngIf="!is_public"><project-add></project-add><project-import></project-import></div>
     </div>
 </div>

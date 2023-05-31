@@ -8,6 +8,7 @@
         <button #export id="export">Export Project</button>
         <button #del id="del" (click)="clickDelete()">delete project</button>
         <input type="checkbox" #visibilityToggle (click)="clickPublic()" id="switch" [(ngModel)]="visibility"><label for="switch"></label>
+        <button (click)="clickImage()">change image</button>
     </div>
 </div>
 <div id="main">

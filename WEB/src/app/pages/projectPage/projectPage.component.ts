@@ -53,7 +53,6 @@ export class ProjectPage {
       this.tag_var = obs_data.tag;
       this.timelines = obs_data.timelines;
       this.events = obs_data.events;
-      console.log(this.events)
       this.visibility = obs_data.visible;
     });
   }
@@ -85,7 +84,13 @@ export class ProjectPage {
   }
 
   clickPublic() {
-    let obs = this.http.put(`/api/projects/${this.project_id}?v${!this.visibility}`,{} , this.auth.get_header());
+    let obs = this.http.put(`/api/projects/${this.project_id}?v=${!this.visibility}`,{} , this.auth.get_header());
+    obs.subscribe();
+  }
+
+  clickImage() {
+    let imgLink = window.prompt('Enter image link:');
+    let obs = this.http.put(`/api/projects/${this.project_id}?i=${imgLink}`,{} , this.auth.get_header());
     obs.subscribe();
   }
 }
