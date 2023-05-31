@@ -112,11 +112,11 @@ class ProjectsController < ApplicationController
 
     def add_user
     	new_user = User.find_by(email: params[:e])
-    	ProjectUser.create(user_id: new_user.id, project_id: params[:p])
+    	ProjectsUser.create(user_id: new_user.id, project_id: params[:id])
     end
 
     def rm_user
-    	ProjetsUser.destroy_by(user_id: params[:u], project_id: params[:p])
+    	ProjectsUser.destroy_by(user_id: params[:u], project_id: params[:id])
     end
 
     def members
