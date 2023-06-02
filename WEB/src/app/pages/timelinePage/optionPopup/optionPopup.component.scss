@@ -79,11 +79,12 @@
     margin-top: 10px;
     max-height: 130px;
     height: fit-content;
+    overflow: scroll;
 }
 
 #monthInput input {padding-left: 10px;}
-.monthName {width: 150px; margin: 3px 10px 5px 5px;}
-.monthDays {width: 50px}
+.monthName {width: 150px;}
+.monthDays {width: 50px;}
 
 .editing {
     border-radius: 20px;
