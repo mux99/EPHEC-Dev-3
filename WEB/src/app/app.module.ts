@@ -42,6 +42,7 @@ const appRoutes: Routes = [
   { path: 'p/:id', component: ProjectPage},
   { path: 'p/:id/:data', component: ProjectPage},
   { path: 'p/:pid/t/:tid', component: TimelinePage},
+  { path: 'p/:pid/t/:tid/e/:eid', component: TimelinePage},
   { path: 'profile', component: ProfilePage}
 ];
 

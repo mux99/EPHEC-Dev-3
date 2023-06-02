@@ -15,11 +15,10 @@
     <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.d">
 </div>
 <div class="optionInput">
-    <p>Day per year</p>
-    <input type="number" min="1" placeholder="DDD" name="day" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="d_year">
+    Day per year: <input type="number" min="1" placeholder="DDD" name="day" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="d_year">
 </div>
 <span>
-    <span class="month">Month</span>
+    Months:
     <button id="addMonth" class="month" (click)="addInput()" *ngIf="can_edit"><img src="assets/plusIcon.svg"></button>
 </span>
 <div id="monthInput">

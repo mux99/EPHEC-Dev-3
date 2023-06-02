@@ -4,7 +4,7 @@
         <timeline-event *ngFor="let e of events" [data]="e" (clicked)="editEvent($event)"></timeline-event>
     </div>
 </div>
-<div #container class="container round" id="row3">
+<div #container class="container round" id="row3" (wheel)="onWheelScroll($event)">
     <div #periods_ref id="timelineBody">
         <timeline-period *ngFor="let p of periods" [data]="p" (clicked)="editPeriod($event)"></timeline-period>
     </div>

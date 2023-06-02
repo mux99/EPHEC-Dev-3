@@ -6,7 +6,7 @@
     width: var(--popup-width);
     box-sizing: border-box;
     position: absolute;
-    bottom: 225px;
+    bottom: 150px;
 }
 
 *[contenteditable="true"] {
@@ -31,8 +31,8 @@
     left: calc(var(--popup-width) - 125px);
 }
 
-.w4 {width: 6ch;}
-.w2 {width: 4ch;}
+.w4 {width: 4ch;margin-right: 5px;}
+.w2 {width: 2ch;margin-right: 5px;}
 :host input {
     cursor: text;
     -webkit-appearance: textfield;

@@ -5,7 +5,7 @@
     width: 25vw;
     position: absolute;
     left: 0;
-    bottom: 225px;
+    bottom: 150px;
 }
 
 .container {height: 0;overflow: visible;}
@@ -21,8 +21,8 @@
     left: calc(25vw - 85px);
 }
 
-.w4 {width: 7ch;}
-.w2 {width: 5ch;}
+.w4 {width: 4ch;margin-right: 5px;}
+.w2 {width: 2ch;margin-right: 5px;}
 .container2 {
     margin-top: 15px;
     height: 150px;

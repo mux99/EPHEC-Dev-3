@@ -74,12 +74,10 @@ export class TimelinePage {
         });
     }
   }
-
-  @HostListener('wheel', ['$event'])
+  
   onWheelScroll(event: WheelEvent) {
-    if (event.clientX == 0 || event.target != this.periods_ref.nativeElement) {
-      return;
-    }
+    if (event.clientX == 0) return;
+
     let old_width = parseInt(window.getComputedStyle(this.periods_ref.nativeElement).getPropertyValue("width"));
     let mouse_pos = (event.clientX - parseInt(window.getComputedStyle(this.container_ref.nativeElement).getPropertyValue("margin-left")));
     let offset = (parseInt(this.container_ref.nativeElement.scrollLeft)+mouse_pos);

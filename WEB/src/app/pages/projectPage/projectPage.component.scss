@@ -43,7 +43,7 @@ textarea {
   align-items: center;
   justify-self: flex-end;
 }
-#sideBar > input {width: 95%;}
+#sideBar > * {width: 95%;}
 #sideBar {
   grid-row: 2;
   grid-column: 2;
