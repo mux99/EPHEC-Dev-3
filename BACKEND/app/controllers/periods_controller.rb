@@ -16,8 +16,8 @@ class PeriodsController < ApplicationController
   end
 
   def show
-    timeline_events = Project.find(params[:pid]).json["periods"]
-    event = timeline_events.select {|e| e["ID"] == params[:eid]}
+    timeline_periods = Project.find(params[:pid]).json["periods"]
+    event = timeline_periods.select {|e| e["ID"] == params[:eid]}
     render json: event
   end
 
@@ -39,11 +39,11 @@ class PeriodsController < ApplicationController
             break
         end
     end
-    timeline_periods[index]["title"] = params[:n] unless params[:n].nil?
-    timeline_periods[index]["description"] = params[:d] unless params[:d].nil?
-    timeline_periods[index]["start"] = params[:s] unless params[:s].nil?
-    timeline_periods[index]["end"] = params[:e] unless params[:e].nil?
-    timeline_periods[index]["color"] = params[:c].sub("%23", "#") unless params[:c].nil?
+    timeline_periods[index]["title"] = params[:n]
+    timeline_periods[index]["description"] = params[:d]
+    timeline_periods[index]["start"] = params[:s]
+    timeline_periods[index]["end"] = params[:e]
+    timeline_periods[index]["color"] = params[:c].sub("%23", "#")
     timeline_json["periods"] = timeline_periods
     timeline.update(json: timeline_json)
   end
