@@ -36,7 +36,7 @@ export class DateService {
         for (let p of this.history) {
             if (p.l == level) {
                 console.log(`s: ${start_day}, e: ${end_day}, ${p.s}, ${p.e}`)
-                if ((start_day >= p.s && start_day <= p.e) || (end_day >= p.s && end_day <= p.e) || (start_day < p.s && end_day > p.e)) {
+                if ((start_day >= p.s && start_day < p.e) || (end_day <= p.e && end_day > p.s) || (start_day <= p.s && end_day >= p.e)) {
                     level += 1;
                 }
             }
