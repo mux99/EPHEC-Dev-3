@@ -76,3 +76,5 @@ BACKEND/tmp/storage/*
 BACKEND/config/master.key
 
 .vscode/
+
+BACKEND/public/
