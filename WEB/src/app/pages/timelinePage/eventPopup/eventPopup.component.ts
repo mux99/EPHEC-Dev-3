@@ -42,12 +42,12 @@ export class EventPopup {
 
   quit() {
     this.hide.emit()
-    if (this.write) this.delete();
+    //if (this.write) this.delete();
   }
 
   ngAfterViewInit() {
-    this._Activatedroute.paramMap.subscribe(paramMap => { 
-      this.timeline_id = paramMap.get('tid'); 
+    this._Activatedroute.paramMap.subscribe(paramMap => {
+      this.timeline_id = paramMap.get('tid');
       this.project_id = paramMap.get('pid');
     });
   }

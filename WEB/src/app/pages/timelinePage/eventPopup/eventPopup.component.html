@@ -5,4 +5,4 @@
 <input [(ngModel)]="month" type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit">/
 <input [(ngModel)]="day" type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit">
 <div class="container2"><textarea [(ngModel)]="description" id="eventDesc" [disabled]="!can_edit" [class.editing]="can_edit"></textarea></div>
-<button *ngIf="write" (click)="edit('save')">validate</button><button *ngIf="!write && can_edit" (click)="delete()">delete</button>
+<button class="action_button" *ngIf="write" (click)="edit('save')">validate</button><button class="action_button" *ngIf="write" (click)="delete();quit();">cancel</button><button class="action_button" *ngIf="!write && can_edit" (click)="delete();quit();">delete</button>

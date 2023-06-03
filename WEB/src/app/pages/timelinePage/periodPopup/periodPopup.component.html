@@ -18,5 +18,4 @@
     <div *ngFor="let c of colors" class="color" [style.backgroundColor]="c" (click)="color = can_edit ? c : color"></div>
 </div>
 <div class="container2"><textarea id="periodDesc" type="text" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="description"></textarea></div>
-<button *ngIf="write" (click)="edit('save')">validate</button><button *ngIf="!write && can_edit" (click)="delete()">delete</button>
-  
+<button class="action_button" *ngIf="write" (click)="edit('save')">validate</button><button class="action_button" *ngIf="write" (click)="delete();quit();">cancel</button><button class="action_button" *ngIf="!write && can_edit" (click)="delete();quit();">delete</button>

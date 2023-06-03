@@ -38,7 +38,7 @@ export class PeriodPopup implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    this._Activatedroute.paramMap.subscribe(paramMap => { 
+    this._Activatedroute.paramMap.subscribe(paramMap => {
       this.timeline_id = paramMap.get('tid');
     });
   }
@@ -54,7 +54,7 @@ export class PeriodPopup implements AfterViewInit {
     this.end = {y: tmp2[0], m: tmp2[1], d: tmp2[2]};
     this.can_edit = false;
     this.edit_button.close()
-    
+
     if (write) {
       this.write = true;
       this.can_edit = true;
@@ -63,7 +63,7 @@ export class PeriodPopup implements AfterViewInit {
 
   quit() {
     this.hide.emit()
-    if (this.write) this.delete();
+    //if (this.write) this.delete();
   }
 
   delete() {
