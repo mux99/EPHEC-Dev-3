@@ -1,0 +1,5 @@
+#! /bin/bash
+cd WEB
+ng build
+cd ../BACKEND
+rails s
