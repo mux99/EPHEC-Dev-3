@@ -1,0 +1,96 @@
+:host {
+    padding: 20px;
+    background-color: var(--accent-2);
+    border-radius: 0 20px 20px 0;
+    --popup-width: 350px;
+    width: var(--popup-width);
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 200px;
+}
+
+:host input {
+    background-color: transparent;
+}
+
+*[contenteditable="true"] {
+    background-color: var(--background-2);
+    border-radius: 20px;
+    outline: 0;
+    word-wrap: break-word;
+    border: 4px solid;
+    border-color: var(--accent-1);
+    padding: 0 10px;
+}
+
+.container {height: 0;overflow: visible;}
+:host > .container > button > img {transform: rotate(45deg);margin-left: -9.5px;margin-bottom: -2px;}
+:host > .container > button {
+    position: relative;
+    left: calc(var(--popup-width) - 75px);
+    width: 35px;
+}
+:host > edit-button {
+    position: relative;
+    left: calc(var(--popup-width) - 125px);
+}
+
+.w4 {width: 6ch;}
+.w2 {width: 4ch;}
+:host input {
+    cursor: text;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    padding: 0;
+    border-radius: 5px;
+    margin-right: 5px;
+    height: 35px;
+}
+
+.container2 {
+    height: 150px;
+    overflow-x: scroll;
+    word-wrap: break-word;
+}
+#eventDesc {
+    min-height: 140px;
+    margin: 0;
+}
+
+.optionInput input {margin-left: 8px; text-align: center;}
+.optionInput {
+    display: flex;
+    align-items: center;
+    margin: 00px 0px 0px 0px;
+}
+/////////add months/////////
+#addMonth {width: 35px; position: relative;}
+#addMonth > img {margin-left: -9.5px;margin-bottom: -2px;}
+#deleteMonth {width: 35px; position: relative;}
+#deleteMonth > img {margin-left: -9.5px;margin-bottom: -2px; transform: rotate(45deg)}
+.bubble {
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.month {display: inline-block; vertical-align: middle; margin-right: 10px; margin-left: 5px;}
+#monthInput {
+    margin-top: 10px;
+    max-height: 130px;
+    height: fit-content;
+    overflow: scroll;
+}
+
+#monthInput input {padding-left: 10px;}
+.monthName {width: 150px;}
+.monthDays {width: 50px;}
+
+.editing {
+    border-radius: 20px;
+    outline: 0;
+    word-wrap: break-word;
+    border: 2px solid;
+    border-color: var(--accent-1);
+    padding: 0 10px;
+  }

@@ -6,9 +6,7 @@
     width: var(--popup-width);
     box-sizing: border-box;
     position: absolute;
-    bottom: 225px;
-    
-    display: none;
+    bottom: 150px;
 }
 
 *[contenteditable="true"] {
@@ -33,8 +31,8 @@
     left: calc(var(--popup-width) - 125px);
 }
 
-.w4 {width: 6ch;}
-.w2 {width: 4ch;}
+.w4 {width: 5ch;margin-right: 5px;}
+.w2 {width: 3ch;margin-right: 5px;}
 :host input {
     cursor: text;
     -webkit-appearance: textfield;
@@ -42,7 +40,7 @@
     appearance: textfield;
 
     padding: 0;
-    background-color: var(--shadow-color-light);
+    background-color: transparent;
     border-radius: 5px;
     margin-right: 5px;
 }
@@ -51,8 +49,21 @@
     margin-top: 15px;
     height: 150px;
     overflow-x: scroll;
+    word-wrap: break-word;
 }
 #eventDesc {
     min-height: 140px;
     margin: 0;
+}
+.editing {
+    border-radius: 20px;
+    outline: 0;
+    word-wrap: break-word;
+    border: 2px solid;
+    border-color: var(--accent-1);
+    padding: 0 10px;
+}
+
+.action_button {
+    display: flex;
 }

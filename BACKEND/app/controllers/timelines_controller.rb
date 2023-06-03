@@ -2,8 +2,8 @@ class TimelinesController < ApplicationController
     def new
         project = Project.find(params[:id])
         tmp = {
-            :d_year => 0,
-            :d_month => [],
+            :d_year => 365.25,
+            :d_month => [{n: "Jan", d: 31},{n: "Fev", d: 28.25},{n: "Mar", d: 31},{n: "Avr", d: 30},{n: "May", d: 31},{n: "Jun", d: 30},{n: "Jul", d: 31},{n: "Aug", d: 31},{n: "Sep", d: 30},{n: "Oct", d: 31},{n: "Nov", d: 30},{n: "Dec", d: 31}],
             :periods => []         
         }
         new_timeline = Timeline.create(name: "Timeline name", description: "timeline description", start: "0000/00/00", end: "0000/00/00", json: tmp)
@@ -18,11 +18,11 @@ class TimelinesController < ApplicationController
 
     def update
     	timeline = Timeline.find(params[:id])
-    	timeline.update(name: params[:n]) unless params[:n].nil?
-    	timeline.update(description: params[:d]) unless params[:d].nil?
+    	timeline.update(name: params[:n]) unless (params[:n].nil? || params[:n] == "")
+    	timeline.update(description: params[:d]) unless (params[:d].nil? || params[:n] == "")
     	timeline.update(start: params[:s]) unless params[:s].nil?
     	timeline.update(end: params[:e]) unless params[:e].nil?
-    	timeline.update(json: params[:j]) unless params[:j].nil?
+    	#timeline.update(json: params[:j]) unless params[:j].nil?
     end
 
     def show

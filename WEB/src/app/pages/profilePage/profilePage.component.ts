@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthService } from 'src/shared-services/auth.service';
 import { ThemeService } from 'src/shared-services/theme.service';
@@ -38,11 +38,14 @@ export class ProfilePage {
   }
   themeSelect(t: string) {
     let th;
-    if (t == "1") th = this.theme.theme_1;
+    if (t == "1") th = this.theme.default;
     if (t == "2") th = this.theme.theme_2;
     if (t == "3") th = this.theme.theme_3;
     this.theme.setTheme(th);
-    let obs = this.http.put("/api/me",{} ,{ "params": {"t": JSON.stringify(th)}, "headers": this.auth.httpHeader.headers});
+    console.log(th)
+    let httparams = new HttpParams()
+    .set("t", JSON.stringify(th));
+    let obs = this.http.put(`/api/me`,httparams ,this.auth.get_header());
     obs.subscribe()
   }
 }

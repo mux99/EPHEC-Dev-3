@@ -1,24 +1,28 @@
 <div id="topBar">
+    <a href="/" class="home"><img src="/assets/TwIcon.svg" alt="Home"></a>
     <div id="titleContainer">
-        <h1 #title id="title"></h1>
-        <span><span #owner id="owner"></span><span #tag id="tag"></span></span>
+        <input type="text" id="title" [(ngModel)]="name_var" [disabled]="!editing" [class.editing]="editing"><br>
+        <span><span id="owner">{{ owner_var }}</span><span id="tag">#{{ tag_var }}</span></span>
     </div>
-    <div id="options">
-        <button #export id="export" (click)="exportProject()">Export Project</button>
+    <div id="options" *ngIf="can_edit">
+        <button #export id="export">Export Project</button>
         <button #del id="del" (click)="clickDelete()">delete project</button>
-        <input type="checkbox" #visibilityToggle (click)="clickPublic()" id="switch"><label for="switch"></label>
+        <input type="checkbox" #visibilityToggle (click)="clickPublic()" id="switch" [(ngModel)]="visibility"><label for="switch"></label>
+        <button (click)="clickImage()">change image</button>
     </div>
 </div>
 <div id="main">
-    <edit-button (childEvent)="edit($event)"></edit-button>
-    <div #description id="description">
+    <edit-button (childEvent)="edit($event)" *ngIf="can_edit"></edit-button>
+    <textarea id="description" [(ngModel)]="description_var" [disabled]="!editing" [class.editing]="editing"></textarea>
+    <div id="timelines">
+        <project-timeline *ngFor="let t of timelines" [timeline_id]="t" [project_id]="project_id"></project-timeline>
     </div>
-    <div #timelines id="timelines"></div>
-    <timeline-add></timeline-add>
-    <div #text id="text"></div>
+    <timeline-add *ngIf="can_edit" [project_id]="project_id"></timeline-add>
+    <textarea id="text" [(ngModel)]="text_var" [disabled]="!editing" [class.editing]="editing"></textarea>
 </div>
 <div id="sideBar">
     <input type="search" placeholder="Search...">
-    <div #events id="events_list">
+    <div id="events_list">
+        <project-event *ngFor="let e of events" [event]="e"></project-event>
     </div>
 </div>

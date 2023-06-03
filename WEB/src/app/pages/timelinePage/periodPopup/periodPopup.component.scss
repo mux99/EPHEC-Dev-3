@@ -5,7 +5,7 @@
     width: 25vw;
     position: absolute;
     left: 0;
-    bottom: 225px;
+    bottom: 150px;
 }
 
 .container {height: 0;overflow: visible;}
@@ -21,25 +21,25 @@
     left: calc(25vw - 85px);
 }
 
-.w4 {width: 7ch;}
-.w2 {width: 5ch;}
+.w4 {width: 5ch;margin-right: 5px;}
+.w2 {width: 3ch;margin-right: 5px;}
 .container2 {
     margin-top: 15px;
     height: 150px;
     overflow-x: scroll;
+    word-wrap: break-word;
 }
 #periodDesc {
     min-height: 140px;
     margin: 0;
 }
-
+:host input {background-color: transparent;}
 :host > div > input {
     cursor: text;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     appearance: textfield;
     padding: 0;
-    background-color: var(--shadow-color-light);
     border-radius: 5px;
 }
 
@@ -55,4 +55,17 @@
     width:30px;
     cursor: pointer;
     border: 2px solid transparent;
+}
+
+.editing {
+    border-radius: 20px;
+    outline: 0;
+    word-wrap: break-word;
+    border: 2px solid;
+    border-color: var(--accent-1);
+    padding: 0 10px;
+}
+
+.action_button {
+    display: flex;
 }

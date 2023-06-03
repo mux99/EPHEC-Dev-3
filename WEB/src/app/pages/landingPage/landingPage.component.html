@@ -1,7 +1,7 @@
 <div id="topBar">
     <img src="assets/textLogo.svg">
     <div>
-        <input type="search" placeholder="Search..." #searchInput (keydown.enter)="onSearchSubmit($event, searchInput.value)" (input)="onSearchInputChange($event)">
+        <input type="search" placeholder="Search..." #searchInput (keydown.enter)="onSearchSubmit($event, searchInput.value)">
 
         <select class="input">
             <option value="latest">latest</option>
@@ -9,12 +9,13 @@
             <option value="oldest">oldest</option>
         </select>
 
-        <button #goPublic (click)="goToPublic()">browse public projects</button>
-        <button #goMine (click)="goToMine()">my projects</button>
+        <button (click)="goToPublic()" *ngIf="!is_public">browse public projects</button>
+        <button (click)="goToMine()" *ngIf="canGoMine()">my projects</button>
     </div>
 </div>
 <div id="gridContainer">
     <div #projects id="projectGrid">
-        <div #addProject id="addProject"><project-add></project-add><project-import></project-import></div>
+        <project-small *ngFor="let p of projects_list" [name_text]="p.name" [description_text]="p.description" [project_id]="p.id" [url_image]="p.img"></project-small>
+        <div #addProject id="addProject" *ngIf="!is_public"><project-add></project-add><project-import></project-import></div>
     </div>
 </div>

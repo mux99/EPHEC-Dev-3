@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_130438) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_03_074507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -47,8 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_130438) do
     t.string "name"
     t.text "description"
     t.jsonb "json", default: "{}"
-    t.integer "start"
-    t.integer "end"
+    t.string "start"
+    t.string "end"
   end
 
   create_table "tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -65,6 +65,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_130438) do
     t.string "email"
     t.datetime "created_at", null: false
     t.jsonb "json", default: "{}"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name", "tag"], name: "index_users_on_name_and_tag", unique: true
   end
 
   add_foreign_key "images", "projects"

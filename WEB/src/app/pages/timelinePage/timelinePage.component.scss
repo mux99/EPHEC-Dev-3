@@ -1,28 +1,46 @@
 :host {
   height: 100vh;
   width: 100vw;
-  --timeline-height: 25vh;
+  --timeline-height: calc(3 * var(--buble-size));
   display: grid;
   grid-template-rows: 1fr var(--timeline-height) 25vh;
 }
-#row2 {grid-row: 1;height: 100%;}
-#row3 {grid-row: 2;}
-.container::-webkit-scrollbar {display: none;} //chrome, safari
+
+#row2 {
+  grid-row: 1;
+  height: 100%;
+}
+
+#row3 {
+  grid-row: 2;
+}
+
+.container::-webkit-scrollbar {
+  display: none; /*chrome, safari*/
+}
+
 .container {
   margin: auto;
   width: 95vw;
   overflow-x: scroll;
-  scrollbar-width: none; //firefox
+  scrollbar-width: none; /*firefox*/
 }
-.round {border-radius: 20px;}
 
-#events {width: 95vw;position: relative;height: 100%;}
+.round {
+  border-radius: calc(var(--buble-size) / 2);
+}
+
+#events {
+  width: 95vw;
+  position: relative;
+  height: 100%;
+}
+
 #timelineBody {
-  height: var(--timeline-height);
-
-  //to be replaced
-  background-image: url("https://appcodelabs.com/wp-content/uploads/2017/12/horiz-gradient-rainbow-1.png");
-  background-size: cover;
+  min-height: var(--timeline-height);
+  height: fit-content;
+  position: relative;
+  background-color: var(--shadow-color);
 }
 
 #settings {
@@ -37,18 +55,74 @@
   background-position: center;
   margin: 20px 0 20px 20px;
 }
-#edit {background-image: url("/assets/optionIcon.svg");}
-#addEvent {background-image: url("/assets/plusIcon.svg");}
-#optionPanel input[type=search] {width: 100%;}
-#optionPanel select {width: fit-content;}
-#optionPanel {
-  position: absolute;
-  left: 0;
-  bottom: calc(var(--buble-size) + 40px);
-  background-color: var(--accent-2);
-  width: 25vw;
-  padding: 20px;
-  border-radius: 0 25px 25px 0;
+
+#edit {
+  background-image: url("/assets/optionIcon.svg");
+}
+
+#add {
+  background-image: url("/assets/plusIcon.svg");
+  transition: transform 0.3s ease-in-out;
+}
+
+nav > * {
+  cursor: pointer;
+}
+
+nav > a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 24px;
+}
+
+nav > a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  position: fixed;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 10px 0px 0px 10px;
+}
+
+:host > nav > a img {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+:host #returnIcon {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+:host #TwIcon {
+  height: 55px;
+  width: 55px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+
+:host > nav > a {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+
+#additionalButtons {
+  position: absolute;
+  display: flex;
+  left: calc(100% + 10px);
+  top: 50%;
+}
+.fit {
+  width: 4ch;
 }

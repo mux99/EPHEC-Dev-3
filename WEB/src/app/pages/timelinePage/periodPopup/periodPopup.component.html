@@ -1,32 +1,21 @@
-<div class="container"><button><img src="assets/plusIcon.svg"></button></div>
-<edit-button></edit-button>
-<h2>Period name</h2>
+<div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
+<edit-button #edit_button (childEvent)="edit($event)" *ngIf="!write"></edit-button>
+<input type="text" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="name">
 <div id="startPeriod">
     <P>From</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
+    <input type="number" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="start.y">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="start.m">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="start.d">
 </div>
 <div id="endPeriod">
     <P>To</P>
-    <input type="number" max="1000" placeholder="YYYY" name="year" class="w4" readonly>/
-    <input type="number" min="1" placeholder="MM" name="month" class="w2" readonly>/
-    <input type="number" min="1" placeholder="DD" name="day" class="w2" readonly>
+    <input type="number" class="w4" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.y">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.m">/
+    <input type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="end.d">
 </div>
 <p>Period color:</p>
 <div class="theme-colors" #colorDivs>
-    <div class="color" style="background-color:#ff3737"></div>
-    <div class="color" style="background-color:#ff8337;"></div>
-    <div class="color" style="background-color:#c29867;"></div>
-    <div class="color" style="background-color:#ffe272;"></div>
-    <div class="color" style="background-color:#9de16f;"></div>
-    <div class="color" style="background-color:#36d8b7;"></div>
-    <div class="color" style="background-color:#53afff;"></div>
-    <div class="color" style="background-color:#212e4a;"></div>
-    <div class="color" style="background-color:#de6fff;"></div>
-    <div class="color" style="background-color:#ff74bc;"></div>
-    <div class="color" style="background-color:#bccdde;"></div>
-    <div class="color" style="background-color:#222831;"></div>
+    <div *ngFor="let c of colors" class="color" [style.backgroundColor]="c" (click)="color = can_edit ? c : color"></div>
 </div>
-<div class="container2"><p id="periodDesc">period description</p></div>
-  
+<div class="container2"><textarea id="periodDesc" type="text" [disabled]="!can_edit" [class.editing]="can_edit" [(ngModel)]="description"></textarea></div>
+<button class="action_button" *ngIf="write" (click)="edit('save')">validate</button><button class="action_button" *ngIf="write" (click)="delete();quit();">cancel</button><button class="action_button" *ngIf="!write && can_edit" (click)="delete();quit();">delete</button>

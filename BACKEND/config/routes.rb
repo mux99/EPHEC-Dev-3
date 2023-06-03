@@ -25,10 +25,16 @@ Rails.application.routes.draw do
   get '/api/projects/:id/users', to: 'projects#members'
 
   #events queries
-  get '/api/projects/:pid/events/:eid', to: 'projects#event_show'
-  put '/api/projects/:pid/events/:eid', to: 'projects#event_update'
-  post '/api/projects/:pid/timelines/:tid/events', to: 'projects#event_add'
-  delete '/api/projects/:pid/events/:eid', to: 'projects#event_rm'
+  get '/api/projects/:pid/events/:eid', to: 'events#show'
+  put '/api/projects/:pid/events/:eid', to: 'events#update'
+  post '/api/projects/:pid/timelines/:tid/events', to: 'events#new'
+  delete '/api/projects/:pid/events/:eid', to: 'events#destroy'
+
+  #periods queries
+  get '/api/timelines/:tid/periods/:id', to: 'periods#show'
+  put '/api/timelines/:tid/periods/:id', to: 'periods#update'
+  post '/api/timelines/:tid/periods', to: 'periods#new'
+  delete '/api/timelines/:tid/periods/:id', to: 'periods#destroy'
 
   #timelines queries
   post '/api/projects/:id/timelines', to: 'timelines#new'

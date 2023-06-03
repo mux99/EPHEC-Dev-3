@@ -1,16 +1,7 @@
 :root {
-    //defined by theme (users based)
     --background-1: #413b47;
     --background-2: #3d3a41;
     --background-3: #3d3a41;
-    --accent-1: #bc3855;
-    --accent-2: #010b1a;
-    --accent-1-hover: #c94965;
-    --accent-2-hover: #010b1a;
-    //text
-    --text-color: #f7f7f7;
-    --text-color-2: #808080;
-
 
     --shadow-color: rgba(0, 0, 0, 0.2);
     --shadow-color-light: rgba(255, 255, 255, 0.2);
@@ -24,13 +15,16 @@
     //dimentions
     --topbar-height: 100px;
     --buble-size: 60px;
+
+    --text-size: 13pt;
+    --text-font: 'Tahoma', sans-serif;
 }
 
 html {
     //general text
     color: var(--text-color);
-    font-family: 'Tahoma', sans-serif;
-    font-size: 13pt;
+    font-family: var(--text-font);
+    font-size: var(--text-size);
 }
 
 body {
@@ -74,7 +68,6 @@ input, button, select, label {
     border: none;
     color: var(--text-color);
     font-family: 'Tahoma', sans-serif;
-    text-align: center;
     padding: 0 15px;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -140,3 +133,17 @@ input[type=email]:focus, input[type=password]:focus, input[type=text]:focus { bo
 a {color: var(--accent-1);}
 a:hover {color: var(--accent-1-hover);}
 ul {list-style: none;}
+
+textarea {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    width: 85%;
+    max-width: 85%;
+    font-size: large;
+    height: fit-content;
+    resize: none;
+    margin-top: 25px;
+    font-size: var(--text-size);
+    font-family: var(--text-font);
+  }

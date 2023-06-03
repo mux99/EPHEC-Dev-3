@@ -1,7 +1,8 @@
 <div class="container"><button (click)="quit()"><img src="assets/plusIcon.svg"></button></div>
-<edit-button (childEvent)="edit($event)"></edit-button>
-<h2 #name>Event name</h2>
-<input #year type="number" max="1000" placeholder="YYYY" name="year" class="w4" [readonly]="isReadOnly">/
-<input #month type="number" min="1" placeholder="MM" name="month" class="w2" [readonly]="isReadOnly">/
-<input #day type="number" min="1" placeholder="DD" name="day" class="w2" [readonly]="isReadOnly">
-<div class="container2"><p #desc id="eventDesc">event description</p></div>
+<edit-button #edit_button (childEvent)="edit($event)" *ngIf="!write"></edit-button>
+<input [(ngModel)]="title" type="text" [disabled]="!can_edit" [class.editing]="can_edit"><br>
+<input [(ngModel)]="year" type="number" class="w4" [disabled]="!can_edit" [class.editing]="can_edit">/
+<input [(ngModel)]="month" type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit">/
+<input [(ngModel)]="day" type="number" class="w2" [disabled]="!can_edit" [class.editing]="can_edit">
+<div class="container2"><textarea [(ngModel)]="description" id="eventDesc" [disabled]="!can_edit" [class.editing]="can_edit"></textarea></div>
+<button class="action_button" *ngIf="write" (click)="edit('save')">validate</button><button class="action_button" *ngIf="write" (click)="delete();quit();">cancel</button><button class="action_button" *ngIf="!write && can_edit" (click)="delete();quit();">delete</button>

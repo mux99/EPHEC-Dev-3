@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { ApplicationRef, Component, ElementRef, EnvironmentInjector, HostListener, Renderer2, ViewChild, createComponent } from '@angular/core';
-import {  ActivatedRoute} from '@angular/router';
-import { TimelineEvent } from './timelineEvent/timelineEvent.component';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {  ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from 'src/shared-services/auth.service';
+import { DateService } from 'src/shared-services/date.service';
+import { EventPopup } from './eventPopup/eventPopup.component';
+import { PeriodPopup } from './periodPopup/periodPopup.component';
 
 @Component({
   selector: 'timeline-page',
@@ -12,33 +14,46 @@ import { AuthService } from 'src/shared-services/auth.service';
 
 export class TimelinePage {
   timelineScale: number;
-  d_year: number;
-  d_month: Array<number>;
   timeline_id: any;
   project_id: any;
+  option_visible = false;
+  event_visible = false;
+  period_visible = false;
+  new_choice_visible = false;
+
+  tmp: any[] = [];
+  events = this.tmp;
+  periods = this.tmp;
+
+  event_data: any;
+  period_data: any;
+  option_data: any;
 
   constructor(
     private http: HttpClient,
-    private envinjector: EnvironmentInjector,
-    private applicationRef: ApplicationRef,
     private _Activatedroute: ActivatedRoute,
     private auth: AuthService,
-    private renderer: Renderer2
+    private router: Router,
+    private date: DateService
   ) {
     this.timelineScale = 1;
-    this.d_year = 0;
-    this.d_month = [];
   }
 
-  @ViewChild("periods") periods_ref!: ElementRef;
-  @ViewChild("events") events_ref!: ElementRef;
-
+  @ViewChild("periods_ref") periods_ref!: ElementRef;
+  @ViewChild("events_ref") events_ref!: ElementRef;
   @ViewChild("container") container_ref!: ElementRef;
   @ViewChild("container2") container2_ref!: ElementRef;
-
   @ViewChild("altScroll") scroll_ref!: ElementRef;
 
-  ngOnInit() {
+  @ViewChild('event_popup') event_popup!: EventPopup;
+  @ViewChild('period_popup') period_popup!: PeriodPopup;
+
+  @ViewChild("options") options_ref!: ElementRef;
+
+  goToProject() {this.router.navigate([`/p/${this.project_id}/`])}
+  toggleOptions() {this.option_visible = !this.option_visible}
+
+  ngAfterViewInit() {
     //fetch id from url
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.timeline_id = paramMap.get('tid'); 
@@ -48,43 +63,21 @@ export class TimelinePage {
     //querry timeline data from api
     if(this.project_id == "import"){}
     else {
-      let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.httpHeader);
+      let obs = this.http.get(`/api/projects/${this.project_id}/timelines/${this.timeline_id}`, this.auth.get_header());
       obs.subscribe(
-        (data: any) => {
+        (obs_data: any) => {
           //load timeline data
-          this.d_year = data.d_year;
-          this.d_month = data.d_month;
-
-          //load events
-          for (let i = 0; i < data.events.length; i++) {
-            //create host container
-            const tmp = this.renderer.createElement('div');
-            this.renderer.appendChild(this.events_ref.nativeElement, tmp);
-
-            //create event instance
-            let elem = createComponent(TimelineEvent, {
-              environmentInjector: this.envinjector,
-              hostElement: tmp
-            })
-            //set elem inputs
-            elem.instance.data = data.events[i];
-
-            let tmp2 = this.datetodays(data.events[i].date === undefined ? "0000/00/00" : data.events[i].date);
-            elem.instance.pos = (tmp2/(data.end-data.start))*100;
-
-            //add elem to view
-            this.applicationRef.attachView(elem.hostView);
-          }
-        }
-    )
+          this.events = obs_data.events;
+          this.periods = obs_data.periods;
+          this.option_data = obs_data;
+          this.date.init(obs_data.d_year, obs_data.d_month, obs_data.start, obs_data.end);
+        });
     }
   }
-
-  @HostListener('wheel', ['$event'])
+  
   onWheelScroll(event: WheelEvent) {
-    if (event.clientX == 0 || event.target != this.periods_ref.nativeElement) {
-      return;
-    }
+    if (event.clientX == 0) return;
+
     let old_width = parseInt(window.getComputedStyle(this.periods_ref.nativeElement).getPropertyValue("width"));
     let mouse_pos = (event.clientX - parseInt(window.getComputedStyle(this.container_ref.nativeElement).getPropertyValue("margin-left")));
     let offset = (parseInt(this.container_ref.nativeElement.scrollLeft)+mouse_pos);
@@ -103,20 +96,50 @@ export class TimelinePage {
     this.container_ref.nativeElement.scrollLeft = tmp;
     this.container2_ref.nativeElement.scrollLeft = tmp;
   }
-
-  datetodays(date: string) {
-    let date_array = date.split("/").map(function(n,_i,_a){return Number(n);},this);
-    let days = date_array[0]+(date_array[2]*this.d_year);
-    for (let i = 0; i < date_array[1]; i++) {
-      days += this.d_month[i];
-    }
-    return 0;
+  
+  addEvent() {
+    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.get_header());
+    obs.subscribe((data: any) => {
+      this.event_visible = true;
+      this.option_visible = false;
+      this.period_visible = false;
+      setTimeout(() => {
+        this.event_popup.set_data(data,true);
+      }, 10);
+    });
+  }
+  
+  addPeriod() {
+    let obs = this.http.post(`/api/timelines/${this.timeline_id}/periods`, this.auth.get_header());
+    obs.subscribe((data: any) => {
+      this.period_visible = true;
+      this.event_visible = false;
+      this.option_visible = false;
+      setTimeout(() => {
+        this.period_popup.set_data(data,true);
+      }, 10);
+    });
   }
 
-  toggleOptions() {}
+  showButtons() {
+    this.new_choice_visible = !this.new_choice_visible;
+  }
 
-  addEvent() {
-    let obs = this.http.post(`/api/projects/${this.project_id}/timelines/${this.timeline_id}/events`, this.auth.httpHeader);
-    obs.subscribe((data: any) => {});
+  editEvent(data: any) {
+    this.event_visible = true;
+    this.option_visible = false;
+    this.period_visible = false;
+    setTimeout(() => {
+      this.event_popup.set_data(data);
+    }, 10);
+  }
+
+  editPeriod(data: any) {
+    this.period_visible = true;
+    this.event_visible = false;
+    this.option_visible = false;
+    setTimeout(() => {
+      this.period_popup.set_data(data);
+    }, 10);
   }
 }

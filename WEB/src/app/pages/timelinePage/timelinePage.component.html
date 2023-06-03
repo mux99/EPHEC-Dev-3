@@ -1,18 +1,22 @@
+<nav><a href="/" class="home"><img id="TwIcon" src="/assets/TwIcon.svg"></a><a (click)="goToProject()"><img id="returnIcon" src="/assets/returnIcon.svg" alt="Project">Return to project</a></nav>
 <div #container2 class="container" id="row2">
-    <div #events id="events"></div>
+    <div #events_ref id="events">
+        <timeline-event *ngFor="let e of events" [data]="e" (clicked)="editEvent($event)"></timeline-event>
+    </div>
 </div>
-<div #container class="container round" id="row3">
-    <div #periods id="timelineBody"></div>
+<div #container class="container round" id="row3" (wheel)="onWheelScroll($event)">
+    <div #periods_ref id="timelineBody">
+        <timeline-period *ngFor="let p of periods" [data]="p" (clicked)="editPeriod($event)"></timeline-period>
+    </div>
 </div>
-<div id="optionPanel">
-    <input type="search" placeholder="Search...">
-    <select>
-        <option>all</option>
-        <option>major</option>
-    </select>
-</div>
-<event-popup></event-popup>
+<event-popup #event_popup *ngIf="event_visible" (hide)="this.event_visible = false"></event-popup>
+<period-popup #period_popup *ngIf="period_visible" (hide)="this.period_visible = false"></period-popup>
+<option-popup *ngIf="option_visible" (hide)="this.option_visible = false" [data]="option_data"></option-popup>
 <div id="settings">
-    <button #edit id="edit" class="bubble" (click)="toggleOptions()"></button>
-    <button id="addEvent" class="bubble" (click)="addEvent()"></button>
+    <button id="edit" class="bubble" (click)="toggleOptions()"></button>
+    <button id="add" class="bubble" (click)="new_choice_visible = !this.new_choice_visible"></button>
+    <span *ngIf="new_choice_visible">
+        <button id="eventButton" (click)="addEvent()">add event</button>
+        <button id="periodButton" (click)="addPeriod()">add period</button>
+    </span>
 </div>

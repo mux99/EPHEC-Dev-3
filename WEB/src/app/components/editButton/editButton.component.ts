@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'edit-button',
@@ -9,6 +9,8 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 
 export class EditButton {
   @Output() childEvent = new EventEmitter<string>();
+
+  @Input() edit!: boolean;
 
   @ViewChild('edit') edit_ref!: ElementRef;
   @ViewChild('save') save_ref!: ElementRef;
@@ -25,5 +27,11 @@ export class EditButton {
       this.save_ref.nativeElement.style.display = "none";
     }
     this.childEvent.emit(action);
+  }
+
+  public close() {
+    this.edit_ref.nativeElement.style.display = "block";
+    this.cancel_ref.nativeElement.style.display = "none";
+    this.save_ref.nativeElement.style.display = "none";
   }
 }
