@@ -31,20 +31,20 @@ class PeriodsController < ApplicationController
   def update
     timeline = Timeline.find(params[:tid])
     timeline_json = timeline.json
-    timeline_events = timeline_json["periods"]
+    timeline_periods = timeline_json["periods"]
     index = 0
-    timeline_events.each_with_index do |e, i|
+    timeline_periods.each_with_index do |e, i|
         if e["id"] == params[:id]
             index = i
             break
         end
     end
-    timeline_events[index][:title] = params[:n] unless params[:n].nil?
-    timeline_events[index][:description] = params[:d] unless params[:d].nil?
-    timeline_events[index][:start] = params[:s] unless params[:s].nil?
-    timeline_events[index][:end] = params[:e] unless params[:e].nil?
-    timeline_events[index][:color] = params[:c] unless params[:c].nil?
-    timeline_json["periods"] = timeline_events
+    timeline_periods[index]["title"] = params[:n] unless params[:n].nil?
+    timeline_periods[index]["description"] = params[:d] unless params[:d].nil?
+    timeline_periods[index]["start"] = params[:s] unless params[:s].nil?
+    timeline_periods[index]["end"] = params[:e] unless params[:e].nil?
+    timeline_periods[index]["color"] = params[:c].sub("%23", "#") unless params[:c].nil?
+    timeline_json["periods"] = timeline_periods
     timeline.update(json: timeline_json)
   end
 end

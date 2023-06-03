@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter, SimpleChanges, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditButton } from 'src/app/components/editButton/editButton.component';
@@ -83,12 +83,13 @@ export class PeriodPopup implements AfterViewInit {
       this.can_edit = false;
     }
     if (action == "save") {
-      let params = ""
-      params += `n=${this.name}&`;
-      params += `s=${this.start.y}/${this.start.m}/${this.start.d}&`;
-      params += `e=${this.end.y}/${this.end.m}/${this.end.d}&`;
-      params += `c=${encodeURIComponent(this.color)}`;
-      let obs = this.http.put(`/api/timelines/${this.timeline_id}/periods/${this.period_id}?${params}`, {},this.auth.get_header());
+      let httparams = new HttpParams()
+      .set("n", this.name)
+      .set("s", `${this.start.y}/${this.start.m}/${this.start.d}`)
+      .set("e", `${this.end.y}/${this.end.m}/${this.end.d}`)
+      .set("c", encodeURIComponent(this.color))
+      .set("d", this.description);
+      let obs = this.http.put(`/api/timelines/${this.timeline_id}/periods/${this.period_id}`, httparams,this.auth.get_header());
       obs.subscribe();
     }
     else if (action == "cancel") {

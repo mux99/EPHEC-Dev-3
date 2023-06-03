@@ -26,7 +26,7 @@ export class TimelinePeriod {
     this.elementRef.nativeElement.style.left = `${tmp.pos}%`;
     this.elementRef.nativeElement.style.width = `${tmp.width}%`;
     this.elementRef.nativeElement.style.top = `calc(${tmp.top} * var(--buble-size))`;
-    this.elementRef.nativeElement.style.backgroundColor = `${this.data.color}`;
+    this.elementRef.nativeElement.style.backgroundColor = `${this.data.color.replace("%23", "#")}`;
   }
 
   click() {
