@@ -59,8 +59,13 @@ class UsersController < ApplicationController
                 user.update(password: params[:p]) unless params[:p].nil?
             end
             user_json = user.json
-            user_json["theme"] = JSON.parse(params[:t]) unless params[:t].nil?
-            user.update(json: user_json) 
+            begin
+                user_json["theme"] = JSON.parse(params[:t]) unless params[:t].nil?
+            rescue IndexError
+                user_json = {"theme" => JSON.parse(params[:t])} unless params[:t].nil?
+            end
+            
+            user.update!(json: user_json) 
         end
     end
 
