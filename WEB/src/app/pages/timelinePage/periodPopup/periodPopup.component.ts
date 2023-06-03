@@ -69,6 +69,9 @@ export class PeriodPopup implements AfterViewInit {
   delete() {
     let obs = this.http.delete(`/api/timelines/${this.timeline_id}/periods/${this.period_id}`, this.auth.get_header());
       obs.subscribe();
+      setTimeout(() =>{
+        window.location.reload();
+      }, 100);
   }
 
   edit(action: string) {
@@ -91,6 +94,9 @@ export class PeriodPopup implements AfterViewInit {
       .set("d", this.description);
       let obs = this.http.put(`/api/timelines/${this.timeline_id}/periods/${this.period_id}`, httparams,this.auth.get_header());
       obs.subscribe();
+      setTimeout(() =>{
+        window.location.reload();
+      }, 100);
     }
     else if (action == "cancel") {
       this.start = this.start_holder;

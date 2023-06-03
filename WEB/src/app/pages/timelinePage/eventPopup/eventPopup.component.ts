@@ -72,6 +72,9 @@ export class EventPopup {
   delete() {
     let obs = this.http.delete(`/api/projects/${this.project_id}/events/${this.eventId}`, this.auth.get_header());
       obs.subscribe();
+      setTimeout(() =>{
+        window.location.reload();
+      }, 100);
   }
 
   edit(action: string) {
@@ -95,6 +98,9 @@ export class EventPopup {
       let date = y + "/" + m + "/" + d;
       let obs = this.http.put(`/api/projects/${this.project_id}/events/${this.eventId}?title=${n}&description=${t}&date=${date}`, {},this.auth.get_header());
       obs.subscribe();
+      setTimeout(() =>{
+        window.location.reload();
+      }, 100);
     }
     else if (action == "cancel") {
       this.title = this.name_holder;

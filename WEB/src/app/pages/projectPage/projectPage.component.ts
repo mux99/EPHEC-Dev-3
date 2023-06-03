@@ -90,6 +90,7 @@ export class ProjectPage {
 
   clickImage() {
     let imgLink = window.prompt('Enter image link:');
+    if(imgLink == null) return;
     let obs = this.http.put(`/api/projects/${this.project_id}?i=${imgLink}`,{} , this.auth.get_header());
     obs.subscribe();
   }
