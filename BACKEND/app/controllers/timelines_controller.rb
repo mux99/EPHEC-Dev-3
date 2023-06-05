@@ -12,6 +12,7 @@ class TimelinesController < ApplicationController
     end
 
     def destroy
+        Timeline.find(params[:id])
         ProjectsTimeline.destroy_by(timeline_id: params[:id])
     	Timeline.destroy_by(id: params[:id])
     end

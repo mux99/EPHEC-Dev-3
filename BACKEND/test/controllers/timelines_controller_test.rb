@@ -8,6 +8,7 @@ class TimelinesControllerTest < ActionDispatch::IntegrationTest
 
     get "/api/projects/#{proj.id}/timelines/#{timeline.id}"
     assert_response :success
+    assert_empty (["name", "description", "start", "end", "d_year", "d_month", "periods", "events"] - JSON.parse(@response.body).keys)
   end
 
   test 'get endpoints invalid params' do
@@ -60,6 +61,12 @@ class TimelinesControllerTest < ActionDispatch::IntegrationTest
     assert Timeline.find(timeline.id).start == "2005/02/03" and Timeline.find(timeline.id).end == "2009/01/02"
   end
 
+  test 'put endpoint invalid params' do
+    assert_raises(ActiveRecord::RecordNotFound){
+      put '/api/timelines/invalid'
+    }
+  end
+
   test 'delete endpoints valid params' do
     user = User.create!(name: "stuff", email: "stuff@stuff.stuff", password: "stuff", tag: '0000')
     proj = Project.create!(owner: user.id, visibility: true, name: "sample", description: "random")
@@ -72,5 +79,11 @@ class TimelinesControllerTest < ActionDispatch::IntegrationTest
       Timeline.find(timeline.id)
     }
     assert_empty ProjectsTimeline.where(project_id: proj.id, timeline_id: timeline.id)
+  end
+
+  test 'delete endpoints invalid params' do
+    assert_raises(ActiveRecord::RecordNotFound){
+      delete '/api/timelines/invalid'
+    }
   end
 end

@@ -36,6 +36,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
+  test 'get endpoints invalid params' do
+    get '/api/me', headers: {'Authorization': "Bearer invalidtoken"}
+    assert_response 401
+
+    get '/api/user_projects', headers: {'Authorization': "Bearer invalidtoken"}
+    assert_response 401
+  end
+
   test 'delete endpoints valid params' do
     user = User.create!(name: "stuff", email: "stuff@stuff.stuff", password: "stuff", tag: '0000')
     proj = Project.create!(owner: user.id, visibility: true, name: "sample", description: "random")
@@ -44,5 +52,20 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     delete '/api/login', headers: {'Authorization': "Bearer #{tok.token}"}
     assert_response :success
     assert_empty Token.where(user_id: user.id)
+
+    tok = Token.create!(user_id: user.id, token: SecureRandom.hex)
+    delete '/api/me', headers: {'Authorization': "Bearer #{tok.token}"}
+    assert_response :success
+    assert_raises(ActiveRecord::RecordNotFound){
+      User.find(user.id)
+    }
+  end
+
+  test 'delete endpoints invalid params' do
+    delete '/api/login', headers: {'Authorization': "Bearer invalidtoken"}
+    assert_response 401
+
+    delete '/api/me', headers: {'Authorization': "Bearer invalidtoken"}
+    assert_response 401
   end
 end
