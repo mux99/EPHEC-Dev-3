@@ -7,13 +7,16 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     # get '/api/projects'
     # assert_response :success
     get "/api/projects/#{proj.id}"
-    assert_response :success
+    assert_response 200
+    assert_empty (["name", "description", "owner", "tag", "visible", "image", "text", "timelines", "events"] - JSON.parse(@response.body).keys)
 
     get "/api/projects/#{proj.id}/users"
-    assert_response :success
+    assert_response 200
+    assert_empty (["owner", "members"] - JSON.parse(@response.body).key)
 
     get "/api/projects_dl/#{proj.id}"
-    assert_response :success
+    assert_response 200
+    assert_empty (["timelines", "name", "description", "text", "owner", "tag"] - JSON.parse(@response.body).key)
   end
 
   test "get endpoints invalid params" do
@@ -39,7 +42,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     tok = Token.create!(user_id: user.id, token: SecureRandom.hex)
 
     post '/api/projects', headers: {'Authorization': "Bearer #{tok.token}"}
-    assert_response :success
+    assert_response 201
+    assert JSON.parse(@response.body).keys.include? "id"
   end
 
   test "post endpoints invalid params" do
@@ -83,7 +87,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     user2 = User.create!(name: "nothing", email: "stuff@stuff.com", password: "nah", tag: '4206')
     ProjectsUser.create!(user_id: user2.id, project_id: proj.id)
 
-    delete "/api/projects/#{proj.id}/user", params: {e: "stuff@stuff.com"}
+    delete "/api/projects/#{proj.id}/user", params: {u: user2.id}
     assert_response :success
     assert_empty ProjectsUser.where(user_id: user2.id, project_id: proj.id)
 

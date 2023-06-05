@@ -49,7 +49,7 @@ class ProjectsController < ApplicationController
         new_project = Project.create!(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
         ProjectsUser.create(user_id: user.id, project_id: new_project.id)
         Image.create(project_id: new_project.id, cover: true, url: "https://placehold.co/1280x720/")
-        render json: { id: new_project.id }
+        render json: { id: new_project.id }, :status => 201
     end
 
     def show

@@ -8,7 +8,7 @@ class TimelinesController < ApplicationController
         }
         new_timeline = Timeline.create(name: "Timeline name", description: "timeline description", start: "0000/00/00", end: "0000/00/00", json: tmp)
         ProjectsTimeline.create(timeline_id: new_timeline.id, project_id: params[:id])
-        render json: { id: new_timeline.id }
+        render json: { id: new_timeline.id }, :status => 201
     end
 
     def destroy
@@ -22,18 +22,23 @@ class TimelinesController < ApplicationController
     	timeline.update(description: params[:d]) unless (params[:d].nil? || params[:n] == "")
     	timeline.update(start: params[:s]) unless params[:s].nil?
     	timeline.update(end: params[:e]) unless params[:e].nil?
-    	#timeline.update(json: params[:j]) unless params[:j].nil?
+    	timeline.update(json: params[:j]) unless params[:j].nil?
     end
 
     def show
         timeline = Timeline.find(params[:tid])
         project = Project.find(params[:pid])
         tmp = []
-        project.json["events"].each do |e|
-            if e["timelines"].include? params[:tid]
-                tmp += [e]
+        begin
+            project.json["events"].each do |e|
+                if e["timelines"].include? params[:tid]
+                    tmp += [e]
+                end
             end
+        rescue NoMethodError
+            tmp = []
         end
+        
         render json: {
             name: timeline.name,
             description: timeline.description,
