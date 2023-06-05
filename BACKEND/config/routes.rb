@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  get '/', to: 'application#index'
   #users queries
   post '/api/users', to: 'users#new'
   post '/api/login', to: 'users#auth'
