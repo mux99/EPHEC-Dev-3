@@ -40,16 +40,20 @@ class ProjectsController < ApplicationController
     end
 
     def new
-        session_token = request.headers['Authorization']&.split(' ')&.last
-        user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-        tmp = {
-            :text => "text",
-            :events => []
-        }
-        new_project = Project.create!(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
-        ProjectsUser.create(user_id: user.id, project_id: new_project.id)
-        Image.create(project_id: new_project.id, cover: true, url: "https://placehold.co/1280x720/")
-        render json: { id: new_project.id }
+        begin
+            session_token = request.headers['Authorization']&.split(' ')&.last
+            user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
+            tmp = {
+                :text => "text",
+                :events => []
+            }
+            new_project = Project.create!(name: "project name", description: "project description", owner: user.id, visibility: false, json: tmp)
+            ProjectsUser.create(user_id: user.id, project_id: new_project.id)
+            Image.create(project_id: new_project.id, cover: true, url: "https://placehold.co/1280x720/")
+            render json: { id: new_project.id }, :status => 201
+        rescue NoMethodError
+            head 401
+        end
     end
 
     def show
@@ -98,6 +102,7 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
+        Project.find(params[:id])
         Image.destroy_by(project_id: params[:id])
         ProjectsUser.destroy_by(project_id: params[:id])
         timelines = ProjectsTimeline.find_by(project_id: params[:id])
@@ -116,6 +121,11 @@ class ProjectsController < ApplicationController
     end
 
     def rm_user
+        if params[:u] == Project.find(params[:id]).owner
+            head 403
+            return
+        end
+        User.find(params[:u])
     	ProjectsUser.destroy_by(user_id: params[:u], project_id: params[:id])
     end
 
