@@ -33,7 +33,7 @@ class UsersController < ApplicationController
                 t.destroy
             end
         else
-            Token.find_by(token: session_token).first.destroy
+            Token.find_by(token: session_token).destroy
         end
     end
 

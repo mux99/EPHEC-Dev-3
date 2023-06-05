@@ -12,11 +12,11 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
     get "/api/projects/#{proj.id}/users"
     assert_response 200
-    assert_empty (["owner", "members"] - JSON.parse(@response.body).key)
+    assert_empty (["owner", "members"] - JSON.parse(@response.body).keys)
 
     get "/api/projects_dl/#{proj.id}"
     assert_response 200
-    assert_empty (["timelines", "name", "description", "text", "owner", "tag"] - JSON.parse(@response.body).key)
+    assert_empty (["timelines", "name", "description", "text", "owner", "tag"] - JSON.parse(@response.body).keys)
   end
 
   test "get endpoints invalid params" do
