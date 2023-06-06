@@ -21,8 +21,8 @@ export class LandingPage {
   @ViewChild("projects") projects_ref!: ElementRef;
 
   ngAfterViewInit() {
-    this.is_public = this.auth.isUserLoggedIn
-    this.load()
+    this.is_public = !this.auth.isUserLoggedIn;
+    this.load();
   }
 
   load(search: string = "") {
