@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditButton } from 'src/app/components/editButton/editButton.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -31,8 +31,9 @@ export class OptionPopup {
   constructor(
     private http: HttpClient,
     private _Activatedroute: ActivatedRoute,
-    private auth: AuthService) {
-  }
+    private auth: AuthService,
+    private router: Router
+    ) {}
 
   @Input() data!: any;
   @ViewChild('edit_button') edit_button!: EditButton;
@@ -40,6 +41,12 @@ export class OptionPopup {
   //close popup
   @Output() hide = new EventEmitter();
   quit() {this.hide.emit()}
+
+  delete() {
+    let obs = this.http.delete(`/api/timelines/${this.timeline_id}`,this.auth.get_header());
+      obs.subscribe();
+      this.router.navigate([`/p/${this.project_id}`]);
+  }
 
   ngAfterViewInit() {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
