@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
     def status
         render json: { msg: 'connection established' }
     end

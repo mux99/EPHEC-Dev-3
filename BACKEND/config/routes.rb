@@ -42,4 +42,6 @@ Rails.application.routes.draw do
   delete '/api/timelines/:id', to: 'timelines#destroy'
   put '/api/timelines/:id', to: 'timelines#update'
   get '/api/projects/:pid/timelines/:tid', to: 'timelines#show'
+
+  get '*path', to: 'application#index'
 end
