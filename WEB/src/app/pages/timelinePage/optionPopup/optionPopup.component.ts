@@ -53,7 +53,6 @@ export class OptionPopup {
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
-
     this.name = this.data.name;
     this.description = this.data.description;
     this.months = this.data.d_month;
@@ -87,9 +86,8 @@ export class OptionPopup {
       params += `n=${this.name}&`;
       params += `d=${this.description}&`;
       params += `s=${this.start.y}/${this.start.m}/${this.start.d}&`;
-      params += `e=${this.end.y}/${this.end.m}/${this.end.d}&`;
-      params += `j=${JSON.stringify({d_year: this.d_year, d_month: this.months})}`;
-      let obs = this.http.put(`/api/timelines/${this.timeline_id}?${params}`, {},this.auth.get_header());
+      params += `e=${this.end.y}/${this.end.m}/${this.end.d}`;
+      let obs = this.http.put(`/api/timelines/${this.timeline_id}?${params}`, {j: {d_year: this.d_year, d_month: this.months}},this.auth.get_header());
       obs.subscribe();
     }
   }
