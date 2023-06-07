@@ -81,7 +81,7 @@ export class OptionPopup {
       params += `d=${this.description}&`;
       params += `s=${this.start.y}/${this.start.m}/${this.start.d}&`;
       params += `e=${this.end.y}/${this.end.m}/${this.end.d}&`;
-      params += `j=${{d_year: this.d_year, d_month: this.months}}`
+      params += `j=${JSON.stringify({d_year: this.d_year, d_month: this.months})}`;
       let obs = this.http.put(`/api/timelines/${this.timeline_id}?${params}`, {},this.auth.get_header());
       obs.subscribe();
     }
