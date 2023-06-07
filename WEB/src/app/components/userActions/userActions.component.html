@@ -1,5 +1,5 @@
-<button id="userIcon" class="hidden" (click)="userIconClick()"></button>
-<button id="userConnect" (click)="userConnectClick()"><img src="/assets/connectIcon.svg"></button>
+<button id="userIcon" (click)="userIconClick()" *ngIf="is_connected"><img [src]="url_image"></button>
+<button id="userConnect" (click)="userConnectClick()" *ngIf="!is_connected"><img src="/assets/connectIcon.svg"></button>
 <div #userPanel id="userPanel">
     <span><span #name id="name"></span><span #tag id="tag"></span></span>
     <i></i>

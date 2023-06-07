@@ -15,6 +15,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserActions {
   panel_visible: boolean;
+  is_connected = false;
+  url_image = "https://placehold.co/400x400"
 
   @ViewChild('userConnect') public connect_ref!: ElementRef;
   @ViewChild('userIcon') icon_ref!: ElementRef;
@@ -63,23 +65,13 @@ export class UserActions {
   }
 
   connect(email: string) {
-    let icon = document.getElementById('userIcon');
-    let connect = document.getElementById('userConnect');
-    icon?.classList.remove('hidden');
-    if (icon != null)
-      icon.style.backgroundImage = `url("https://www.gravatar.com/avatar/${Md5.hashStr(email)}?d=retro")`;
-    connect?.classList.add('hidden');
+    this.is_connected = true;
+    this.url_image = `https://www.gravatar.com/avatar/${Md5.hashStr(email)}?d=retro`;
   }
 
   disconnect() {
-    let icon = document.getElementById('userIcon');
-    let connect = document.getElementById('userConnect');
-    let panel = document.getElementById('userPanel');
-    icon?.classList.add('hidden');
-    if (icon != null) icon.style.backgroundImage = 'https://placehold.co/400x400")';
-    connect?.classList.remove('hidden');
+    this.is_connected = false;
+    this.url_image = 'https://placehold.co/400x400';
     this.panel_visible = true;
-    panel?.classList.add('panel_off');
-    panel?.classList.remove('panel_on');
   }
 }
