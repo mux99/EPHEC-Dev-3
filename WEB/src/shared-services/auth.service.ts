@@ -42,10 +42,10 @@ export class AuthService {
     }
 
     logout() {
-        this.isUserLoggedIn = false;
         this.cookieService.delete("session");
         let obs = this.http.delete(`/api/login/?a=true`, this.get_header());
         obs.subscribe();
+        this.isUserLoggedIn = false;
     }
 
     wake() {
