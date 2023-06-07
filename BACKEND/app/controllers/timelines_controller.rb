@@ -23,7 +23,15 @@ class TimelinesController < ApplicationController
     	timeline.update(description: params[:d]) unless (params[:d].nil? || params[:n] == "")
     	timeline.update(start: params[:s]) unless params[:s].nil?
     	timeline.update(end: params[:e]) unless params[:e].nil?
-    	timeline.update(json: params[:j]) unless params[:j].nil?
+        if not params[:j].nil?
+            timeline_json = timeline.json
+            params[:j].keys.each do |k|
+                if timeline_json.include? k
+                    timeline_json[k] = params[:j][k]
+                end
+            end
+            timeline.update(json: timeline_json)
+        end
     end
 
     def show
