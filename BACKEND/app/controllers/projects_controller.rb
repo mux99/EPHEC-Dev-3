@@ -58,10 +58,11 @@ class ProjectsController < ApplicationController
 
     def show
         project = Project.find(params[:id])
-        if not project.visibility
-            session_token = request.headers['Authorization']&.split(' ')&.last
+        can_edit = false
+        session_token = request.headers['Authorization']&.split(' ')&.last
+        if not session_token.nil?
             user = User.joins(:tokens).where("tokens.token = '#{session_token}'").first
-            perms = ProjectsUser.find_by(user_id: user.id).perms
+            can_edit = project.owner == user.id || !ProjectsUser.find_by(user_id: user.id).nil?
         end
         owner = User.find(project.owner)
         tmp = Image.find_by(project_id: project.id)
@@ -80,9 +81,9 @@ class ProjectsController < ApplicationController
             :image => img,
             :text => project.json["text"],
             :timelines => timelines_ids,
-            :events => project.json["events"]
+            :events => project.json["events"],
+            :can_edit => can_edit
         }
-        res["perms"] = perms unless perms.nil?
         render json: res
     end
 

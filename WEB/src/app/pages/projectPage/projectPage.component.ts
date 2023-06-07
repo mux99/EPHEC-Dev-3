@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { AuthService } from 'src/shared-services/auth.service';
 
 export class ProjectPage {
   project_id: any;
-  can_edit = true;
+  can_edit: boolean;
   editing = false;
   tmp: any[] = [];
   name_var = "";
@@ -31,7 +32,9 @@ export class ProjectPage {
     private _Activatedroute: ActivatedRoute,
     private http: HttpClient,
     private auth: AuthService
-  ) {}
+  ) {
+    this.can_edit = false;
+  }
 
   @ViewChild('visibilityToggle') visToggle!: ElementRef;
 
@@ -54,6 +57,7 @@ export class ProjectPage {
       this.timelines = obs_data.timelines;
       this.events = obs_data.events;
       this.visibility = obs_data.visible;
+      this.can_edit = obs_data.can_edit;
     });
   }
 
