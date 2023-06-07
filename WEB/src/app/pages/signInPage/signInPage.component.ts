@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserActions } from 'src/app/components/userActions/userActions.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { AuthService } from 'src/shared-services/auth.service';
 export class SignInPage {
   constructor(
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private uaction: UserActions
   ) {}
 
   onClickSubmit(data: any) {

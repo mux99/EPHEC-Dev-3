@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditButton } from 'src/app/components/editButton/editButton.component';
 import { AuthService } from 'src/shared-services/auth.service';
 
@@ -31,8 +31,9 @@ export class OptionPopup {
   constructor(
     private http: HttpClient,
     private _Activatedroute: ActivatedRoute,
-    private auth: AuthService) {
-  }
+    private auth: AuthService,
+    private router: Router
+    ) {}
 
   @Input() data!: any;
   @ViewChild('edit_button') edit_button!: EditButton;
@@ -41,12 +42,17 @@ export class OptionPopup {
   @Output() hide = new EventEmitter();
   quit() {this.hide.emit()}
 
+  delete() {
+    let obs = this.http.delete(`/api/timelines/${this.timeline_id}`,this.auth.get_header());
+      obs.subscribe();
+      this.router.navigate([`/p/${this.project_id}`]);
+  }
+
   ngAfterViewInit() {
     this._Activatedroute.paramMap.subscribe(paramMap => { 
       this.timeline_id = paramMap.get('tid'); 
       this.project_id = paramMap.get('pid');
     });
-
     this.name = this.data.name;
     this.description = this.data.description;
     this.months = this.data.d_month;
@@ -80,9 +86,8 @@ export class OptionPopup {
       params += `n=${this.name}&`;
       params += `d=${this.description}&`;
       params += `s=${this.start.y}/${this.start.m}/${this.start.d}&`;
-      params += `e=${this.end.y}/${this.end.m}/${this.end.d}&`;
-      params += `j=${{d_year: this.d_year, d_month: this.months}}`
-      let obs = this.http.put(`/api/timelines/${this.timeline_id}?${params}`, {},this.auth.get_header());
+      params += `e=${this.end.y}/${this.end.m}/${this.end.d}`;
+      let obs = this.http.put(`/api/timelines/${this.timeline_id}?${params}`, {j: {d_year: this.d_year, d_month: this.months}},this.auth.get_header());
       obs.subscribe();
     }
   }

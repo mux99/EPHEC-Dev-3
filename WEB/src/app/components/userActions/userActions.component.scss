@@ -19,11 +19,14 @@ hr {padding-top: 8px;visibility: hidden;}
     width: $iconSize;
     border-radius: 50%;
     cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
-#userIcon {background-image: url('https://placehold.co/400x400');background-size: contain;}
 #userConnect {background-color: transparent;border: none;}
-#userConnect > img {height: 75%;}
+#userConnect > img {height: $iconSize;width: $iconSize;}
+#userIcon > img {height: inherit;}
 #userPanel > * { width: 100%;margin: 0 0px;}
 #userPanel > button { width: fit-content; align-self: center;}
 #userPanel {

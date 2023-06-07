@@ -105,11 +105,11 @@ class ProjectsController < ApplicationController
         Project.find(params[:id])
         Image.destroy_by(project_id: params[:id])
         ProjectsUser.destroy_by(project_id: params[:id])
-        timelines = ProjectsTimeline.find_by(project_id: params[:id])
+        timelines = ProjectsTimeline.where(project_id: params[:id]).to_a
         if not timelines.nil?
             timelines.each do |t|
-                Timeline.find(t.timeline_id).destroy
                 t.destroy
+                Timeline.find(t.timeline_id).destroy
             end
         end
         Project.destroy_by(id: params[:id])
